@@ -9,15 +9,13 @@ public class DynamicToolMenuEntry extends ActionGroup {
     @Override
     public AnAction @NotNull [] getChildren(AnActionEvent e) {
         return new AnAction[] {
-                new DdevButtonAction("Up", "start"),
-                new DdevButtonAction("Reload"),
-                new DdevButtonAction("Provision"),
-                new DdevButtonAction("Suspend"),
-                new DdevButtonAction("Resume"),
-                new DdevButtonAction("Halt"),
-                new DdevButtonAction("Destroy"),
-                new DdevButtonAction("Share"),
-                new DdevButtonAction("Init in Project Root")
+                new DdevButtonAction("Start", "start"),
+                new DdevButtonAction("Stop", "stop"),
+                new DdevButtonAction("Restart", "restart"),
+                new DdevButtonAction("Poweroff",  "poweroff"),
+                new DdevButtonAction("Delete",  "delete"),
+                new DdevButtonAction("Share",  "share"),
+                new DdevButtonAction("Init in Project Root", "config")
         };
     }
 }
