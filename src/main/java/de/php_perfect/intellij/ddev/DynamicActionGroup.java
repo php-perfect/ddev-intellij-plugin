@@ -21,5 +21,4 @@ public class DynamicActionGroup extends ActionGroup {
                 new PopupDialogAction("Init in Project Root")
         };
     }
-
 }
