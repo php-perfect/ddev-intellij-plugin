@@ -1,11 +1,13 @@
 package de.php_perfect.intellij.ddev;
 
 import com.intellij.execution.configurations.GeneralCommandLine;
+import com.intellij.execution.filters.TextConsoleBuilderFactory;
 import com.intellij.execution.process.OSProcessHandler;
 import com.intellij.execution.process.ProcessAdapter;
 import com.intellij.execution.process.ProcessEvent;
+import com.intellij.execution.ui.ConsoleView;
+import com.intellij.execution.ui.ConsoleViewContentType;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Key;
 import com.intellij.openapi.wm.RegisterToolWindowTask;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowAnchor;
@@ -14,9 +16,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.WeakHashMap;
@@ -30,16 +29,16 @@ public class DdevExecutor {
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private final Project project;
-    private final JTextArea textArea = new JTextArea();
+    private final ConsoleView c;
     private final ToolWindow toolWindow;
 
     public DdevExecutor(@NotNull Project project) {
         this.project = project;
 
-        textArea.setEditable(false);
+        c = TextConsoleBuilderFactory.getInstance().createBuilder(project).getConsole();
 
         toolWindow = ToolWindowManager.getInstance(Objects.requireNonNull(project))
-                .registerToolWindow(new RegisterToolWindowTask("Ddev", ToolWindowAnchor.BOTTOM, textArea, true,
+                .registerToolWindow(new RegisterToolWindowTask("ddev", ToolWindowAnchor.BOTTOM, c.getComponent(), true,
                         false, false, true, null, null,
                         null));
         toolWindow.setTitle("Log");
@@ -47,36 +46,33 @@ public class DdevExecutor {
         toolWindow.setAutoHide(false);
     }
 
-    public void runDdev(String... args) {
+    public void runDdev(String title, String ddevAction) {
         executor.execute(() -> {
             try {
-                SwingUtilities.invokeLater(toolWindow::show);
-                textArea.setText("");
+                SwingUtilities.invokeLater(() -> {
+                    toolWindow.setTitle(title);
+                    toolWindow.show();
+                });
+                c.clear();
 
-                List<String> command = new ArrayList<>(args.length + 1);
-                command.add("ddev");
-                Collections.addAll(command, args);
-
-                GeneralCommandLine commandLine = new GeneralCommandLine(command);
+                GeneralCommandLine commandLine = new GeneralCommandLine("ddev", ddevAction);
                 commandLine.setCharset(StandardCharsets.UTF_8);
                 commandLine.setWorkDirectory(this.project.getBasePath());
 
                 OSProcessHandler processHandler = new OSProcessHandler(commandLine);
+                c.attachToProcess(processHandler);
                 processHandler.addProcessListener(new ProcessAdapter() {
                     @Override
-                    public void onTextAvailable(@NotNull ProcessEvent e, @NotNull Key outputType) {
-                        textArea.append(e.getText());
-                    }
-
-                    @Override
                     public void processTerminated(@NotNull ProcessEvent e) {
-                        textArea.append("Terminated with exit code " + e.getExitCode() + "\n");
+                        if (e.getExitCode() != 0) {
+                            c.print("\n\nProcess exited with code " + e.getExitCode(), ConsoleViewContentType.ERROR_OUTPUT);
+                        }
                     }
                 });
                 processHandler.startNotify();
             } catch (Throwable th) {
                 Logger.getGlobal().log(Level.FINEST, "An error occurred", th);
-                textArea.append(th.getMessage() + "\n");
+                c.print("\n\nAn error occurred: " + th.getMessage(), ConsoleViewContentType.ERROR_OUTPUT);
             }
         });
     }
