@@ -3,7 +3,7 @@ plugins {
     java
 }
 
-group = "org.example"
+group = "de.php_perfect.intellij.ddev"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -15,15 +15,23 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version.set("2021.3.2")
 }
 tasks {
     patchPluginXml {
-        changeNotes.set("""
+        changeNotes.set(
+            """
             Add change notes here.<br>
-            <em>most HTML tags may be used</em>        """.trimIndent())
+            <em>most HTML tags may be used</em>        """.trimIndent()
+        )
     }
 }
 tasks.getByName<Test>("test") {
