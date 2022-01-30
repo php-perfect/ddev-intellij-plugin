@@ -16,8 +16,8 @@
 
     <actions>
         <!-- TODO: description -->
-        <group id="de.php_perfect.intellij.ddev.DynamicActionGroup"
-               class="de.php_perfect.intellij.ddev.DynamicActionGroup"
+        <group id="de.php_perfect.intellij.ddev.DynamicToolMenuEntry"
+               class="de.php_perfect.intellij.ddev.DynamicToolMenuEntry"
                popup="true" text="Ddev" description="// TODO"
                icon="DdevIcons.Sdk_default_icon">
             <add-to-group group-id="ToolsMenu"/>
