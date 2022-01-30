@@ -49,7 +49,7 @@ public class DdevButtonAction extends AnAction {
             }
 
             for (VirtualFile virtualFile : ModuleRootManager.getInstance(module).getContentRoots()) {
-                if (virtualFile.findFileByRelativePath("./.ddev/config.yml") != null) {
+                if (virtualFile.findFileByRelativePath("./.ddev/config.yaml") != null) {
                     ddevConfigExists = true;
                     break;
                 }
