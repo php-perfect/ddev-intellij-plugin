@@ -68,7 +68,6 @@ public class DdevExecutor {
 
     @NotNull
     public static DdevExecutor getInstance(Project project) {
-        instances.computeIfAbsent(project, DdevExecutor::new);
-        return instances.get(project);
+        return instances.computeIfAbsent(project, DdevExecutor::new);
     }
 }
