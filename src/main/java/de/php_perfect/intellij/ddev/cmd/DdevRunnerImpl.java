@@ -1,53 +1,56 @@
-package de.php_perfect.intellij.ddev;
+package de.php_perfect.intellij.ddev.cmd;
 
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.RunContentExecutor;
-import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.ColoredProcessHandler;
 import com.intellij.execution.process.ProcessHandler;
 import com.intellij.execution.process.ProcessTerminatedListener;
+import com.intellij.openapi.Disposable;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.application.ModalityState;
+import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
+import de.php_perfect.intellij.ddev.config.DdevConfigurationException;
+import de.php_perfect.intellij.ddev.config.DdevConfigurationProvider;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DdevExecutor {
-    private static final Map<Project, DdevExecutor> instances = new WeakHashMap<>();
+@Service(Service.Level.PROJECT)
+public final class DdevRunnerImpl implements DdevRunner, Disposable {
 
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private final Project project;
+    private final @NotNull Project project;
 
-    public DdevExecutor(@NotNull Project project) {
+    public DdevRunnerImpl(@NotNull Project project) {
         this.project = project;
     }
 
     public void runDdev(String title, String ddevAction) {
         String runTitle = "DDev " + title;
-        executor.execute(() -> SwingUtilities.invokeLater(() -> {
+        ApplicationManager.getApplication().invokeLater(() -> {
             try {
                 this.run(runTitle, ddevAction);
             } catch (Throwable th) {
                 Logger.getGlobal().log(Level.FINEST, "An error occurred", th);
             }
-        }));
+        }, ModalityState.NON_MODAL);
     }
 
-    public void run(String title, String action) throws ExecutionException {
+    private void run(String title, String action) throws ExecutionException {
         final ProcessHandler process = this.createProcessHandler(action);
         final RunContentExecutor runContentExecutor = new RunContentExecutor(this.project, process)
                 .withTitle(title)
-                .withFocusToolWindow(true)
                 .withActivateToolWindow(true)
+                .withAfterCompletion(() -> {
+                    try {
+                        DdevConfigurationProvider.getInstance(this.project).update();
+                    } catch (DdevConfigurationException ignored) {
+                    }
+                })
                 .withStop(process::destroyProcess, () -> !process.isProcessTerminated());
-        Disposer.register(this.project, runContentExecutor);
+        Disposer.register(this, runContentExecutor);
         runContentExecutor.run();
     }
 
@@ -59,15 +62,12 @@ public class DdevExecutor {
     }
 
     @NotNull
-    private GeneralCommandLine createCommandLine(String ddevAction) {
-        final GeneralCommandLine commandLine = new GeneralCommandLine("ddev", ddevAction);
-        commandLine.setCharset(StandardCharsets.UTF_8);
-        commandLine.setWorkDirectory(this.project.getBasePath());
-        return commandLine;
+    private WslAwareCommandLine createCommandLine(String ddevAction) {
+        return new WslAwareCommandLine(this.project.getBasePath(), "ddev", ddevAction);
     }
 
-    @NotNull
-    public static DdevExecutor getInstance(Project project) {
-        return instances.computeIfAbsent(project, DdevExecutor::new);
+    @Override
+    public void dispose() {
+
     }
 }

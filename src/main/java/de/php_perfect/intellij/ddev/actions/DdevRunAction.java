@@ -1,4 +1,4 @@
-package de.php_perfect.intellij.ddev;
+package de.php_perfect.intellij.ddev.actions;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -7,16 +7,18 @@ import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.util.NlsActions;
 import com.intellij.openapi.vfs.VirtualFile;
+import de.php_perfect.intellij.ddev.cmd.DdevRunner;
+import de.php_perfect.intellij.ddev.cmd.DdevRunnerImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.util.logging.Logger;
 
-public class DdevButtonAction extends AnAction {
+abstract class DdevRunAction extends AnAction {
     private final String ddevAction;
 
-    public DdevButtonAction(@NotNull @NlsActions.ActionText String text, @Nullable Icon icon, @NotNull String ddevAction) {
+    public DdevRunAction(@NotNull @NlsActions.ActionText String text, @Nullable Icon icon, @NotNull String ddevAction) {
         super(text, null, icon);
 
         this.ddevAction = ddevAction;
@@ -29,7 +31,7 @@ public class DdevButtonAction extends AnAction {
             return;
         }
 
-        DdevExecutor.getInstance(e.getProject()).runDdev(e.getPresentation().getText(), ddevAction);
+        DdevRunner.getInstance(e.getProject()).runDdev(e.getPresentation().getText(), ddevAction);
     }
 
     @Override
