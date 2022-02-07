@@ -2,25 +2,16 @@ package de.php_perfect.intellij.ddev.actions;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleManager;
-import com.intellij.openapi.roots.ModuleRootManager;
-import com.intellij.openapi.util.NlsActions;
-import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.cmd.DdevRunner;
-import de.php_perfect.intellij.ddev.cmd.DdevRunnerImpl;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
 import java.util.logging.Logger;
 
 abstract class DdevRunAction extends AnAction {
     private final String ddevAction;
 
-    public DdevRunAction(@NotNull @NlsActions.ActionText String text, @Nullable Icon icon, @NotNull String ddevAction) {
-        super(text, null, icon);
-
+    public DdevRunAction(@NotNull String ddevAction) {
         this.ddevAction = ddevAction;
     }
 
@@ -34,30 +25,17 @@ abstract class DdevRunAction extends AnAction {
         DdevRunner.getInstance(e.getProject()).runDdev(e.getPresentation().getText(), ddevAction);
     }
 
+    abstract protected boolean isActive(@NotNull Project project);
+
     @Override
     public void update(@NotNull AnActionEvent e) {
-        super.update(e);
+        final Project project = e.getProject();
 
-        if (e.getProject() == null) {
+        if (project == null) {
             e.getPresentation().setEnabled(false);
             return;
         }
 
-        boolean ddevConfigExists = false;
-        Module[] projectModules = ModuleManager.getInstance(e.getProject()).getModules();
-        for (Module module : projectModules) {
-            if (ddevConfigExists) {
-                break;
-            }
-
-            for (VirtualFile virtualFile : ModuleRootManager.getInstance(module).getContentRoots()) {
-                if (virtualFile.findFileByRelativePath("./.ddev/config.yaml") != null) {
-                    ddevConfigExists = true;
-                    break;
-                }
-            }
-        }
-
-        e.getPresentation().setEnabled(ddevConfigExists);
+        e.getPresentation().setEnabled(this.isActive(project));
     }
 }

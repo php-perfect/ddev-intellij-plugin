@@ -2,13 +2,25 @@ package de.php_perfect.intellij.ddev.config;
 
 import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.cmd.Description;
+import de.php_perfect.intellij.ddev.cmd.Versions;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface DdevConfigurationProvider {
 
-    Description getDdevConfig() throws DdevConfigurationException;
+    @Nullable Versions getVersions();
 
-    void update() throws DdevConfigurationException;
+    boolean isInstalled();
+
+    @Nullable Description getStatus();
+
+    boolean isConfigured();
+
+    void updateStatus();
+
+    void startWatcher();
+
+    void stopWatcher();
 
     static DdevConfigurationProvider getInstance(@NotNull Project project) {
         return project.getService(DdevConfigurationProvider.class);

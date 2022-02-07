@@ -1,4 +1,4 @@
-package de.php_perfect.intellij.ddev.wsl;
+package de.php_perfect.intellij.ddev.cmd.wsl;
 
 import org.jetbrains.annotations.Nullable;
 

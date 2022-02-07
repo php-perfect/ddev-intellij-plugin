@@ -2,7 +2,7 @@ package de.php_perfect.intellij.ddev.cmd;
 
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.openapi.util.SystemInfo;
-import de.php_perfect.intellij.ddev.wsl.WslHelper;
+import de.php_perfect.intellij.ddev.cmd.wsl.WslHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

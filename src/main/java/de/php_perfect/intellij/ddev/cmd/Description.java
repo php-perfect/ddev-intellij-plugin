@@ -1,6 +1,7 @@
 package de.php_perfect.intellij.ddev.cmd;
 
 import com.google.gson.annotations.SerializedName;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class Description {
@@ -33,7 +34,7 @@ public class Description {
         this.status = status;
     }
 
-    public Status getStatus() {
+    public @NotNull Status getStatus() {
         if (this.status == null) {
             return Status.UNDEFINED;
         }

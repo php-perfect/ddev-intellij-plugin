@@ -11,7 +11,6 @@ import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
-import de.php_perfect.intellij.ddev.config.DdevConfigurationException;
 import de.php_perfect.intellij.ddev.config.DdevConfigurationProvider;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,10 +43,7 @@ public final class DdevRunnerImpl implements DdevRunner, Disposable {
                 .withTitle(title)
                 .withActivateToolWindow(true)
                 .withAfterCompletion(() -> {
-                    try {
-                        DdevConfigurationProvider.getInstance(this.project).update();
-                    } catch (DdevConfigurationException ignored) {
-                    }
+                    DdevConfigurationProvider.getInstance(this.project).updateStatus();
                 })
                 .withStop(process::destroyProcess, () -> !process.isProcessTerminated());
         Disposer.register(this, runContentExecutor);

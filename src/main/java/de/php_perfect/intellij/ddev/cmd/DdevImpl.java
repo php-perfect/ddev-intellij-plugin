@@ -9,22 +9,21 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
 public final class DdevImpl implements Ddev {
-
     private final @NotNull Project project;
 
     public DdevImpl(@NotNull Project project) {
         this.project = project;
     }
 
-    public @NotNull Versions version() throws DdevCmdException {
+    public @NotNull Versions version() throws CommandFailedException {
         return execute("version", Versions.class);
     }
 
-    public @NotNull Description describe() throws DdevCmdException {
+    public @NotNull Description describe() throws CommandFailedException {
         return execute("describe", Description.class);
     }
 
-    private @NotNull <T> T execute(String action, Type type) throws DdevCmdException {
+    private @NotNull <T> T execute(String action, Type type) throws CommandFailedException {
         final WslAwareCommandLine commandLine = createDdevCommandLine(action);
 
         try {
@@ -32,13 +31,12 @@ public final class DdevImpl implements Ddev {
 
             return JsonParser.getInstance().parse(new InputStreamReader(process.getInputStream()), type);
         } catch (ExecutionException exception) {
-            throw new DdevCmdException("Failed executing " + commandLine.getCommandLineString(), exception);
+            throw new CommandFailedException("Command not found " + commandLine.getCommandLineString(), exception);
         }
     }
 
     @NotNull
     private WslAwareCommandLine createDdevCommandLine(String action) {
-        return (WslAwareCommandLine) new WslAwareCommandLine(project.getBasePath(), "ddev", action, "--json-output")
-                .withEnvironment("DDEV_NONINTERACTIVE", "true");
+        return (WslAwareCommandLine) new WslAwareCommandLine(project.getBasePath(), "ddev", action, "--json-output").withEnvironment("DDEV_NONINTERACTIVE", "true");
     }
 }

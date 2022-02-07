@@ -1,5 +1,6 @@
-package de.php_perfect.intellij.ddev.wsl;
+package de.php_perfect.intellij.ddev.cmd.wsl;
 
+import de.php_perfect.intellij.ddev.cmd.wsl.WslHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

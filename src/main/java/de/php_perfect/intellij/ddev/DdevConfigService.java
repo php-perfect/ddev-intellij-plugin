@@ -8,7 +8,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import org.jetbrains.annotations.NotNull;
 
-@Service
+@Service(Service.Level.PROJECT)
 public final class DdevConfigService implements Disposable {
 
     private final Project project;
@@ -18,21 +18,17 @@ public final class DdevConfigService implements Disposable {
     }
 
     public void watchChanges() {
-        //ProjectFileIndex projectFileIndex = ProjectFileIndex.getInstance(this.project);
-
         VirtualFileManager virtualFileManager = VirtualFileManager.getInstance();
         VirtualFile[] vFiles = ProjectRootManager.getInstance(this.project).getContentRoots();
         // @todo: Wont work if file does not exist I guess
         VirtualFile ddevConfig = vFiles[0].findFileByRelativePath(".ddev/config.yaml");
 
-        getDdevStatus();
-
+        if (ddevConfig == null || !ddevConfig.exists()) {
+            // todo: watch if file get created...
+            return;
+        }
 
         virtualFileManager.addAsyncFileListener(new FileChangeEventListener(ddevConfig.getPath()), this);
-    }
-
-    private void getDdevStatus() {
-
     }
 
     @Override

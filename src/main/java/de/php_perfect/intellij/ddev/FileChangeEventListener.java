@@ -29,7 +29,6 @@ public class FileChangeEventListener implements AsyncFileListener {
             if (file.getPath().equals(this.ddevConfigPath) && file.exists()) {
                 // .ddev/config.yaml
                 System.out.println("DDev Config changed");
-                System.out.println();
             }
         }
 

@@ -5,9 +5,9 @@ import org.jetbrains.annotations.NotNull;
 
 public interface Ddev {
 
-    @NotNull Versions version() throws DdevCmdException;
+    @NotNull Versions version() throws CommandFailedException;
 
-    @NotNull Description describe() throws DdevCmdException;
+    @NotNull Description describe() throws CommandFailedException;
 
     static Ddev getInstance(@NotNull Project project) {
         return project.getService(Ddev.class);
