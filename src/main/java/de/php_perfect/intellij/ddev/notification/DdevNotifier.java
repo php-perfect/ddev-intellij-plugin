@@ -6,6 +6,10 @@ import org.jetbrains.annotations.NotNull;
 public interface DdevNotifier {
     void notifyConfigChanged();
 
+    void notifyNewVersionAvailable(@NotNull String currentVersion, @NotNull String newVersion);
+
+    void notifyAlreadyNewestVersion();
+
     static DdevNotifier getInstance(@NotNull Project project) {
         return project.getService(DdevNotifier.class);
     }

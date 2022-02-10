@@ -1,9 +1,10 @@
 package icons;
 
-import com.intellij.openapi.util.IconLoader;
+import com.intellij.ui.IconManager;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
-public class DdevIcons {
-    public static final Icon Sdk_default_icon = IconLoader.getIcon("/icons/sdk_16.svg", DdevIcons.class);
+public final class DdevIcons {
+    public static final @NotNull Icon DdevIcon = IconManager.getInstance().getIcon("/icons/sdk_16.svg", DdevIcons.class);
 }
