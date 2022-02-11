@@ -49,7 +49,7 @@ public final class VersionChecker {
                     if (latestVersion.compareTo(currentVersion) > 0) {
                         DdevNotifier.getInstance(project).notifyNewVersionAvailable(currentVersion.toString(), latestVersion.toString());
                     } else if (confirmNewestVersion) {
-                        DdevNotifier.getInstance(project).notifyAlreadyNewestVersion();
+                        DdevNotifier.getInstance(project).notifyAlreadyLatestVersion();
                     }
                 } catch (IOException ignored) {
                 }

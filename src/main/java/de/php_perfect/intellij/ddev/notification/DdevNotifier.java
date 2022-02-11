@@ -8,7 +8,7 @@ public interface DdevNotifier {
 
     void notifyNewVersionAvailable(@NotNull String currentVersion, @NotNull String newVersion);
 
-    void notifyAlreadyNewestVersion();
+    void notifyAlreadyLatestVersion();
 
     static DdevNotifier getInstance(@NotNull Project project) {
         return project.getService(DdevNotifier.class);

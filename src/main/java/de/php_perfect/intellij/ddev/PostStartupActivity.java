@@ -8,6 +8,8 @@ import de.php_perfect.intellij.ddev.settings.DdevSettingsState;
 import de.php_perfect.intellij.ddev.version.VersionChecker;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Console;
+
 // TODO: 06.02.2022 Tidy up after testing
 public class PostStartupActivity implements StartupActivity {
     @Override
@@ -27,5 +29,8 @@ public class PostStartupActivity implements StartupActivity {
         if (DdevSettingsState.getInstance().checkForUpdates) {
             VersionChecker.getInstance(project).checkDdevVersion();
         }
+
+        System.out.println(DdevSettingsState.getInstance().checkForUpdates);
+        DdevSettingsState.getInstance().checkForUpdates = !DdevSettingsState.getInstance().checkForUpdates;
     }
 }

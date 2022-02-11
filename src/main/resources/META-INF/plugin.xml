@@ -7,11 +7,14 @@
     Integrates DDEV into JetBrains IDEs for your convenience
     ]]></description>
 
+    <resource-bundle>messages.DdevIntegrationBundle</resource-bundle>
+
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <notificationGroup id="DdevIntegration" displayType="BALLOON" icon="DdevIcons.DdevIcon"/>
+        <notificationGroup id="DdevIntegration" key="notification_group.main" displayType="BALLOON"
+                           icon="DdevIcons.DdevIcon"/>
 
         <applicationService serviceImplementation="de.php_perfect.intellij.ddev.settings.DdevSettingsState"/>
 
@@ -26,7 +29,7 @@
 
         <projectConfigurable parentId="tools" instance="de.php_perfect.intellij.ddev.settings.DdevSettingsConfigurable"
                              id="de.php_perfect.intellij.ddev.settings.DdevSettingsConfigurable"
-                             displayName="DDEV Integration"/>
+                             key="settings.headline"/>
 
         <postStartupActivity implementation="de.php_perfect.intellij.ddev.PostStartupActivity"/>
     </extensions>

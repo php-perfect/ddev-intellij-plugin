@@ -1,6 +1,7 @@
 package de.php_perfect.intellij.ddev.settings;
 
 import com.intellij.openapi.options.Configurable;
+import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import org.jetbrains.annotations.Nls;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ public class DdevSettingsConfigurable implements Configurable {
     @Nls(capitalization = Nls.Capitalization.Title)
     @Override
     public String getDisplayName() {
-        return "DDEV Integration";
+        return DdevIntegrationBundle.message("settings.headline");
     }
 
     @Override

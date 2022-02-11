@@ -40,7 +40,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
                 .notify(this.project), ModalityState.NON_MODAL);
     }
 
-    public void notifyAlreadyNewestVersion() {
+    public void notifyAlreadyLatestVersion() {
         final String content = "You already have the latest version of DDEV installed.";
 
         ApplicationManager.getApplication().invokeLater(() -> NotificationGroupManager.getInstance()
