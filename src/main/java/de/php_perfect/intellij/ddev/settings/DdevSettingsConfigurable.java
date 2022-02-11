@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nls;
 
 import javax.swing.*;
 
-public class DdevSettingsConfigurable implements Configurable {
+public final class DdevSettingsConfigurable implements Configurable {
     private DdevSettingsComponent ddevSettingsComponent;
 
     @Nls(capitalization = Nls.Capitalization.Title)
