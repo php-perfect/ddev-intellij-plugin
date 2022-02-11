@@ -16,8 +16,6 @@
         <notificationGroup id="DdevIntegration" key="notification_group.main" displayType="BALLOON"
                            icon="DdevIcons.DdevMenuIcon"/>
 
-        <applicationService serviceImplementation="de.php_perfect.intellij.ddev.settings.DdevSettingsState"/>
-
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.notification.DdevNotifierImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.notification.DdevNotifier"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.config.DdevConfigurationProviderImpl"
@@ -26,6 +24,7 @@
                         serviceInterface="de.php_perfect.intellij.ddev.cmd.Ddev"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.cmd.DdevRunnerImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.cmd.DdevRunner"/>
+        <projectService serviceImplementation="de.php_perfect.intellij.ddev.settings.DdevSettingsState"/>
 
         <projectConfigurable parentId="tools" instance="de.php_perfect.intellij.ddev.settings.DdevSettingsConfigurable"
                              id="de.php_perfect.intellij.ddev.settings.DdevSettingsConfigurable"
