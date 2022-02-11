@@ -14,7 +14,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <notificationGroup id="DdevIntegration" key="notification_group.main" displayType="BALLOON"
-                           icon="DdevIcons.DdevIcon"/>
+                           icon="DdevIcons.DdevMenuIcon"/>
 
         <applicationService serviceImplementation="de.php_perfect.intellij.ddev.settings.DdevSettingsState"/>
 
@@ -37,7 +37,7 @@
     <actions>
         <group id="DdevIntegration" text="DDEV" description="DDEV">
             <group id="DdevIntegration.Run" popup="true" text="DDEV" description="Run Ddev action"
-                   icon="DdevIcons.DdevIcon">
+                   icon="DdevIcons.DdevMenuIcon">
                 <add-to-group group-id="ToolsMenu"/>
                 <action id="DdevIntegration.Run.Start" text="Ddev Start"
                         class="de.php_perfect.intellij.ddev.actions.DdevStartAction" icon="AllIcons.Actions.Execute"
