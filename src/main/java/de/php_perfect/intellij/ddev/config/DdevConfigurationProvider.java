@@ -18,6 +18,8 @@ public interface DdevConfigurationProvider {
 
     void updateStatus();
 
+    void initialize();
+
     void startWatcher();
 
     void stopWatcher();

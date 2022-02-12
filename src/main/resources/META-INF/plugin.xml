@@ -12,6 +12,20 @@
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
 
+    <applicationListeners>
+        <listener class="de.php_perfect.intellij.ddev.event.DevInitialisedListener"
+                  topic="de.php_perfect.intellij.ddev.event.ChangeActionNotifier"/>
+    </applicationListeners>
+
+    <extensionPoints>
+        <extensionPoint name="ddevAwareActivity" interface="de.php_perfect.intellij.ddev.DdevAwareActivity"/>
+    </extensionPoints>
+
+    <extensions defaultExtensionNs="de.php_perfect.intellij.ddev">
+        <ddevAwareActivity implementation="de.php_perfect.intellij.ddev.activities.CheckVersionActivity"/>
+        <ddevAwareActivity implementation="de.php_perfect.intellij.ddev.activities.WatchDdevActivity"/>
+    </extensions>
+
     <extensions defaultExtensionNs="com.intellij">
         <notificationGroup id="DdevIntegration" key="notification_group.main" displayType="BALLOON"
                            icon="DdevIcons.DdevMenuIcon"/>

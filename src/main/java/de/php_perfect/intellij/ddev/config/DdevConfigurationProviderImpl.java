@@ -1,13 +1,19 @@
 package de.php_perfect.intellij.ddev.config;
 
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.Service;
+import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.progress.ProgressManager;
+import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.concurrency.AppExecutorUtil;
+import com.intellij.util.messages.MessageBus;
 import de.php_perfect.intellij.ddev.cmd.CommandFailedException;
 import de.php_perfect.intellij.ddev.cmd.Ddev;
 import de.php_perfect.intellij.ddev.cmd.Description;
 import de.php_perfect.intellij.ddev.cmd.Versions;
+import de.php_perfect.intellij.ddev.event.ChangeActionNotifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,8 +38,6 @@ public final class DdevConfigurationProviderImpl implements DdevConfigurationPro
     }
 
     public @Nullable Versions getVersions() {
-        this.initialize();
-
         return this.versions;
     }
 
@@ -46,27 +50,37 @@ public final class DdevConfigurationProviderImpl implements DdevConfigurationPro
     }
 
     public @Nullable Description getStatus() {
-        this.initialize();
-
         return this.status;
     }
 
     public void updateStatus() {
-        if (this.initialized) {
-            this.loadStatus();
-        } else {
-            this.initialize();
+        if (!this.initialized) {
+            return;
         }
+
+        ProgressManager.getInstance().run(new Task.Backgroundable(this.project, "Checking DDEV state", true) {
+            public void run(@NotNull ProgressIndicator progressIndicator) {
+                DdevConfigurationProviderImpl.this.loadStatus();
+            }
+        });
     }
 
-    private synchronized void initialize() {
+    public void initialize() {
         if (this.initialized) {
             return;
         }
 
-        this.initialized = true;
-        this.loadVersion();
-        this.loadStatus();
+        ProgressManager.getInstance().run(new Task.Backgroundable(this.project, "Checking DDEV installation", true) {
+            public void run(@NotNull ProgressIndicator progressIndicator) {
+                DdevConfigurationProviderImpl.this.initialized = true;
+                DdevConfigurationProviderImpl.this.loadVersion();
+                DdevConfigurationProviderImpl.this.loadStatus();
+
+                MessageBus messageBus = ApplicationManager.getApplication().getMessageBus();
+                ChangeActionNotifier publisher = messageBus.syncPublisher(ChangeActionNotifier.CHANGE_ACTION_TOPIC);
+                publisher.onDdevInit(DdevConfigurationProviderImpl.this.project);
+            }
+        });
     }
 
     private void loadVersion() {
