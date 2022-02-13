@@ -1,4 +1,4 @@
-package de.php_perfect.intellij.ddev.config;
+package de.php_perfect.intellij.ddev.state;
 
 import de.php_perfect.intellij.ddev.cmd.Description;
 import de.php_perfect.intellij.ddev.cmd.Versions;
@@ -7,12 +7,20 @@ import org.jetbrains.annotations.Nullable;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public final class DdevState {
+public final class State {
     private @Nullable Versions versions;
 
     private @Nullable Description description;
 
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+
+    public boolean isInstalled() {
+        return this.getVersions() != null;
+    }
+
+    public boolean isConfigured() {
+        return this.getDescription() != null;
+    }
 
     public @Nullable Versions getVersions() {
         this.readWriteLock.readLock().lock();

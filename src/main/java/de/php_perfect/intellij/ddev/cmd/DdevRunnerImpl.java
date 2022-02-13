@@ -11,7 +11,7 @@ import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
-import de.php_perfect.intellij.ddev.config.DdevStateManager;
+import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.logging.Level;
@@ -42,9 +42,7 @@ public final class DdevRunnerImpl implements DdevRunner, Disposable {
         final RunContentExecutor runContentExecutor = new RunContentExecutor(this.project, process)
                 .withTitle(title)
                 .withActivateToolWindow(true)
-                .withAfterCompletion(() -> {
-                    DdevStateManager.getInstance(this.project).updateStatus();
-                })
+                .withAfterCompletion(() -> DdevStateManager.getInstance(this.project).updateState())
                 .withStop(process::destroyProcess, () -> !process.isProcessTerminated());
         Disposer.register(this, runContentExecutor);
         runContentExecutor.run();

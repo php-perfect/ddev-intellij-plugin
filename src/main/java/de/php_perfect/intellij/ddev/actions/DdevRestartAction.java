@@ -2,7 +2,8 @@ package de.php_perfect.intellij.ddev.actions;
 
 import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.cmd.Description;
-import de.php_perfect.intellij.ddev.config.DdevStateManager;
+import de.php_perfect.intellij.ddev.state.DdevStateManager;
+import de.php_perfect.intellij.ddev.state.State;
 import org.jetbrains.annotations.NotNull;
 
 public class DdevRestartAction extends DdevRunAction {
@@ -11,18 +12,18 @@ public class DdevRestartAction extends DdevRunAction {
     }
 
     protected boolean isActive(@NotNull Project project) {
-        final DdevStateManager ddevConfigurationProvider = DdevStateManager.getInstance(project);
+        final State state = DdevStateManager.getInstance(project).getState();
 
-        if (!ddevConfigurationProvider.isInstalled()) {
+        if (!state.isInstalled()) {
             return false;
         }
 
-        Description status = ddevConfigurationProvider.getStatus();
+        Description description = state.getDescription();
 
-        if (status == null) {
+        if (description == null) {
             return false;
         }
 
-        return status.getStatus() == Description.Status.RUNNING || status.getStatus() == Description.Status.UNDEFINED;
+        return description.getStatus() == Description.Status.RUNNING || description.getStatus() == Description.Status.UNDEFINED;
     }
 }
