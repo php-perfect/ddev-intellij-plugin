@@ -14,7 +14,7 @@
 
     <applicationListeners>
         <listener class="de.php_perfect.intellij.ddev.event.DevInitialisedListener"
-                  topic="de.php_perfect.intellij.ddev.event.ChangeActionNotifier"/>
+                  topic="de.php_perfect.intellij.ddev.event.DdevInitialisedNotifier"/>
     </applicationListeners>
 
     <extensionPoints>
@@ -32,8 +32,8 @@
 
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.notification.DdevNotifierImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.notification.DdevNotifier"/>
-        <projectService serviceImplementation="de.php_perfect.intellij.ddev.config.DdevConfigurationProviderImpl"
-                        serviceInterface="de.php_perfect.intellij.ddev.config.DdevConfigurationProvider"/>
+        <projectService serviceImplementation="de.php_perfect.intellij.ddev.config.DdevStateManagerImpl"
+                        serviceInterface="de.php_perfect.intellij.ddev.config.DdevStateManager"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.cmd.DdevImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.cmd.Ddev"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.cmd.DdevRunnerImpl"

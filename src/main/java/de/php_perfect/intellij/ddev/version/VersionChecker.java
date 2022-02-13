@@ -6,7 +6,7 @@ import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.cmd.Versions;
-import de.php_perfect.intellij.ddev.config.DdevConfigurationProvider;
+import de.php_perfect.intellij.ddev.config.DdevStateManager;
 import de.php_perfect.intellij.ddev.notification.DdevNotifier;
 import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +30,7 @@ public final class VersionChecker {
         ProgressManager.getInstance().run(new Task.Backgroundable(project, "Checking DDEV version", true) {
 
             public void run(@NotNull ProgressIndicator progressIndicator) {
-                Versions versions = DdevConfigurationProvider.getInstance(project).getVersions();
+                Versions versions = DdevStateManager.getInstance(project).getVersions();
 
                 if (versions == null) {
                     // @todo Suggestion to install?

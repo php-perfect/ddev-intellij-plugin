@@ -6,7 +6,8 @@ import de.php_perfect.intellij.ddev.cmd.Versions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface DdevConfigurationProvider {
+// @Todo Reduce to getState() and update methods
+public interface DdevStateManager {
 
     @Nullable Versions getVersions();
 
@@ -24,7 +25,7 @@ public interface DdevConfigurationProvider {
 
     void stopWatcher();
 
-    static DdevConfigurationProvider getInstance(@NotNull Project project) {
-        return project.getService(DdevConfigurationProvider.class);
+    static DdevStateManager getInstance(@NotNull Project project) {
+        return project.getService(DdevStateManager.class);
     }
 }
