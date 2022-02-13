@@ -30,8 +30,11 @@ tasks {
     patchPluginXml {
         changeNotes.set(
             """
-            Add change notes here.<br>
-            <em>most HTML tags may be used</em>        """.trimIndent()
+            v1.0.0:
+            <ul>
+              <li>Initial release of the plugin</li>
+            </ul>
+            """.trimIndent()
         )
     }
 }

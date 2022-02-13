@@ -1,16 +1,24 @@
 <idea-plugin>
     <id>de.php_perfect.intellij.ddev</id>
     <name>DDEV Integration</name>
+    <version>1.0.0</version>
     <vendor email="nico.loeber94@gmail.com" url="https://github.com/php-perfect">PHP-Perfect</vendor>
-
+    <category>Deployment</category>
     <description><![CDATA[
-    Integrates DDEV into JetBrains IDEs for your convenience
+    <p>Integrates DDEV into JetBrains IDEs for your convenience</p>
+    <p>
+        Features:
+        <ul>
+          <li>Run DDEV actions via GUI</li>
+          <li>Get notified about DDEV updates</li>
+        </ul>
+    </p>
     ]]></description>
 
-    <resource-bundle>messages.DdevIntegrationBundle</resource-bundle>
-
-    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html on how to target different products -->
+    <idea-version since-build="213"/>
     <depends>com.intellij.modules.platform</depends>
+
+    <resource-bundle>messages.DdevIntegrationBundle</resource-bundle>
 
     <applicationListeners>
         <listener class="de.php_perfect.intellij.ddev.event.DevInitialisedListener"
