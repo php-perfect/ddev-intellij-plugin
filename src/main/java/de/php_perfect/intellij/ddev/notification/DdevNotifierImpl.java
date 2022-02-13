@@ -36,7 +36,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
         ApplicationManager.getApplication().invokeLater(() -> NotificationGroupManager.getInstance()
                 .getNotificationGroup("DdevIntegration")
                 .createNotification(title, content, NotificationType.INFORMATION)
-                .addAction(new InstallDdevAction("Update"))
+                .addAction(new InstallDdevAction())
                 .notify(this.project), ModalityState.NON_MODAL);
     }
 

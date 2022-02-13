@@ -26,11 +26,12 @@ public final class DdevRunnerImpl implements DdevRunner, Disposable {
         this.project = project;
     }
 
-    public void runDdev(String title, String ddevAction) {
-        String runTitle = "DDev " + title;
+    @Override
+    public void runDdev(String ddevAction) {
+        String title = "DDEV " + this.ucFirst(ddevAction);
         ApplicationManager.getApplication().invokeLater(() -> {
             try {
-                this.run(runTitle, ddevAction);
+                this.run(title, ddevAction);
             } catch (Throwable th) {
                 Logger.getGlobal().log(Level.FINEST, "An error occurred", th);
             }
@@ -39,29 +40,26 @@ public final class DdevRunnerImpl implements DdevRunner, Disposable {
 
     private void run(String title, String action) throws ExecutionException {
         final ProcessHandler process = this.createProcessHandler(action);
-        final RunContentExecutor runContentExecutor = new RunContentExecutor(this.project, process)
-                .withTitle(title)
-                .withActivateToolWindow(true)
-                .withAfterCompletion(() -> DdevStateManager.getInstance(this.project).updateState())
-                .withStop(process::destroyProcess, () -> !process.isProcessTerminated());
+        final RunContentExecutor runContentExecutor = new RunContentExecutor(this.project, process).withTitle(title).withActivateToolWindow(true).withAfterCompletion(() -> DdevStateManager.getInstance(this.project).updateState()).withStop(process::destroyProcess, () -> !process.isProcessTerminated());
         Disposer.register(this, runContentExecutor);
         runContentExecutor.run();
     }
 
-    @NotNull
-    public ProcessHandler createProcessHandler(String ddevAction) throws ExecutionException {
+    private @NotNull String ucFirst(String string) {
+        return string.substring(0, 1).toUpperCase() + string.substring(1);
+    }
+
+    private @NotNull ProcessHandler createProcessHandler(String ddevAction) throws ExecutionException {
         final ProcessHandler handler = new ColoredProcessHandler(this.createCommandLine(ddevAction));
         ProcessTerminatedListener.attach(handler);
         return handler;
     }
 
-    @NotNull
-    private WslAwareCommandLine createCommandLine(String ddevAction) {
+    private @NotNull WslAwareCommandLine createCommandLine(String ddevAction) {
         return new WslAwareCommandLine(this.project.getBasePath(), "ddev", ddevAction);
     }
 
     @Override
     public void dispose() {
-
     }
 }

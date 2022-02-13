@@ -6,7 +6,7 @@ import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import de.php_perfect.intellij.ddev.state.State;
 import org.jetbrains.annotations.NotNull;
 
-public class DdevStopAction extends DdevRunAction {
+public final class DdevStopAction extends DdevRunAction {
     public DdevStopAction() {
         super("stop");
     }

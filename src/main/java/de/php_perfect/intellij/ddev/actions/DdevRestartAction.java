@@ -6,7 +6,7 @@ import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import de.php_perfect.intellij.ddev.state.State;
 import org.jetbrains.annotations.NotNull;
 
-public class DdevRestartAction extends DdevRunAction {
+public final class DdevRestartAction extends DdevRunAction {
     public DdevRestartAction() {
         super("restart");
     }

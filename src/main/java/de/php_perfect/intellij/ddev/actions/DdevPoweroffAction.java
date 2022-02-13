@@ -5,7 +5,7 @@ import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import de.php_perfect.intellij.ddev.state.State;
 import org.jetbrains.annotations.NotNull;
 
-public class DdevPoweroffAction extends DdevRunAction {
+public final class DdevPoweroffAction extends DdevRunAction {
     public DdevPoweroffAction() {
         super("poweroff");
     }

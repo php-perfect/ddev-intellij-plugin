@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface DdevRunner {
 
-    void runDdev(String title, String ddevAction);
+    void runDdev(String ddevAction);
 
     static DdevRunner getInstance(@NotNull Project project) {
         return project.getService(DdevRunner.class);
