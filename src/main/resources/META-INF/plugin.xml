@@ -56,56 +56,44 @@
     </extensions>
 
     <actions>
-        <group id="DdevIntegration.Run" popup="true" text="DDEV" description="Run DDEV action"
-               icon="DdevIcons.DdevMenuIcon">
+        <group id="DdevIntegration.Run" popup="true" icon="DdevIcons.DdevMenuIcon">
             <add-to-group group-id="ToolsMenu"/>
-            <action id="DdevIntegration.Run.Start" text="DDEV Start"
-                    class="de.php_perfect.intellij.ddev.actions.DdevStartAction" icon="AllIcons.Actions.Execute"
-                    description="Start DDEV for this project">
-                <override-text place="MainMenu" text="Start"/>
+            <action id="DdevIntegration.Run.Start" icon="AllIcons.Actions.Execute"
+                    class="de.php_perfect.intellij.ddev.actions.DdevStartAction">
+                <override-text place="MainMenu"/>
                 <override-text place="EditorPopup" use-text-of-place="MainMenu"/>
             </action>
-            <action id="DdevIntegration.Run.Restart" text="DDEV Restart"
-                    class="de.php_perfect.intellij.ddev.actions.DdevRestartAction" icon="AllIcons.Actions.Refresh"
-                    description="Restart DDEV for this project">
-                <override-text place="MainMenu" text="Restart"/>
+            <action id="DdevIntegration.Run.Restart" icon="AllIcons.Actions.Refresh"
+                    class="de.php_perfect.intellij.ddev.actions.DdevRestartAction">
+                <override-text place="MainMenu"/>
                 <override-text place="EditorPopup" use-text-of-place="MainMenu"/>
             </action>
-            <action id="DdevIntegration.Run.Stop" text="DDEV Stop"
-                    class="de.php_perfect.intellij.ddev.actions.DdevStopAction" icon="AllIcons.Actions.Pause"
-                    description="Stop and remove the containers of a project (Does not lose or harm anything)">
-                <override-text place="MainMenu" text="Stop"/>
+            <action id="DdevIntegration.Run.Stop" icon="AllIcons.Actions.Pause"
+                    class="de.php_perfect.intellij.ddev.actions.DdevStopAction">
+                <override-text place="MainMenu"/>
                 <override-text place="EditorPopup" use-text-of-place="MainMenu"/>
             </action>
-            <action id="DdevIntegration.Run.Poweroff" text="DDEV Poweroff"
-                    class="de.php_perfect.intellij.ddev.actions.DdevPoweroffAction" icon="AllIcons.Actions.Suspend"
-                    description="Completely stop all projects and containers">
-                <override-text place="MainMenu" text="Poweroff"/>
+            <action id="DdevIntegration.Run.PowerOff" icon="AllIcons.Actions.Suspend"
+                    class="de.php_perfect.intellij.ddev.actions.DdevPowerOffAction">
+                <override-text place="MainMenu"/>
                 <override-text place="EditorPopup" use-text-of-place="MainMenu"/>
             </action>
-            <action id="DdevIntegration.Run.Delete" text="DDEV Delete"
-                    class="de.php_perfect.intellij.ddev.actions.DdevDeleteAction"
-                    icon="AllIcons.CodeWithMe.CwmTerminate"
-                    description="Remove all project information (including database) for an existing project">
-                <override-text place="MainMenu" text="Delete"/>
+            <action id="DdevIntegration.Run.Delete" icon="AllIcons.CodeWithMe.CwmTerminate"
+                    class="de.php_perfect.intellij.ddev.actions.DdevDeleteAction">
+                <override-text place="MainMenu"/>
                 <override-text place="EditorPopup" use-text-of-place="MainMenu"/>
             </action>
-            <action id="DdevIntegration.Run.Share" text="DDEV Share"
-                    class="de.php_perfect.intellij.ddev.actions.DdevShareAction" icon="AllIcons.Actions.Share"
-                    description="Share project on the internet via ngrok">
-                <override-text place="MainMenu" text="Share"/>
+            <action id="DdevIntegration.Run.Share" icon="AllIcons.Actions.Share"
+                    class="de.php_perfect.intellij.ddev.actions.DdevShareAction">
+                <override-text place="MainMenu"/>
                 <override-text place="EditorPopup" use-text-of-place="MainMenu"/>
             </action>
-            <action id="DdevIntegration.Run.Config" text="DDEV Config"
-                    class="de.php_perfect.intellij.ddev.actions.DdevConfigAction" icon="AllIcons.General.Settings"
-                    description="Create a DDEV configuration in the current project">
-                <override-text place="MainMenu" text="Config"/>
+            <action id="DdevIntegration.Run.Config" icon="AllIcons.General.Settings"
+                    class="de.php_perfect.intellij.ddev.actions.DdevConfigAction">
+                <override-text place="MainMenu"/>
                 <override-text place="EditorPopup" use-text-of-place="MainMenu"/>
             </action>
         </group>
-        <action id="DdevIntegration.CheckVersion" text="DDEV Check Version"
-                class="de.php_perfect.intellij.ddev.actions.CheckVersionAction"
-                description="Check if a new DDEV version is available for download"/>
-        <action class="de.php_perfect.intellij.ddev.actions.DisableCheckForUpdatesAction"/>
+        <action id="DdevIntegration.CheckVersion" class="de.php_perfect.intellij.ddev.actions.CheckVersionAction"/>
     </actions>
 </idea-plugin>
