@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
+import java.util.Objects;
+
 public class Description {
     public enum Status {
         @SerializedName("running")
@@ -21,6 +24,8 @@ public class Description {
     private @Nullable String phpVersion;
 
     private @Nullable String status;
+
+    private Map<String, Service> services;
 
     public @Nullable String getPhpVersion() {
         return phpVersion;
@@ -51,5 +56,18 @@ public class Description {
             default:
                 return Status.UNDEFINED;
         }
+    }
+
+    public Map<String, Service> getServices() {
+        return services;
+    }
+
+    public void setServices(Map<String, Service> services) {
+        this.services = services;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(phpVersion, status);
     }
 }

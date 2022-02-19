@@ -6,6 +6,7 @@ import de.php_perfect.intellij.ddev.cmd.wsl.WslHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class WslAwareCommandLine extends GeneralCommandLine {
@@ -20,6 +21,7 @@ public class WslAwareCommandLine extends GeneralCommandLine {
     public WslAwareCommandLine(@Nullable String workingDirectory, @NotNull List<String> command) {
         super(wslAwareCommand(workingDirectory, command));
         this.setWorkDirectory(workingDirectory);
+        this.setCharset(StandardCharsets.UTF_8);
     }
 
     private static @NotNull List<String> wslAwareCommand(@Nullable String workingDirectory, @NotNull List<String> command) {

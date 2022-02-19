@@ -17,6 +17,7 @@
 
     <idea-version since-build="213"/>
     <depends>com.intellij.modules.platform</depends>
+    <depends config-file="php.xml" optional="true">com.jetbrains.php</depends>
 
     <resource-bundle>messages.DdevIntegrationBundle</resource-bundle>
 
@@ -36,7 +37,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <notificationGroup id="DdevIntegration" key="notification_group.main" displayType="BALLOON"
-                           icon="DdevIcons.DdevMenuIcon"/>
+                           icon="DdevIntegrationIcons.DdevLogoColor"/>
 
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.notification.DdevNotifierImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.notification.DdevNotifier"/>
@@ -53,10 +54,12 @@
                              key="settings.headline"/>
 
         <postStartupActivity implementation="de.php_perfect.intellij.ddev.PostStartupActivity"/>
+
+        <statusBarWidgetFactory implementation="de.php_perfect.intellij.ddev.statusBar.DdevStatusBarWidgetFactoryImpl"/>
     </extensions>
 
     <actions>
-        <group id="DdevIntegration.Run" popup="true" icon="DdevIcons.DdevMenuIcon">
+        <group id="DdevIntegration.Run" popup="true" icon="DdevIntegrationIcons.DdevLogoColor">
             <add-to-group group-id="ToolsMenu"/>
             <action id="DdevIntegration.Run.Start" icon="AllIcons.Actions.Execute"
                     class="de.php_perfect.intellij.ddev.actions.DdevStartAction">
@@ -94,6 +97,8 @@
                 <override-text place="EditorPopup" use-text-of-place="MainMenu"/>
             </action>
         </group>
+        <group id="DdevIntegration.Services" icon="AllIcons.General.Settings"
+               class="de.php_perfect.intellij.ddev.actions.ServicesActionGroup"/>
         <action id="DdevIntegration.CheckVersion" class="de.php_perfect.intellij.ddev.actions.CheckVersionAction"/>
     </actions>
 </idea-plugin>

@@ -4,57 +4,12 @@ import de.php_perfect.intellij.ddev.cmd.Description;
 import de.php_perfect.intellij.ddev.cmd.Versions;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+public interface State {
+    boolean isInstalled();
 
-public final class State {
-    private @Nullable Versions versions;
+    boolean isConfigured();
 
-    private @Nullable Description description;
+    @Nullable Versions getVersions();
 
-    private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
-
-    public boolean isInstalled() {
-        return this.getVersions() != null;
-    }
-
-    public boolean isConfigured() {
-        return this.getDescription() != null;
-    }
-
-    public @Nullable Versions getVersions() {
-        this.readWriteLock.readLock().lock();
-        try {
-            return this.versions;
-        } finally {
-            this.readWriteLock.readLock().unlock();
-        }
-    }
-
-    public void setVersions(@Nullable Versions versions) {
-        this.readWriteLock.writeLock().lock();
-        try {
-            this.versions = versions;
-        } finally {
-            this.readWriteLock.writeLock().unlock();
-        }
-    }
-
-    public @Nullable Description getDescription() {
-        this.readWriteLock.readLock().lock();
-        try {
-            return this.description;
-        } finally {
-            this.readWriteLock.readLock().unlock();
-        }
-    }
-
-    public void setDescription(@Nullable Description description) {
-        this.readWriteLock.writeLock().lock();
-        try {
-            this.description = description;
-        } finally {
-            this.readWriteLock.writeLock().unlock();
-        }
-    }
+    @Nullable Description getDescription();
 }

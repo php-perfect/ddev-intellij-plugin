@@ -8,7 +8,9 @@ import com.intellij.util.concurrency.AppExecutorUtil;
 import com.intellij.util.messages.MessageBus;
 import de.php_perfect.intellij.ddev.cmd.CommandFailedException;
 import de.php_perfect.intellij.ddev.cmd.Ddev;
+import de.php_perfect.intellij.ddev.cmd.Description;
 import de.php_perfect.intellij.ddev.event.DdevInitialisedNotifier;
+import de.php_perfect.intellij.ddev.event.DdevStateChangedNotifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 @Service(Service.Level.PROJECT)
 public final class DdevStateManagerImpl implements DdevStateManager, Disposable {
 
-    private final @NotNull State state = new State();
+    private final @NotNull StateImpl state = new StateImpl();
     private final @NotNull Project project;
     private @Nullable ScheduledFuture<?> scheduledFuture = null;
 
@@ -85,11 +87,21 @@ public final class DdevStateManagerImpl implements DdevStateManager, Disposable 
 
     private void loadStatus() {
         if (!this.state.isInstalled()) {
+            this.state.setDescription(null);
             return;
         }
 
         try {
-            this.state.setDescription(Ddev.getInstance(this.project).describe());
+            Description newDescription = Ddev.getInstance(this.project).describe();
+            Description currentDescription = this.state.getDescription();
+
+            if (currentDescription == null || currentDescription.hashCode() != newDescription.hashCode()) {
+                this.state.setDescription(newDescription);
+
+                MessageBus messageBus = ApplicationManager.getApplication().getMessageBus();
+                DdevStateChangedNotifier publisher = messageBus.syncPublisher(DdevStateChangedNotifier.DDEV_CHANGED);
+                publisher.onDdevChanged(this.state);
+            }
         } catch (CommandFailedException ignored) {
             this.state.setDescription(null);
         }
