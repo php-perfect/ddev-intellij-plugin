@@ -2,7 +2,7 @@ package de.php_perfect.intellij.ddev.cmd.parser;
 
 import org.jetbrains.annotations.NotNull;
 
-public class JsonParserException extends RuntimeException {
+public class JsonParserException extends Exception {
     public JsonParserException(String message) {
         super(message);
     }

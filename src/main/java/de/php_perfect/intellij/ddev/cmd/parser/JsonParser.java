@@ -11,26 +11,20 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Service(Service.Level.APP)
 public final class JsonParser {
     @NotNull
-    public <T> T parse(String reader, Type typeOfT) {
-        Result<T> result = parseJson(reader, typeOfT);
+    public <T> T parse(String json, Type typeOfT) throws JsonParserException {
+        Result<T> result = parseJson(json, typeOfT);
 
         if (result == null) {
-            Logger.getGlobal().log(Level.SEVERE, "Parsing failed! 1");
-            Logger.getGlobal().log(Level.SEVERE, reader);
-            throw new JsonParserException("Could not parse the ddev status output");
+            throw new JsonParserException("Could not parse the ddev status output object");
         }
 
         T data = result.getRaw();
 
         if (data == null) {
-            Logger.getGlobal().log(Level.SEVERE, "Parsing failed! 2");
-            Logger.getGlobal().log(Level.SEVERE, reader);
             throw new JsonParserException("Could not parse the required type from output");
         }
 
@@ -38,14 +32,14 @@ public final class JsonParser {
     }
 
     @Nullable
-    private <T> Result<T> parseJson(String reader, Type typeOfT) {
+    private <T> Result<T> parseJson(String json, Type typeOfT) throws JsonParserException {
         Type typeToken = TypeToken.getParameterized(Result.class, typeOfT).getType();
         Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 
         try {
-            return gson.fromJson(reader, typeToken);
-        } catch (JsonSyntaxException e) {
-            throw new JsonParserException("Could not parse json", e);
+            return gson.fromJson(json, typeToken);
+        } catch (JsonSyntaxException exception) {
+            throw new JsonParserException(String.format("Encountered invalid JSON '%s'", json), exception);
         }
     }
 

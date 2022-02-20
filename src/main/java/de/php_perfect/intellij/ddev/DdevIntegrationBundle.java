@@ -27,4 +27,8 @@ public class DdevIntegrationBundle extends DynamicBundle {
     public static Supplier<@Nls String> messagePointer(@NotNull @PropertyKey(resourceBundle = BUNDLE) String key, Object @NotNull ... params) {
         return INSTANCE.getLazyMessage(key, params);
     }
+
+    public static String getName() {
+        return BUNDLE;
+    }
 }

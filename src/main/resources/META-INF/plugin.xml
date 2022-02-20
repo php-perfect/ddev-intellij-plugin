@@ -39,6 +39,10 @@
         <notificationGroup id="DdevIntegration" key="notification_group.main" displayType="BALLOON"
                            icon="DdevIntegrationIcons.DdevLogoColor"/>
 
+        <applicationService serviceImplementation="de.php_perfect.intellij.ddev.cmd.ProcessExecutorImpl"
+                            serviceInterface="de.php_perfect.intellij.ddev.cmd.ProcessExecutor"
+                            testServiceImplementation="de.php_perfect.intellij.ddev.cmd.MockProcessExecutor"/>
+
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.notification.DdevNotifierImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.notification.DdevNotifier"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.state.DdevStateManagerImpl"
@@ -47,6 +51,8 @@
                         serviceInterface="de.php_perfect.intellij.ddev.cmd.Ddev"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.cmd.DdevRunnerImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.cmd.DdevRunner"/>
+        <projectService serviceImplementation="de.php_perfect.intellij.ddev.serviceActions.ServiceActionManagerImpl"
+                        serviceInterface="de.php_perfect.intellij.ddev.serviceActions.ServiceActionManager"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.settings.DdevSettingsState"/>
 
         <projectConfigurable parentId="tools" instance="de.php_perfect.intellij.ddev.settings.DdevSettingsConfigurable"
@@ -97,8 +103,7 @@
                 <override-text place="EditorPopup" use-text-of-place="MainMenu"/>
             </action>
         </group>
-        <group id="DdevIntegration.Services" icon="AllIcons.General.Settings"
-               class="de.php_perfect.intellij.ddev.actions.ServicesActionGroup"/>
+        <group id="DdevIntegration.Services" class="de.php_perfect.intellij.ddev.actions.ServicesActionGroup"/>
         <action id="DdevIntegration.CheckVersion" class="de.php_perfect.intellij.ddev.actions.CheckVersionAction"/>
     </actions>
 </idea-plugin>

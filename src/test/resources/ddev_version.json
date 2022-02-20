@@ -11,7 +11,7 @@
     "db": "drud/ddev-dbserver-mariadb-10.3:20220102_gzip_snapshots",
     "dba": "phpmyadmin:5",
     "ddev_ssh_agent": "drud/ddev-ssh-agent:v1.18.0",
-    "ddev_version": "v1.19.0-alpha3-12-gdf44295f",
+    "DDEV version": "v1.19.0",
     "docker": "20.10.12",
     "docker_compose": "v2.2.2",
     "docker_platform": "docker-desktop",

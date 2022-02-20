@@ -33,6 +33,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
+    private static final @NotNull String ACTION_GROUP = "DdevIntegration.Services";
     public static final @NotNull String WIDGET_ID = DdevStatusBarWidgetImpl.class.getName();
     private final @NotNull PopupState<JBPopup> popupState = PopupState.forPopup();
     private final @NotNull Project project;
@@ -94,7 +95,7 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
     }
 
     private ListPopup createPopup(DataContext context) {
-        ActionGroup group = (ActionGroup) ActionManager.getInstance().getAction("DdevIntegration.Run");
+        ActionGroup group = (ActionGroup) ActionManager.getInstance().getAction(ACTION_GROUP);
 
         return JBPopupFactory.getInstance().createActionGroupPopup(null, group, context, JBPopupFactory.ActionSelectionAid.SPEEDSEARCH, false);
     }
@@ -123,7 +124,7 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
 
     private @NotNull @NlsContexts.StatusBarText String getText(@NotNull State state) {
         Description description = state.getDescription();
-        Description.Status status = Description.Status.UNDEFINED;
+        Description.Status status = null;
 
         if (description != null) {
             status = description.getStatus();

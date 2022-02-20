@@ -24,6 +24,6 @@ public final class DdevStartAction extends DdevRunAction {
             return false;
         }
 
-        return description.getStatus() != Description.Status.RUNNING && description.getStatus() != Description.Status.STARTING && description.getStatus() != Description.Status.UNDEFINED;
+        return description.getStatus() != Description.Status.RUNNING && description.getStatus() != Description.Status.STARTING && description.getStatus() != null;
     }
 }

@@ -24,6 +24,6 @@ public final class DdevRestartAction extends DdevRunAction {
             return false;
         }
 
-        return description.getStatus() == Description.Status.RUNNING || description.getStatus() == Description.Status.UNDEFINED;
+        return description.getStatus() == Description.Status.RUNNING || description.getStatus() == null;
     }
 }

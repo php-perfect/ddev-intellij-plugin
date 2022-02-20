@@ -2,23 +2,19 @@ package de.php_perfect.intellij.ddev.cmd;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 public class Service {
-    private @Nullable String fullName;
+    private final @Nullable String fullName;
 
-    private @Nullable String httpUrl;
+    private final @Nullable String httpsUrl;
 
-    private @Nullable String httpsUrl;
+    private final @Nullable String httpUrl;
 
-    public void setFullName(@Nullable String fullName) {
+    public Service(@Nullable String fullName, @Nullable String httpsUrl, @Nullable String httpUrl) {
         this.fullName = fullName;
-    }
-
-    public void setHttpUrl(@Nullable String httpUrl) {
-        this.httpUrl = httpUrl;
-    }
-
-    public void setHttpsUrl(@Nullable String httpsUrl) {
         this.httpsUrl = httpsUrl;
+        this.httpUrl = httpUrl;
     }
 
     public @Nullable String getFullName() {
@@ -31,5 +27,27 @@ public class Service {
 
     public @Nullable String getHttpsUrl() {
         return httpsUrl;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Service)) return false;
+        Service service = (Service) o;
+        return Objects.equals(getFullName(), service.getFullName()) && Objects.equals(getHttpUrl(), service.getHttpUrl()) && Objects.equals(getHttpsUrl(), service.getHttpsUrl());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFullName(), getHttpUrl(), getHttpsUrl());
+    }
+
+    @Override
+    public String toString() {
+        return "Service{" +
+                "fullName='" + fullName + '\'' +
+                ", httpUrl='" + httpUrl + '\'' +
+                ", httpsUrl='" + httpsUrl + '\'' +
+                '}';
     }
 }

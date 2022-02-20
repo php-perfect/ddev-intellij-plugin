@@ -1,7 +1,6 @@
 package de.php_perfect.intellij.ddev.cmd;
 
 import com.google.gson.annotations.SerializedName;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -9,65 +8,51 @@ import java.util.Objects;
 
 public class Description {
     public enum Status {
-        @SerializedName("running")
-        RUNNING,
-        @SerializedName("paused")
-        PAUSED,
-        @SerializedName("stopped")
-        STOPPED,
-        @SerializedName("starting")
-        STARTING,
-        @SerializedName("undefined")
-        UNDEFINED,
+        @SerializedName("running") RUNNING,
+        @SerializedName("paused") PAUSED,
+        @SerializedName("stopped") STOPPED,
+        @SerializedName("starting") STARTING,
     }
 
-    private @Nullable String phpVersion;
+    private final @Nullable String phpVersion;
 
-    private @Nullable String status;
+    private final @Nullable Status status;
 
-    private Map<String, Service> services;
+    private final @Nullable Map<String, Service> services;
+
+    public Description(@Nullable String phpVersion, @Nullable Status status, @Nullable Map<String, Service> services) {
+        this.phpVersion = phpVersion;
+        this.status = status;
+        this.services = services;
+    }
 
     public @Nullable String getPhpVersion() {
         return phpVersion;
     }
 
-    public void setPhpVersion(@Nullable String phpVersion) {
-        this.phpVersion = phpVersion;
+    public @Nullable Status getStatus() {
+        return status;
     }
 
-    public void setStatus(@Nullable String status) {
-        this.status = status;
-    }
-
-    public @NotNull Status getStatus() {
-        if (this.status == null) {
-            return Status.UNDEFINED;
-        }
-
-        switch (this.status) {
-            case "running":
-                return Status.RUNNING;
-            case "paused":
-                return Status.PAUSED;
-            case "stopped":
-                return Status.STOPPED;
-            case "starting":
-                return Status.STARTING;
-            default:
-                return Status.UNDEFINED;
-        }
-    }
-
-    public Map<String, Service> getServices() {
+    public @Nullable Map<String, Service> getServices() {
         return services;
     }
 
-    public void setServices(Map<String, Service> services) {
-        this.services = services;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Description)) return false;
+        Description that = (Description) o;
+        return Objects.equals(getPhpVersion(), that.getPhpVersion()) && Objects.equals(getStatus(), that.getStatus()) && Objects.equals(getServices(), that.getServices());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(phpVersion, status);
+        return Objects.hash(getPhpVersion(), getStatus(), getServices());
+    }
+
+    @Override
+    public String toString() {
+        return "Description{" + "phpVersion='" + phpVersion + '\'' + ", status='" + status + '\'' + ", services=" + services + '}';
     }
 }

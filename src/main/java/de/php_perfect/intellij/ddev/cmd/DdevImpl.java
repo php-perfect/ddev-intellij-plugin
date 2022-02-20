@@ -1,21 +1,21 @@
 package de.php_perfect.intellij.ddev.cmd;
 
 import com.intellij.execution.ExecutionException;
+import com.intellij.execution.configurations.GeneralCommandLine;
+import com.intellij.execution.process.ProcessOutput;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.cmd.parser.JsonParser;
+import de.php_perfect.intellij.ddev.cmd.parser.JsonParserException;
+import de.php_perfect.intellij.ddev.serviceActions.ServiceActionManagerImpl;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 public final class DdevImpl implements Ddev {
     private final @NotNull Project project;
+    private static final @NotNull Logger LOGGER = Logger.getInstance(ServiceActionManagerImpl.class.getName());
 
     public DdevImpl(@NotNull Project project) {
         this.project = project;
@@ -30,58 +30,30 @@ public final class DdevImpl implements Ddev {
     }
 
     private @NotNull <T> T execute(String action, Type type) throws CommandFailedException {
-        final WslAwareCommandLine commandLine = createDdevCommandLine(action);
-
-        final Process process;
+        final GeneralCommandLine commandLine = createDdevCommandLine(action);
 
         try {
-            process = commandLine.createProcess();
-        } catch (ExecutionException exception) {
-            throw new CommandFailedException("Command not found", exception);
-        }
+            try {
+                final ProcessOutput processOutput = ApplicationManager.getApplication().getService(ProcessExecutor.class).executeCommandLine(commandLine);
 
-        Future<String> output = ApplicationManager.getApplication().executeOnPooledThread(() -> readProcessOutput(process));
+                if (processOutput.getExitCode() != 0) {
+                    throw new CommandFailedException("Command returned non zero exit code " + commandLine.getCommandLineString());
+                }
 
-        try {
-            if (!process.waitFor(5L, TimeUnit.SECONDS)) {
-                process.destroyForcibly();
-                throw new CommandFailedException("Command time out " + commandLine.getCommandLineString());
+                return JsonParser.getInstance().parse(processOutput.getStdout(), type);
+            } catch (ExecutionException exception) {
+                throw new CommandFailedException("Failed to execute " + commandLine.getCommandLineString(), exception);
+            } catch (JsonParserException exception) {
+                throw new CommandFailedException("Failed to parse output of command " + commandLine.getCommandLineString(), exception);
             }
-
-            if (process.exitValue() != 0) {
-                throw new CommandFailedException("Command execution failed " + commandLine.getCommandLineString());
-            }
-        } catch (InterruptedException ignored) {
-        }
-
-        try {
-            return JsonParser.getInstance().parse(output.get(1L, TimeUnit.SECONDS), type);
-        } catch (InterruptedException e) {
-            throw new CommandFailedException("Execution was interrupted " + commandLine.getCommandLineString());
-        } catch (java.util.concurrent.ExecutionException e) {
-            throw new CommandFailedException("Execution failed " + commandLine.getCommandLineString());
-        } catch (TimeoutException e) {
-            throw new CommandFailedException("Command time out " + commandLine.getCommandLineString());
+        } catch (Exception exception) {
+            LOGGER.warn(exception);
+            throw exception;
         }
     }
 
-    private @NotNull String readProcessOutput(Process process) {
-        final StringBuilder out = new StringBuilder();
-        final int bufferSize = 1024;
-        final char[] buffer = new char[bufferSize];
-
-        try (InputStreamReader reader = new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8)) {
-            for (int numRead; (numRead = reader.read(buffer, 0, buffer.length)) > 0; ) {
-                out.append(buffer, 0, numRead);
-            }
-        } catch (IOException ignored) {
-        }
-
-        return out.toString();
-    }
-
-    @NotNull
-    private WslAwareCommandLine createDdevCommandLine(String action) {
+    private @NotNull WslAwareCommandLine createDdevCommandLine(String action) {
+        //return (WslAwareCommandLine) new WslAwareCommandLine(project.getBasePath(), "echo", "{]").withEnvironment("DDEV_NONINTERACTIVE", "true");
         return (WslAwareCommandLine) new WslAwareCommandLine(project.getBasePath(), "ddev", action, "--json-output").withEnvironment("DDEV_NONINTERACTIVE", "true");
     }
 }

@@ -11,6 +11,7 @@ import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
+import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +29,7 @@ public final class DdevRunnerImpl implements DdevRunner, Disposable {
 
     @Override
     public void runDdev(String ddevAction) {
-        String title = "DDEV " + this.ucFirst(ddevAction);
+        String title = DdevIntegrationBundle.message("ddev.run", this.ucFirst(ddevAction));
         ApplicationManager.getApplication().invokeLater(() -> {
             try {
                 this.run(title, ddevAction);
