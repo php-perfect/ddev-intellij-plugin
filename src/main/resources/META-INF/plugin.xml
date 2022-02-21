@@ -32,6 +32,7 @@
 
     <extensions defaultExtensionNs="de.php_perfect.intellij.ddev">
         <ddevAwareActivity implementation="de.php_perfect.intellij.ddev.activities.CheckVersionActivity"/>
+        <ddevAwareActivity implementation="de.php_perfect.intellij.ddev.activities.LoadSchemaActivity"/>
         <ddevAwareActivity implementation="de.php_perfect.intellij.ddev.activities.WatchDdevActivity"/>
     </extensions>
 
@@ -42,6 +43,8 @@
         <applicationService serviceImplementation="de.php_perfect.intellij.ddev.cmd.ProcessExecutorImpl"
                             serviceInterface="de.php_perfect.intellij.ddev.cmd.ProcessExecutor"
                             testServiceImplementation="de.php_perfect.intellij.ddev.cmd.MockProcessExecutor"/>
+        <applicationService serviceImplementation="de.php_perfect.intellij.ddev.config.SchemaProviderImpl"
+                            serviceInterface="de.php_perfect.intellij.ddev.config.SchemaProvider"/>
 
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.notification.DdevNotifierImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.notification.DdevNotifier"/>
@@ -62,6 +65,10 @@
         <postStartupActivity implementation="de.php_perfect.intellij.ddev.PostStartupActivity"/>
 
         <statusBarWidgetFactory implementation="de.php_perfect.intellij.ddev.statusBar.DdevStatusBarWidgetFactoryImpl"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="JavaScript.JsonSchema">
+        <ProviderFactory implementation="de.php_perfect.intellij.ddev.config.ConfigJsonSchemaProviderFactory"/>
     </extensions>
 
     <actions>
