@@ -3,7 +3,6 @@ package de.php_perfect.intellij.ddev.cmd;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.ProcessOutput;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.cmd.parser.JsonParser;
@@ -34,7 +33,7 @@ public final class DdevImpl implements Ddev {
 
         try {
             try {
-                final ProcessOutput processOutput = ApplicationManager.getApplication().getService(ProcessExecutor.class).executeCommandLine(commandLine);
+                final ProcessOutput processOutput = ProcessExecutor.getInstance().executeCommandLine(commandLine, 5_000);
 
                 if (processOutput.getExitCode() != 0) {
                     throw new CommandFailedException("Command returned non zero exit code " + commandLine.getCommandLineString());
@@ -52,8 +51,7 @@ public final class DdevImpl implements Ddev {
         }
     }
 
-    private @NotNull WslAwareCommandLine createDdevCommandLine(String action) {
-        //return (WslAwareCommandLine) new WslAwareCommandLine(project.getBasePath(), "echo", "{]").withEnvironment("DDEV_NONINTERACTIVE", "true");
-        return (WslAwareCommandLine) new WslAwareCommandLine(project.getBasePath(), "ddev", action, "--json-output").withEnvironment("DDEV_NONINTERACTIVE", "true");
+    private @NotNull GeneralCommandLine createDdevCommandLine(String action) {
+        return new GeneralCommandLine("ddev", action, "--json-output").withWorkDirectory(project.getBasePath()).withEnvironment("DDEV_NONINTERACTIVE", "true");
     }
 }

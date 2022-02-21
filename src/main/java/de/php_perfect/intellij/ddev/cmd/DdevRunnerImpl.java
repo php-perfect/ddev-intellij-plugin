@@ -2,6 +2,7 @@ package de.php_perfect.intellij.ddev.cmd;
 
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.RunContentExecutor;
+import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.ColoredProcessHandler;
 import com.intellij.execution.process.ProcessHandler;
 import com.intellij.execution.process.ProcessTerminatedListener;
@@ -12,6 +13,7 @@ import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
+import de.php_perfect.intellij.ddev.cmd.wsl.WslAware;
 import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -56,8 +58,8 @@ public final class DdevRunnerImpl implements DdevRunner, Disposable {
         return handler;
     }
 
-    private @NotNull WslAwareCommandLine createCommandLine(String ddevAction) {
-        return new WslAwareCommandLine(this.project.getBasePath(), "ddev", ddevAction);
+    private @NotNull GeneralCommandLine createCommandLine(String ddevAction) {
+        return WslAware.patchCommandLine(new GeneralCommandLine("ddev", ddevAction).withWorkDirectory(this.project.getBasePath()));
     }
 
     @Override

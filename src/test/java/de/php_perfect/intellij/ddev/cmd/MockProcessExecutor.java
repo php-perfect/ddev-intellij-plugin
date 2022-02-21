@@ -16,11 +16,11 @@ public class MockProcessExecutor implements ProcessExecutor {
     }
 
     @Override
-    public @NotNull ProcessOutput executeCommandLine(GeneralCommandLine commandLine) throws ExecutionException {
+    public @NotNull ProcessOutput executeCommandLine(GeneralCommandLine commandLine, int timeout) throws ExecutionException {
         String commandLineString = commandLine.getCommandLineString();
 
         if (!this.processList.containsKey(commandLineString)) {
-            throw new ExecutionException(String.format("Command '%s' was not expected", commandLineString));
+            throw new ExecutionException(String.format("[TEST] Command '%s' was not expected", commandLineString));
         }
 
         return this.processList.get(commandLineString);
