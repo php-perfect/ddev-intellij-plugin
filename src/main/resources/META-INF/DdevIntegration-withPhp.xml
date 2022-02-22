@@ -1,0 +1,5 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="de.php_perfect.intellij.ddev">
+        <phpVersionProvider implementation="de.php_perfect.intellij.ddev.php.LanguageLevelPhpVersionProvider"/>
+    </extensions>
+</idea-plugin>

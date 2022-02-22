@@ -13,23 +13,18 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Type;
 
 public final class DdevImpl implements Ddev {
-    private final @NotNull Project project;
-    private static final @NotNull Logger LOGGER = Logger.getInstance(ServiceActionManagerImpl.class.getName());
+    private static final @NotNull Logger LOG = Logger.getInstance(ServiceActionManagerImpl.class.getName());
 
-    public DdevImpl(@NotNull Project project) {
-        this.project = project;
+    public @NotNull Versions version(@NotNull Project project) throws CommandFailedException {
+        return execute("version", Versions.class, project);
     }
 
-    public @NotNull Versions version() throws CommandFailedException {
-        return execute("version", Versions.class);
+    public @NotNull Description describe(@NotNull Project project) throws CommandFailedException {
+        return execute("describe", Description.class, project);
     }
 
-    public @NotNull Description describe() throws CommandFailedException {
-        return execute("describe", Description.class);
-    }
-
-    private @NotNull <T> T execute(String action, Type type) throws CommandFailedException {
-        final GeneralCommandLine commandLine = createDdevCommandLine(action);
+    private @NotNull <T> T execute(String action, Type type, @NotNull Project project) throws CommandFailedException {
+        final GeneralCommandLine commandLine = createDdevCommandLine(action, project.getBasePath());
 
         try {
             try {
@@ -46,12 +41,12 @@ public final class DdevImpl implements Ddev {
                 throw new CommandFailedException("Failed to parse output of command " + commandLine.getCommandLineString(), exception);
             }
         } catch (Exception exception) {
-            LOGGER.warn(exception);
+            LOG.info(exception);
             throw exception;
         }
     }
 
-    private @NotNull GeneralCommandLine createDdevCommandLine(String action) {
-        return new GeneralCommandLine("ddev", action, "--json-output").withWorkDirectory(project.getBasePath()).withEnvironment("DDEV_NONINTERACTIVE", "true");
+    private @NotNull GeneralCommandLine createDdevCommandLine(String action, String workingDirectory) {
+        return new GeneralCommandLine("ddev", action, "--json-output").withWorkDirectory(workingDirectory).withEnvironment("DDEV_NONINTERACTIVE", "true");
     }
 }

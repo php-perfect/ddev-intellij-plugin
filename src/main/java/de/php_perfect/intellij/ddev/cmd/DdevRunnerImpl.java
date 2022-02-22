@@ -1,68 +1,96 @@
 package de.php_perfect.intellij.ddev.cmd;
 
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.RunContentExecutor;
 import com.intellij.execution.configurations.GeneralCommandLine;
-import com.intellij.execution.process.ColoredProcessHandler;
-import com.intellij.execution.process.ProcessHandler;
-import com.intellij.execution.process.ProcessTerminatedListener;
-import com.intellij.openapi.Disposable;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.ModalityState;
-import com.intellij.openapi.components.Service;
+import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Disposer;
+import com.intellij.openapi.roots.ProjectRootManager;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileManager;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
-import de.php_perfect.intellij.ddev.cmd.wsl.WslAware;
+import de.php_perfect.intellij.ddev.php.PhpVersion;
 import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+public final class DdevRunnerImpl implements DdevRunner {
 
-@Service(Service.Level.PROJECT)
-public final class DdevRunnerImpl implements DdevRunner, Disposable {
-
-    private final @NotNull Project project;
-
-    public DdevRunnerImpl(@NotNull Project project) {
-        this.project = project;
+    @Override
+    public void start(@NotNull Project project) {
+        final String title = DdevIntegrationBundle.message("ddev.run.start");
+        final Runner runner = Runner.getInstance(project);
+        runner.run(this.createCommandLine("start", project), title, DdevStateManager.getInstance(project)::updateState);
     }
 
     @Override
-    public void runDdev(String ddevAction) {
-        String title = DdevIntegrationBundle.message("ddev.run", this.ucFirst(ddevAction));
-        ApplicationManager.getApplication().invokeLater(() -> {
-            try {
-                this.run(title, ddevAction);
-            } catch (Throwable th) {
-                Logger.getGlobal().log(Level.FINEST, "An error occurred", th);
-            }
-        }, ModalityState.NON_MODAL);
-    }
-
-    private void run(String title, String action) throws ExecutionException {
-        final ProcessHandler process = this.createProcessHandler(action);
-        final RunContentExecutor runContentExecutor = new RunContentExecutor(this.project, process).withTitle(title).withActivateToolWindow(true).withAfterCompletion(() -> DdevStateManager.getInstance(this.project).updateState()).withStop(process::destroyProcess, () -> !process.isProcessTerminated());
-        Disposer.register(this, runContentExecutor);
-        runContentExecutor.run();
-    }
-
-    private @NotNull String ucFirst(String string) {
-        return string.substring(0, 1).toUpperCase() + string.substring(1);
-    }
-
-    private @NotNull ProcessHandler createProcessHandler(String ddevAction) throws ExecutionException {
-        final ProcessHandler handler = new ColoredProcessHandler(this.createCommandLine(ddevAction));
-        ProcessTerminatedListener.attach(handler);
-        return handler;
-    }
-
-    private @NotNull GeneralCommandLine createCommandLine(String ddevAction) {
-        return WslAware.patchCommandLine(new GeneralCommandLine("ddev", ddevAction).withWorkDirectory(this.project.getBasePath()));
+    public void restart(@NotNull Project project) {
+        final String title = DdevIntegrationBundle.message("ddev.run.restart");
+        final Runner runner = Runner.getInstance(project);
+        runner.run(this.createCommandLine("restart", project), title, DdevStateManager.getInstance(project)::updateState);
     }
 
     @Override
-    public void dispose() {
+    public void stop(@NotNull Project project) {
+        final String title = DdevIntegrationBundle.message("ddev.run.stop");
+        final Runner runner = Runner.getInstance(project);
+        runner.run(this.createCommandLine("stop", project), title, DdevStateManager.getInstance(project)::updateState);
+    }
+
+    @Override
+    public void powerOff(@NotNull Project project) {
+        final String title = DdevIntegrationBundle.message("ddev.run.powerOff");
+        final Runner runner = Runner.getInstance(project);
+        runner.run(this.createCommandLine("poweroff", project), title, DdevStateManager.getInstance(project)::updateState);
+    }
+
+    @Override
+    public void delete(@NotNull Project project) {
+        final String title = DdevIntegrationBundle.message("ddev.run.delete");
+        final Runner runner = Runner.getInstance(project);
+        runner.run(this.createCommandLine("delete", project), title, DdevStateManager.getInstance(project)::updateState);
+    }
+
+    @Override
+    public void share(@NotNull Project project) {
+        final String title = DdevIntegrationBundle.message("ddev.run.share");
+        final Runner runner = Runner.getInstance(project);
+        runner.run(this.createCommandLine("share", project), title, DdevStateManager.getInstance(project)::updateState);
+    }
+
+    @Override
+    public void config(@NotNull Project project) {
+        final String title = DdevIntegrationBundle.message("ddev.run.config");
+        final Runner runner = Runner.getInstance(project);
+        runner.run(
+                this.buildConfigCommandLine(project),
+                title,
+                () -> VirtualFileManager.getInstance().asyncRefresh(() -> {
+                    VirtualFile[] vFiles = ProjectRootManager.getInstance(project).getContentRoots();
+                    VirtualFile ddevConfig = vFiles[0].findFileByRelativePath(".ddev/config.yaml");
+
+                    if (ddevConfig != null && ddevConfig.exists()) {
+                        FileEditorManager.getInstance(project).openFile(ddevConfig, true);
+                    }
+
+                    DdevStateManager.getInstance(project).updateState();
+                })
+        );
+    }
+
+    private @NotNull GeneralCommandLine buildConfigCommandLine(@NotNull Project project) {
+        GeneralCommandLine commandLine = this.createCommandLine("config", project)
+                .withParameters("--auto");
+
+        String phpVersion = PhpVersion.getLanguageLevelIfAvailable(project);
+
+        if (phpVersion != null) {
+            commandLine.addParameters("--php-version", phpVersion);
+        }
+
+        return commandLine;
+    }
+
+    private @NotNull GeneralCommandLine createCommandLine(@NotNull String ddevAction, @NotNull Project project) {
+        return new GeneralCommandLine("ddev", ddevAction)
+                .withWorkDirectory(project.getBasePath())
+                .withEnvironment("DDEV_NONINTERACTIVE", "true");
     }
 }

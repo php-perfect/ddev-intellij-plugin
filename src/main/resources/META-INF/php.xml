@@ -1,9 +1,0 @@
-<idea-plugin>
-    <!--<depends>org.jetbrains.plugins.phpstorm-remote-interpreter</depends>
-  <depends>org.jetbrains.plugins.phpstorm-docker</depends>-->
-
-    <extensions defaultExtensionNs="com.intellij.remote">
-        <!--  <credentialsLanguageContribution implementation="de.php_perfect.intellij.ddev.php.DdevCredentialsPhpContribution"/>
-          <credentialsType implementation="de.php_perfect.intellij.ddev.php.DdevCredentialsType"/> -->
-    </extensions>
-</idea-plugin>

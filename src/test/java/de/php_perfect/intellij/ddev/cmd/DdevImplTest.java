@@ -26,8 +26,7 @@ public class DdevImplTest extends BasePlatformTestCase {
         MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
         mockProcessExecutor.addProcessOutput("ddev version --json-output", processOutput);
 
-        DdevImpl ddevImpl = new DdevImpl(getProject());
-        Assertions.assertEquals(expected, ddevImpl.version());
+        Assertions.assertEquals(expected, new DdevImpl().version(getProject()));
     }
 
     @Test
@@ -39,7 +38,6 @@ public class DdevImplTest extends BasePlatformTestCase {
         MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
         mockProcessExecutor.addProcessOutput("ddev describe --json-output", processOutput);
 
-        DdevImpl ddevImpl = new DdevImpl(getProject());
-        Assertions.assertEquals(expected, ddevImpl.describe());
+        Assertions.assertEquals(expected, new DdevImpl().describe(getProject()));
     }
 }

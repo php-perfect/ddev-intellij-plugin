@@ -4,16 +4,9 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
-import de.php_perfect.intellij.ddev.cmd.DdevRunner;
 import org.jetbrains.annotations.NotNull;
 
 abstract class DdevRunAction extends AnAction implements DumbAware {
-    private final String ddevAction;
-
-    public DdevRunAction(@NotNull String ddevAction) {
-        this.ddevAction = ddevAction;
-    }
-
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         final Project project = e.getProject();
@@ -22,10 +15,8 @@ abstract class DdevRunAction extends AnAction implements DumbAware {
             return;
         }
 
-        DdevRunner.getInstance(project).runDdev(this.ddevAction);
+        this.run(project);
     }
-
-    abstract protected boolean isActive(@NotNull Project project);
 
     @Override
     public void update(@NotNull AnActionEvent e) {
@@ -38,4 +29,8 @@ abstract class DdevRunAction extends AnAction implements DumbAware {
 
         e.getPresentation().setEnabled(this.isActive(project));
     }
+
+    abstract protected void run(@NotNull Project project);
+
+    abstract protected boolean isActive(@NotNull Project project);
 }

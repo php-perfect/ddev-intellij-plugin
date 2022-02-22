@@ -134,6 +134,10 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
     }
 
     private @NotNull @NlsContexts.StatusBarText String buildStatusMessage(Description.Status status) {
+        if (status == null) {
+            return DdevIntegrationBundle.message("status.UNDEFINED");
+        }
+
         return DdevIntegrationBundle.message("status." + status);
     }
 }

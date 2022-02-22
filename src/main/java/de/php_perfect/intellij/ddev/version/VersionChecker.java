@@ -6,8 +6,8 @@ import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.cmd.Versions;
-import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import de.php_perfect.intellij.ddev.notification.DdevNotifier;
+import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,11 +37,18 @@ public final class VersionChecker {
                     return;
                 }
 
+                String ddevVersion = versions.getDdevVersion();
+
+                if (ddevVersion == null) {
+                    // @todo Suggestion to install?
+                    return;
+                }
+
                 progressIndicator.checkCanceled();
 
                 try {
                     final LatestRelease latestRelease = GithubClient.getInstance().loadCurrentVersion(progressIndicator);
-                    final ComparableVersion currentVersion = new ComparableVersion(versions.getDdevVersion());
+                    final ComparableVersion currentVersion = new ComparableVersion(ddevVersion);
                     final ComparableVersion latestVersion = new ComparableVersion(latestRelease.getTagName());
 
                     progressIndicator.checkCanceled();

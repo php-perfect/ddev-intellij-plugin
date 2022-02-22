@@ -79,7 +79,7 @@ public final class DdevStateManagerImpl implements DdevStateManager, Disposable 
 
     private void loadVersion() {
         try {
-            this.state.setVersions(Ddev.getInstance(this.project).version());
+            this.state.setVersions(Ddev.getInstance().version(this.project));
         } catch (CommandFailedException ignored) {
             this.state.setVersions(null);
         }
@@ -92,7 +92,7 @@ public final class DdevStateManagerImpl implements DdevStateManager, Disposable 
         }
 
         try {
-            Description newDescription = Ddev.getInstance(this.project).describe();
+            Description newDescription = Ddev.getInstance().describe(this.project);
             Description currentDescription = this.state.getDescription();
 
             if (currentDescription == null || currentDescription.hashCode() != newDescription.hashCode()) {

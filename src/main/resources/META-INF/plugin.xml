@@ -10,14 +10,17 @@
         Features:
         <ul>
           <li>Run DDEV actions via GUI</li>
+          <li>Quick access to DDEV Services</li>
+          <li>Code completion for DDEV config</li>
           <li>Get notified about DDEV updates</li>
+          <li>And much more</li>
         </ul>
     </p>
     ]]></description>
 
     <idea-version since-build="213"/>
     <depends>com.intellij.modules.platform</depends>
-    <depends config-file="php.xml" optional="true">com.jetbrains.php</depends>
+    <depends config-file="DdevIntegration-withPhp.xml" optional="true">com.jetbrains.php</depends>
 
     <resource-bundle>messages.DdevIntegrationBundle</resource-bundle>
 
@@ -28,6 +31,7 @@
 
     <extensionPoints>
         <extensionPoint name="ddevAwareActivity" interface="de.php_perfect.intellij.ddev.DdevAwareActivity"/>
+        <extensionPoint name="phpVersionProvider" interface="de.php_perfect.intellij.ddev.PhpVersionProvider"/>
     </extensionPoints>
 
     <extensions defaultExtensionNs="de.php_perfect.intellij.ddev">
@@ -45,15 +49,17 @@
                             testServiceImplementation="de.php_perfect.intellij.ddev.cmd.MockProcessExecutor"/>
         <applicationService serviceImplementation="de.php_perfect.intellij.ddev.config.SchemaProviderImpl"
                             serviceInterface="de.php_perfect.intellij.ddev.config.SchemaProvider"/>
+        <applicationService serviceImplementation="de.php_perfect.intellij.ddev.cmd.DdevImpl"
+                            serviceInterface="de.php_perfect.intellij.ddev.cmd.Ddev"/>
+        <applicationService serviceImplementation="de.php_perfect.intellij.ddev.cmd.DdevRunnerImpl"
+                            serviceInterface="de.php_perfect.intellij.ddev.cmd.DdevRunner"/>
 
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.notification.DdevNotifierImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.notification.DdevNotifier"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.state.DdevStateManagerImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.state.DdevStateManager"/>
-        <projectService serviceImplementation="de.php_perfect.intellij.ddev.cmd.DdevImpl"
-                        serviceInterface="de.php_perfect.intellij.ddev.cmd.Ddev"/>
-        <projectService serviceImplementation="de.php_perfect.intellij.ddev.cmd.DdevRunnerImpl"
-                        serviceInterface="de.php_perfect.intellij.ddev.cmd.DdevRunner"/>
+        <projectService serviceImplementation="de.php_perfect.intellij.ddev.cmd.RunnerImpl"
+                        serviceInterface="de.php_perfect.intellij.ddev.cmd.Runner"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.serviceActions.ServiceActionManagerImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.serviceActions.ServiceActionManager"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.settings.DdevSettingsState"/>
