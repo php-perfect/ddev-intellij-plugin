@@ -26,7 +26,7 @@ public final class ServiceActionManagerImpl implements ServiceActionManager, Dis
     private static final @NotNull Logger LOGGER = Logger.getLogger(ServiceActionManagerImpl.class.getName(), DdevIntegrationBundle.getName());
     private static final @NotNull String ACTION_PREFIX = "DdevIntegration.Services.";
 
-    private final @NotNull Map<@NotNull String, @NotNull AnAction> actionMap = new HashMap<String, AnAction>();
+    private final @NotNull Map<@NotNull String, @NotNull AnAction> actionMap = new HashMap<>();
 
     public synchronized AnAction @NotNull [] getServiceActions() {
         return this.actionMap.values().toArray(new AnAction[0]);
@@ -42,6 +42,9 @@ public final class ServiceActionManagerImpl implements ServiceActionManager, Dis
 
         final Map<@NotNull String, @NotNull AnAction> newActionsMap = new HashMap<>();
         final Map<String, Service> serviceMap = state.getDescription().getServices();
+        if (description.getMailHogHttpsUrl() != null || description.getMailHogHttpUrl() != null) {
+            serviceMap.put("mailhog", new Service("ddev-config-test-mailhog", description.getMailHogHttpsUrl(), description.getMailHogHttpUrl()));
+        }
 
         for (Map.Entry<String, Service> entry : serviceMap.entrySet()) {
             String fullName = entry.getValue().getFullName();
@@ -94,6 +97,8 @@ public final class ServiceActionManagerImpl implements ServiceActionManager, Dis
                 return DdevIntegrationBundle.message("action.services.open.dba");
             case "web":
                 return DdevIntegrationBundle.message("action.services.open.web");
+            case "mailhog":
+                return DdevIntegrationBundle.message("action.services.open.mailHog");
             default:
                 return DdevIntegrationBundle.message("action.services.open.any", fullName);
         }

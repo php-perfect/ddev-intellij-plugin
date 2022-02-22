@@ -8,6 +8,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import org.jetbrains.annotations.NotNull;
 
+// todo: Remove this prototype
 @Service(Service.Level.PROJECT)
 public final class DdevConfigService implements Disposable {
 
