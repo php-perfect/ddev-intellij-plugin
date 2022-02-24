@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 
 public class DdevImplTest extends BasePlatformTestCase {
@@ -18,10 +21,10 @@ public class DdevImplTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void version() throws CommandFailedException {
+    public void version() throws CommandFailedException, IOException {
         Versions expected = new Versions("v1.19.0");
 
-        ProcessOutput processOutput = new ProcessOutput(StringUtils.fileContentsToString("src/test/resources/ddev_version.json"), "", 0, false, false);
+        ProcessOutput processOutput = new ProcessOutput(Files.readString(Path.of("src/test/resources/ddev_version.json")), "", 0, false, false);
 
         MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
         mockProcessExecutor.addProcessOutput("ddev version --json-output", processOutput);
@@ -30,10 +33,10 @@ public class DdevImplTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void describe() throws CommandFailedException {
+    public void describe() throws CommandFailedException, IOException {
         Description expected = new Description("8.1", Description.Status.STOPPED, null, null, new HashMap<>());
 
-        ProcessOutput processOutput = new ProcessOutput(StringUtils.fileContentsToString("src/test/resources/ddev_describe.json"), "", 0, false, false);
+        ProcessOutput processOutput = new ProcessOutput(Files.readString(Path.of("src/test/resources/ddev_describe.json")), "", 0, false, false);
 
         MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
         mockProcessExecutor.addProcessOutput("ddev describe --json-output", processOutput);
