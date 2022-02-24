@@ -28,12 +28,16 @@ public class Description {
 
     private final @Nullable Map<String, Service> services;
 
-    public Description(@Nullable String phpVersion, @Nullable Status status, @Nullable String mailhogHttpsUrl, @Nullable String mailhogHttpUrl, @Nullable Map<String, Service> services) {
+    @SerializedName("dbinfo")
+    private final @Nullable DatabaseInfo databaseInfo;
+
+    public Description(@Nullable String phpVersion, @Nullable Status status, @Nullable String mailHogHttpsUrl, @Nullable String mailHogHttpUrl, @Nullable Map<String, Service> services, @Nullable DatabaseInfo databaseInfo) {
         this.phpVersion = phpVersion;
         this.status = status;
-        this.mailHogHttpsUrl = mailhogHttpsUrl;
-        this.mailHogHttpUrl = mailhogHttpUrl;
+        this.mailHogHttpsUrl = mailHogHttpsUrl;
+        this.mailHogHttpUrl = mailHogHttpUrl;
         this.services = services;
+        this.databaseInfo = databaseInfo;
     }
 
     public @Nullable String getPhpVersion() {
@@ -60,21 +64,32 @@ public class Description {
         return this.services;
     }
 
+    public @Nullable DatabaseInfo getDatabaseInfo() {
+        return databaseInfo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Description)) return false;
         Description that = (Description) o;
-        return Objects.equals(getPhpVersion(), that.getPhpVersion()) && Objects.equals(getStatus(), that.getStatus()) && Objects.equals(getServices(), that.getServices());
+        return Objects.equals(phpVersion, that.phpVersion) && status == that.status && Objects.equals(mailHogHttpsUrl, that.mailHogHttpsUrl) && Objects.equals(mailHogHttpUrl, that.mailHogHttpUrl) && Objects.equals(services, that.services) && Objects.equals(databaseInfo, that.databaseInfo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPhpVersion(), getStatus(), getServices());
+        return Objects.hash(phpVersion, status, mailHogHttpsUrl, mailHogHttpUrl, services, databaseInfo);
     }
 
     @Override
     public String toString() {
-        return "Description{" + "phpVersion='" + phpVersion + '\'' + ", status='" + status + '\'' + ", services=" + services + '}';
+        return "Description{" +
+                "phpVersion='" + phpVersion + '\'' +
+                ", status=" + status +
+                ", mailHogHttpsUrl='" + mailHogHttpsUrl + '\'' +
+                ", mailHogHttpUrl='" + mailHogHttpUrl + '\'' +
+                ", services=" + services +
+                ", databaseInfo=" + databaseInfo +
+                '}';
     }
 }

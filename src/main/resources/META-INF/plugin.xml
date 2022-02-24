@@ -63,6 +63,8 @@
                         serviceInterface="de.php_perfect.intellij.ddev.cmd.Runner"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.serviceActions.ServiceActionManagerImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.serviceActions.ServiceActionManager"/>
+        <projectService serviceImplementation="de.php_perfect.intellij.ddev.database.DataSourceGeneratorImpl"
+                        serviceInterface="de.php_perfect.intellij.ddev.database.DataSourceGenerator"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.settings.DdevSettingsState"/>
 
         <projectConfigurable parentId="tools" instance="de.php_perfect.intellij.ddev.settings.DdevSettingsConfigurable"
