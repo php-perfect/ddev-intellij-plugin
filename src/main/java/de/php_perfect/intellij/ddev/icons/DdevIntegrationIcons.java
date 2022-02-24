@@ -1,4 +1,4 @@
-package icons;
+package de.php_perfect.intellij.ddev.icons;
 
 import com.intellij.ui.IconManager;
 import org.jetbrains.annotations.NotNull;

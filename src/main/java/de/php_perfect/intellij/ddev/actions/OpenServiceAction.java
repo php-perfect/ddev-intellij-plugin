@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.net.URL;
 
-public class OpenServiceAction extends DumbAwareAction {
+public final class OpenServiceAction extends DumbAwareAction {
     private final @NotNull URL url;
 
     public OpenServiceAction(@NotNull URL url, @NotNull @NlsActions.ActionText String text, @Nullable @NlsActions.ActionDescription String description, @Nullable Icon icon) {

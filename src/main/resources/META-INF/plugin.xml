@@ -21,6 +21,7 @@
     <idea-version since-build="213"/>
     <depends>com.intellij.modules.platform</depends>
     <depends config-file="DdevIntegration-withPhp.xml" optional="true">com.jetbrains.php</depends>
+    <depends config-file="DdevIntegration-withDatabase.xml" optional="true">com.intellij.database</depends>
 
     <resource-bundle>messages.DdevIntegrationBundle</resource-bundle>
 
@@ -42,7 +43,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <notificationGroup id="DdevIntegration" key="notification_group.main" displayType="BALLOON"
-                           icon="DdevIntegrationIcons.DdevLogoColor"/>
+                           icon="de.php_perfect.intellij.ddev.icons.DdevIntegrationIcons.DdevLogoColor"/>
 
         <applicationService serviceImplementation="de.php_perfect.intellij.ddev.cmd.ProcessExecutorImpl"
                             serviceInterface="de.php_perfect.intellij.ddev.cmd.ProcessExecutor"
@@ -78,7 +79,7 @@
     </extensions>
 
     <actions>
-        <group id="DdevIntegration.Run" popup="true" icon="DdevIntegrationIcons.DdevLogoColor">
+        <group id="DdevIntegration.Run" popup="true" icon="de.php_perfect.intellij.ddev.icons.DdevIntegrationIcons.DdevLogoColor">
             <add-to-group group-id="ToolsMenu"/>
             <action id="DdevIntegration.Run.Start" icon="AllIcons.Actions.Execute"
                     class="de.php_perfect.intellij.ddev.actions.DdevStartAction">

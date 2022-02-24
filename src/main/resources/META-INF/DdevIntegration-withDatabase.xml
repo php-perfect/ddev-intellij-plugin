@@ -1,0 +1,5 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="de.php_perfect.intellij.ddev">
+        <ddevAwareActivity implementation="de.php_perfect.intellij.ddev.activities.RegisterDataSourceActivity"/>
+    </extensions>
+</idea-plugin>

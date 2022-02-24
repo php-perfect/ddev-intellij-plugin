@@ -8,7 +8,7 @@ import de.php_perfect.intellij.ddev.serviceActions.ServiceActionManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ServicesActionGroup extends ActionGroup implements DumbAware {
+public final class ServicesActionGroup extends ActionGroup implements DumbAware {
     @Override
     public AnAction @NotNull [] getChildren(@Nullable AnActionEvent e) {
 

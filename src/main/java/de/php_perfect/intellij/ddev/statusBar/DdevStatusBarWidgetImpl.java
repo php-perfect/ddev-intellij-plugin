@@ -23,7 +23,7 @@ import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import de.php_perfect.intellij.ddev.cmd.Description;
 import de.php_perfect.intellij.ddev.event.DdevStateChangedNotifier;
 import de.php_perfect.intellij.ddev.state.State;
-import icons.DdevIntegrationIcons;
+import de.php_perfect.intellij.ddev.icons.DdevIntegrationIcons;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

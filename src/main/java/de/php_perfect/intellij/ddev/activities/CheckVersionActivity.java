@@ -22,6 +22,7 @@ public final class CheckVersionActivity implements DdevAwareActivity {
         System.out.println(state.isConfigured());
         System.out.println(state.getDescription());
 
+        // @todo when do we need to call this?
         ServiceActionManager.getInstance(project).updateActionsByState(state);
     }
 }

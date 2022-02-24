@@ -6,7 +6,7 @@ import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import de.php_perfect.intellij.ddev.settings.DdevSettingsState;
 import org.jetbrains.annotations.NotNull;
 
-public class WatchDdevActivity implements DdevAwareActivity {
+public final class WatchDdevActivity implements DdevAwareActivity {
     @Override
     public void runActivity(@NotNull Project project) {
         DdevStateManager ddevConfigurationProvider = DdevStateManager.getInstance(project);
