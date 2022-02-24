@@ -31,7 +31,7 @@ public final class ConfigJsonSchemaProviderFactory implements JsonSchemaProvider
 
             @Override
             public @Nullable VirtualFile getSchemaFile() {
-                return JsonSchemaProviderFactory.getResourceFile(getClass(), "/schema/config.schema.json");
+                return SchemaProvider.getInstance().getSchema();
             }
 
             @Override
