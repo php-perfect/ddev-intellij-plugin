@@ -41,28 +41,14 @@ public final class ServiceActionManagerImpl implements ServiceActionManager, Dis
         }
 
         final Map<@NotNull String, @NotNull AnAction> newActionsMap = new HashMap<>();
-        final Map<String, Service> serviceMap = state.getDescription().getServices();
-        if (description.getMailHogHttpsUrl() != null || description.getMailHogHttpUrl() != null) {
-            serviceMap.put("mailhog", new Service("ddev-config-test-mailhog", description.getMailHogHttpsUrl(), description.getMailHogHttpUrl()));
-        }
+        final Map<String, Service> serviceMap = description.getServices();
 
         for (Map.Entry<String, Service> entry : serviceMap.entrySet()) {
-            String fullName = entry.getValue().getFullName();
-            URL url;
-            try {
-                url = extractServiceUrl(entry.getValue());
-            } catch (MalformedURLException exception) {
-                LOGGER.log(Level.WARNING, String.format("Skipping open action for service %s because of its invalid URL", fullName), exception);
-                continue;
-            }
+            processService(entry.getKey(), entry.getValue(), newActionsMap);
+        }
 
-            if (url == null) {
-                continue;
-            }
-
-            final String actionId = ACTION_PREFIX + fullName;
-            final AnAction action = buildAction(entry.getKey(), url, fullName);
-            newActionsMap.put(actionId, action);
+        if (description.getMailHogHttpsUrl() != null || description.getMailHogHttpUrl() != null) {
+            processService("mailhog", new Service("ddev-config-test-mailhog", description.getMailHogHttpsUrl(), description.getMailHogHttpUrl()), newActionsMap);
         }
 
         ActionManager actionManager = ActionManager.getInstance();
@@ -70,6 +56,25 @@ public final class ServiceActionManagerImpl implements ServiceActionManager, Dis
         synchronized (this) {
             MapValueChanger.apply(this.actionMap, newActionsMap, (String actionId, AnAction action) -> actionManager.unregisterAction(actionId), (String actionId, AnAction action) -> actionManager.registerAction(actionId, action, PLUGIN_ID));
         }
+    }
+
+    private void processService(String name, Service service, Map<@NotNull String, @NotNull AnAction> newActionsMap) {
+        String fullName = service.getFullName();
+        URL url;
+        try {
+            url = extractServiceUrl(service);
+        } catch (MalformedURLException exception) {
+            LOGGER.log(Level.WARNING, String.format("Skipping open action for service %s because of its invalid URL", fullName), exception);
+            return;
+        }
+
+        if (url == null) {
+            return;
+        }
+
+        final String actionId = ACTION_PREFIX + fullName;
+        final AnAction action = buildAction(name, url, fullName);
+        newActionsMap.put(actionId, action);
     }
 
     private @Nullable URL extractServiceUrl(Service service) throws MalformedURLException {

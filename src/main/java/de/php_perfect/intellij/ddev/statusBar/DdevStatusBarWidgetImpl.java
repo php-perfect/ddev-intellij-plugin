@@ -20,10 +20,10 @@ import com.intellij.ui.popup.PopupState;
 import com.intellij.util.Consumer;
 import com.intellij.util.messages.MessageBus;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
+import de.php_perfect.intellij.ddev.DdevStateChangedListener;
 import de.php_perfect.intellij.ddev.cmd.Description;
-import de.php_perfect.intellij.ddev.event.DdevStateChangedNotifier;
-import de.php_perfect.intellij.ddev.state.State;
 import de.php_perfect.intellij.ddev.icons.DdevIntegrationIcons;
+import de.php_perfect.intellij.ddev.state.State;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -58,7 +58,7 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
 
         Disposer.register(statusBar, this);
         MessageBus messageBus = ApplicationManager.getApplication().getMessageBus();
-        messageBus.connect(this).subscribe(DdevStateChangedNotifier.DDEV_CHANGED, this::updateComponent);
+        messageBus.connect(this).subscribe(DdevStateChangedListener.DDEV_CHANGED, this::updateComponent);
     }
 
     @Override

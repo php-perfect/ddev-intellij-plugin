@@ -2,7 +2,6 @@ package de.php_perfect.intellij.ddev.activities;
 
 import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.DdevAwareActivity;
-import de.php_perfect.intellij.ddev.serviceActions.ServiceActionManager;
 import de.php_perfect.intellij.ddev.settings.DdevSettingsState;
 import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import de.php_perfect.intellij.ddev.state.State;
@@ -21,8 +20,5 @@ public final class CheckVersionActivity implements DdevAwareActivity {
         System.out.println(state.getVersions());
         System.out.println(state.isConfigured());
         System.out.println(state.getDescription());
-
-        // @todo when do we need to call this?
-        ServiceActionManager.getInstance(project).updateActionsByState(state);
     }
 }

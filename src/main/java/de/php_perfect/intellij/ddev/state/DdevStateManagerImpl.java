@@ -6,11 +6,11 @@ import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.concurrency.AppExecutorUtil;
 import com.intellij.util.messages.MessageBus;
+import de.php_perfect.intellij.ddev.DdevInitialisedListener;
+import de.php_perfect.intellij.ddev.DdevStateChangedListener;
 import de.php_perfect.intellij.ddev.cmd.CommandFailedException;
 import de.php_perfect.intellij.ddev.cmd.Ddev;
 import de.php_perfect.intellij.ddev.cmd.Description;
-import de.php_perfect.intellij.ddev.event.DdevInitialisedNotifier;
-import de.php_perfect.intellij.ddev.event.DdevStateChangedNotifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,7 +41,7 @@ public final class DdevStateManagerImpl implements DdevStateManager, Disposable 
             this.loadStatus();
 
             MessageBus messageBus = ApplicationManager.getApplication().getMessageBus();
-            DdevInitialisedNotifier publisher = messageBus.syncPublisher(DdevInitialisedNotifier.DDEV_INITIALISED);
+            DdevInitialisedListener publisher = messageBus.syncPublisher(DdevInitialisedListener.DDEV_INITIALISED);
             publisher.onDdevInitialised(this.project);
         });
     }
@@ -97,13 +97,16 @@ public final class DdevStateManagerImpl implements DdevStateManager, Disposable 
 
             if (currentDescription == null || currentDescription.hashCode() != newDescription.hashCode()) {
                 this.state.setDescription(newDescription);
-
-                MessageBus messageBus = ApplicationManager.getApplication().getMessageBus();
-                DdevStateChangedNotifier publisher = messageBus.syncPublisher(DdevStateChangedNotifier.DDEV_CHANGED);
-                publisher.onDdevChanged(this.state);
+                fireDdevChanged();
             }
         } catch (CommandFailedException ignored) {
             this.state.setDescription(null);
         }
+    }
+
+    private void fireDdevChanged() {
+        MessageBus messageBus = ApplicationManager.getApplication().getMessageBus();
+        DdevStateChangedListener publisher = messageBus.syncPublisher(DdevStateChangedListener.DDEV_CHANGED);
+        publisher.onDdevChanged(this.state);
     }
 }
