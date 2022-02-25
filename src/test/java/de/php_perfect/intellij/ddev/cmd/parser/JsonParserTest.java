@@ -2,12 +2,14 @@ package de.php_perfect.intellij.ddev.cmd.parser;
 
 import de.php_perfect.intellij.ddev.cmd.Description;
 import de.php_perfect.intellij.ddev.cmd.Versions;
-import org.apache.velocity.util.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class JsonParserTest {
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
+public class JsonParserTest {
     @Test
     public void testParseValidJson() throws JsonParserException {
         TestObject expected = new TestObject();
@@ -40,16 +42,16 @@ public class JsonParserTest {
     }
 
     @Test
-    public void parseStatusSuccessfully() throws JsonParserException {
-        String json = StringUtils.fileContentsToString("src/test/resources/ddev_describe.json");
+    public void parseStatusSuccessfully() throws JsonParserException, IOException {
+        String json = Files.readString(Path.of("src/test/resources/ddev_describe.json"));
         Description actual = new JsonParser().parse(json, Description.class);
 
         Assertions.assertEquals("8.1", actual.getPhpVersion());
     }
 
     @Test
-    public void parseVersionSuccessfully() throws JsonParserException {
-        String json = StringUtils.fileContentsToString("src/test/resources/ddev_version.json");
+    public void parseVersionSuccessfully() throws JsonParserException, IOException {
+        String json = Files.readString(Path.of("src/test/resources/ddev_version.json"));
         Versions actual = new JsonParser().parse(json, Versions.class);
 
         Assertions.assertEquals("v1.19.0", actual.getDdevVersion());
