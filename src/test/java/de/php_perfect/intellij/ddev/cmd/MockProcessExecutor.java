@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MockProcessExecutor implements ProcessExecutor {
+public final class MockProcessExecutor implements ProcessExecutor {
     private final Map<String, ProcessOutput> processList = new HashMap<>();
 
     public void addProcessOutput(@NotNull String command, @NotNull ProcessOutput processOutput) {

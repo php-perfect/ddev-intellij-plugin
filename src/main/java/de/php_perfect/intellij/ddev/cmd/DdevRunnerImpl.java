@@ -1,6 +1,7 @@
 package de.php_perfect.intellij.ddev.cmd;
 
 import com.intellij.execution.configurations.GeneralCommandLine;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
@@ -17,42 +18,42 @@ public final class DdevRunnerImpl implements DdevRunner {
     public void start(@NotNull Project project) {
         final String title = DdevIntegrationBundle.message("ddev.run.start");
         final Runner runner = Runner.getInstance(project);
-        runner.run(this.createCommandLine("start", project), title, DdevStateManager.getInstance(project)::updateState);
+        runner.run(this.createCommandLine("start", project), title, () -> this.updateDescription(project));
     }
 
     @Override
     public void restart(@NotNull Project project) {
         final String title = DdevIntegrationBundle.message("ddev.run.restart");
         final Runner runner = Runner.getInstance(project);
-        runner.run(this.createCommandLine("restart", project), title, DdevStateManager.getInstance(project)::updateState);
+        runner.run(this.createCommandLine("restart", project), title, () -> this.updateDescription(project));
     }
 
     @Override
     public void stop(@NotNull Project project) {
         final String title = DdevIntegrationBundle.message("ddev.run.stop");
         final Runner runner = Runner.getInstance(project);
-        runner.run(this.createCommandLine("stop", project), title, DdevStateManager.getInstance(project)::updateState);
+        runner.run(this.createCommandLine("stop", project), title, () -> this.updateDescription(project));
     }
 
     @Override
     public void powerOff(@NotNull Project project) {
         final String title = DdevIntegrationBundle.message("ddev.run.powerOff");
         final Runner runner = Runner.getInstance(project);
-        runner.run(this.createCommandLine("poweroff", project), title, DdevStateManager.getInstance(project)::updateState);
+        runner.run(this.createCommandLine("poweroff", project), title, () -> this.updateDescription(project));
     }
 
     @Override
     public void delete(@NotNull Project project) {
         final String title = DdevIntegrationBundle.message("ddev.run.delete");
         final Runner runner = Runner.getInstance(project);
-        runner.run(this.createCommandLine("delete", project), title, DdevStateManager.getInstance(project)::updateState);
+        runner.run(this.createCommandLine("delete", project), title, () -> this.updateDescription(project));
     }
 
     @Override
     public void share(@NotNull Project project) {
         final String title = DdevIntegrationBundle.message("ddev.run.share");
         final Runner runner = Runner.getInstance(project);
-        runner.run(this.createCommandLine("share", project), title, DdevStateManager.getInstance(project)::updateState);
+        runner.run(this.createCommandLine("share", project), title, () -> this.updateDescription(project));
     }
 
     @Override
@@ -70,9 +71,13 @@ public final class DdevRunnerImpl implements DdevRunner {
                         FileEditorManager.getInstance(project).openFile(ddevConfig, true);
                     }
 
-                    DdevStateManager.getInstance(project).updateState();
+                    this.updateDescription(project);
                 })
         );
+    }
+
+    private void updateDescription(Project project) {
+        ApplicationManager.getApplication().executeOnPooledThread(() -> DdevStateManager.getInstance(project).updateDescription());
     }
 
     private @NotNull GeneralCommandLine buildConfigCommandLine(@NotNull Project project) {

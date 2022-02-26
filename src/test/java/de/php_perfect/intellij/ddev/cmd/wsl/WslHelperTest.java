@@ -1,10 +1,9 @@
 package de.php_perfect.intellij.ddev.cmd.wsl;
 
-import de.php_perfect.intellij.ddev.cmd.wsl.WslHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class WslHelperTest {
+final class WslHelperTest {
     @Test
     public void testDetectWslPath() {
         String workspace = "//wsl$/Ubuntu/home/nl/projects/acol";

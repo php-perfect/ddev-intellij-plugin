@@ -26,10 +26,8 @@
     <resource-bundle>messages.DdevIntegrationBundle</resource-bundle>
 
     <projectListeners>
-        <listener class="de.php_perfect.intellij.ddev.event.DdevInitialisedActivitiesListener"
-                  topic="de.php_perfect.intellij.ddev.DdevInitialisedListener"/>
         <listener class="de.php_perfect.intellij.ddev.serviceActions.ServiceActionChangedListener"
-                  topic="de.php_perfect.intellij.ddev.DdevStateChangedListener"/>
+                  topic="de.php_perfect.intellij.ddev.DescriptionChangedListener"/>
     </projectListeners>
 
     <extensionPoints>
@@ -61,6 +59,8 @@
                         serviceInterface="de.php_perfect.intellij.ddev.notification.DdevNotifier"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.state.DdevStateManagerImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.state.DdevStateManager"/>
+        <projectService serviceImplementation="de.php_perfect.intellij.ddev.state.StateWatcherImpl"
+                        serviceInterface="de.php_perfect.intellij.ddev.state.StateWatcher"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.cmd.RunnerImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.cmd.Runner"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.serviceActions.ServiceActionManagerImpl"
@@ -75,7 +75,8 @@
 
         <postStartupActivity implementation="de.php_perfect.intellij.ddev.PostStartupActivity"/>
 
-        <statusBarWidgetFactory order="before readOnlyWidget" implementation="de.php_perfect.intellij.ddev.statusBar.DdevStatusBarWidgetFactoryImpl"/>
+        <statusBarWidgetFactory order="before readOnlyWidget"
+                                implementation="de.php_perfect.intellij.ddev.statusBar.DdevStatusBarWidgetFactoryImpl"/>
     </extensions>
 
     <extensions defaultExtensionNs="JavaScript.JsonSchema">

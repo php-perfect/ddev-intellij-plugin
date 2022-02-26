@@ -1,11 +1,11 @@
 package de.php_perfect.intellij.ddev.database;
 
 import com.intellij.database.dataSource.*;
+import com.intellij.database.introspection.DBIntrospectionOptions;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.cmd.DatabaseInfo;
 import de.php_perfect.intellij.ddev.cmd.Description;
-import de.php_perfect.intellij.ddev.state.State;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,8 +16,7 @@ public class DataSourceGeneratorImpl implements DataSourceGenerator {
         this.project = project;
     }
 
-    public void generateDataSource(@NotNull State ddevState) {
-        Description description = ddevState.getDescription();
+    public void generateDataSource(@Nullable Description description) {
         if (description == null) {
             return;
         }
@@ -39,6 +38,8 @@ public class DataSourceGeneratorImpl implements DataSourceGenerator {
 
         String connectionUrl = this.getDsnByDatabaseType(databaseInfo);
         LocalDataSource dataSource = buildDataSourceFromDriverAndUrl(driver, connectionUrl);
+        dataSource.setCheckOutdated(true);
+        dataSource.setSourceLoading(DBIntrospectionOptions.SourceLoading.USER_AND_SYSTEM_SOURCES);
 
         registerDataSource(dataSource);
     }

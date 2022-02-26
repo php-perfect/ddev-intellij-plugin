@@ -4,7 +4,6 @@ import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
@@ -54,11 +53,9 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
     public void install(@NotNull StatusBar statusBar) {
         assert statusBar.getProject() == null || statusBar.getProject().equals(this.project) : "Cannot install widget from one project on status bar of another project";
         this.statusBar = statusBar;
+        Disposer.register(this.statusBar, this);
         this.clickListener = new StatusBarWidgetWrapper.StatusBarWidgetClickListener(this.getClickConsumer());
-
-        Disposer.register(statusBar, this);
-        MessageBus messageBus = ApplicationManager.getApplication().getMessageBus();
-        messageBus.connect(this).subscribe(DdevStateChangedListener.DDEV_CHANGED, this::updateComponent);
+        registerUpdateListener();
     }
 
     @Override
@@ -73,6 +70,18 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
     @Override
     public void dispose() {
         this.statusBar = null;
+    }
+
+    private void registerUpdateListener() {
+        MessageBus messageBus = this.project.getMessageBus();
+        messageBus.connect(this).subscribe(DdevStateChangedListener.DDEV_CHANGED, new StatusBarUpdateListener());
+    }
+
+    private final class StatusBarUpdateListener implements DdevStateChangedListener {
+        @Override
+        public void onDdevChanged(State state) {
+            DdevStatusBarWidgetImpl.this.updateComponent(state);
+        }
     }
 
     private Consumer<MouseEvent> getClickConsumer() {

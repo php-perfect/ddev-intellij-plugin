@@ -9,7 +9,6 @@ import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import de.php_perfect.intellij.ddev.actions.OpenServiceAction;
 import de.php_perfect.intellij.ddev.cmd.Description;
 import de.php_perfect.intellij.ddev.cmd.Service;
-import de.php_perfect.intellij.ddev.state.State;
 import de.php_perfect.intellij.ddev.util.MapValueChanger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,9 +32,7 @@ public final class ServiceActionManagerImpl implements ServiceActionManager, Dis
     }
 
     @Override
-    public void updateActionsByState(@NotNull State state) {
-        final Description description = state.getDescription();
-
+    public void updateActionsByDescription(@Nullable Description description) {
         if (description == null) {
             return;
         }

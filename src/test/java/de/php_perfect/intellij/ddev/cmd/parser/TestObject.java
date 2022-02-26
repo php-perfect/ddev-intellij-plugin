@@ -2,7 +2,7 @@ package de.php_perfect.intellij.ddev.cmd.parser;
 
 import java.util.Objects;
 
-public class TestObject {
+final class TestObject {
     public String foo;
 
     @Override

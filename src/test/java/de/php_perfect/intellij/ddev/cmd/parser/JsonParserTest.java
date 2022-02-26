@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class JsonParserTest {
+final class JsonParserTest {
     @Test
     public void testParseValidJson() throws JsonParserException {
         TestObject expected = new TestObject();

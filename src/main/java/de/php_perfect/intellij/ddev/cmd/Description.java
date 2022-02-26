@@ -71,7 +71,7 @@ public class Description {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Description)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Description that = (Description) o;
         return Objects.equals(phpVersion, that.phpVersion) && status == that.status && Objects.equals(mailHogHttpsUrl, that.mailHogHttpsUrl) && Objects.equals(mailHogHttpUrl, that.mailHogHttpUrl) && Objects.equals(services, that.services) && Objects.equals(databaseInfo, that.databaseInfo);
     }

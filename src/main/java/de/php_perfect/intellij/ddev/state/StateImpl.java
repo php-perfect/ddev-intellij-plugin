@@ -4,6 +4,7 @@ import de.php_perfect.intellij.ddev.cmd.Description;
 import de.php_perfect.intellij.ddev.cmd.Versions;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -60,5 +61,23 @@ final class StateImpl implements State {
         } finally {
             this.readWriteLock.writeLock().unlock();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StateImpl state = (StateImpl) o;
+        return Objects.equals(getVersions(), state.getVersions()) && Objects.equals(getDescription(), state.getDescription());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getVersions(), getDescription());
+    }
+
+    @Override
+    public String toString() {
+        return "StateImpl{" + "versions=" + versions + ", description=" + description + '}';
     }
 }
