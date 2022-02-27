@@ -9,6 +9,8 @@ public interface DdevStateManager {
 
     void initialize(@Nullable Runnable afterInit);
 
+    void updateVersion();
+
     void updateDescription();
 
     static DdevStateManager getInstance(@NotNull Project project) {

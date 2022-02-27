@@ -5,6 +5,8 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 
 public interface Ddev {
+    boolean isInstalled(@NotNull Project project) throws CommandFailedException;
+
     @NotNull Versions version(@NotNull Project project) throws CommandFailedException;
 
     @NotNull Description describe(@NotNull Project project) throws CommandFailedException;

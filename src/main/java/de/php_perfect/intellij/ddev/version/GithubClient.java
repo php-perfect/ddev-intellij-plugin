@@ -9,7 +9,6 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.util.io.HttpRequests;
 import com.intellij.util.io.RequestBuilder;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 
@@ -17,13 +16,12 @@ import java.io.IOException;
 public final class GithubClient {
     private final static @NotNull String RELEASE_URL = "https://github.com/drud/ddev/releases/latest";
 
-    public LatestRelease loadCurrentVersion(@Nullable ProgressIndicator indicator) throws IOException {
+    public LatestRelease loadCurrentVersion(@NotNull ProgressIndicator indicator) throws IOException {
         final RequestBuilder requestBuilder = HttpRequests.request(RELEASE_URL).accept("application/json").redirectLimit(1);
-
+        indicator.checkCanceled();
         return createParser().fromJson(requestBuilder.readString(indicator), LatestRelease.class);
     }
 
-    @NotNull
     private Gson createParser() {
         return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
     }

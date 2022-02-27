@@ -3,6 +3,7 @@ package de.php_perfect.intellij.ddev.settings;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
+import de.php_perfect.intellij.ddev.notification.DdevNotifier;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,6 +50,7 @@ public final class DdevSettingsConfigurable implements Configurable {
         DdevSettingsState settings = DdevSettingsState.getInstance(this.project);
         settings.checkForUpdates = this.ddevSettingsComponent.getCheckForUpdatedStatus();
         settings.watchDdev = this.ddevSettingsComponent.getWatchDdevCheckboxStatus();
+        DdevNotifier.getInstance(this.project).asyncNotifyRestartAfterSettingsChange();
     }
 
     @Override

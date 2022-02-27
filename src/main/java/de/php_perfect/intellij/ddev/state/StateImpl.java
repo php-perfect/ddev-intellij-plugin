@@ -9,15 +9,21 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 final class StateImpl implements State {
-    private @Nullable Versions versions;
+    private @Nullable Versions versions = null;
 
-    private @Nullable Description description;
+    private @Nullable Description description = null;
+
+    private boolean isInstalled = false;
 
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
     @Override
     public boolean isInstalled() {
-        return this.getVersions() != null;
+        return this.isInstalled;
+    }
+
+    public void setInstalled(boolean installed) {
+        isInstalled = installed;
     }
 
     @Override

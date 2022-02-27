@@ -2,6 +2,7 @@ package de.php_perfect.intellij.ddev.state;
 
 import com.intellij.execution.process.ProcessOutput;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.util.SystemInfo;
 import com.intellij.testFramework.fixtures.BasePlatformTestCase;
 import de.php_perfect.intellij.ddev.cmd.Description;
 import de.php_perfect.intellij.ddev.cmd.MockProcessExecutor;
@@ -26,12 +27,19 @@ final class DdevStateManagerImplTest extends BasePlatformTestCase {
 
     @Test
     void initialize() {
-        AtomicBoolean runnableExecuted = new AtomicBoolean(false);
-        DdevStateManager ddevStateManager = DdevStateManager.getInstance(this.getProject());
+        String expectedWhich = "which";
+        if (SystemInfo.isWindows) {
+            expectedWhich = "where";
+        }
+
+        MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
+        mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", new ProcessOutput(0));
 
         this.prepareCommand("ddev version --json-output", "src/test/resources/ddev_version.json");
         this.prepareCommand("ddev describe --json-output", "src/test/resources/ddev_describe.json");
 
+        DdevStateManager ddevStateManager = DdevStateManager.getInstance(this.getProject());
+        AtomicBoolean runnableExecuted = new AtomicBoolean(false);
         ddevStateManager.initialize(() -> runnableExecuted.set(true));
 
         StateImpl expectedState = new StateImpl();
@@ -44,11 +52,18 @@ final class DdevStateManagerImplTest extends BasePlatformTestCase {
 
     @Test
     void updateDescription() {
-        DdevStateManager ddevStateManager = DdevStateManager.getInstance(this.getProject());
+        String expectedWhich = "which";
+        if (SystemInfo.isWindows) {
+            expectedWhich = "where";
+        }
+
+        MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
+        mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", new ProcessOutput(0));
 
         this.prepareCommand("ddev version --json-output", "src/test/resources/ddev_version.json");
         this.prepareCommand("ddev describe --json-output", "src/test/resources/ddev_describe.json");
 
+        DdevStateManager ddevStateManager = DdevStateManager.getInstance(this.getProject());
         ddevStateManager.initialize(null);
 
         StateImpl expectedState = new StateImpl();

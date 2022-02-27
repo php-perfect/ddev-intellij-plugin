@@ -4,11 +4,13 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 
 public interface DdevNotifier {
-    void notifyConfigChanged();
+    void asyncNotifyRestartAfterSettingsChange();
 
-    void notifyNewVersionAvailable(@NotNull String currentVersion, @NotNull String newVersion);
+    void asyncNotifyInstallDdev();
 
-    void notifyAlreadyLatestVersion();
+    void asyncNotifyNewVersionAvailable(@NotNull String currentVersion, @NotNull String newVersion);
+
+    void asyncNotifyAlreadyLatestVersion();
 
     static DdevNotifier getInstance(@NotNull Project project) {
         return project.getService(DdevNotifier.class);

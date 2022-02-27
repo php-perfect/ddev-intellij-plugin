@@ -2,6 +2,7 @@ package de.php_perfect.intellij.ddev.cmd;
 
 import com.intellij.execution.process.ProcessOutput;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.util.SystemInfo;
 import com.intellij.testFramework.fixtures.BasePlatformTestCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,36 @@ final class DdevImplTest extends BasePlatformTestCase {
     @BeforeEach
     protected void setUp() throws Exception {
         super.setUp();
+    }
+
+    @Test
+    public void isInstalled() throws CommandFailedException {
+        String expectedWhich = "which";
+        if (SystemInfo.isWindows) {
+            expectedWhich = "where";
+        }
+
+        ProcessOutput processOutput = new ProcessOutput("", "", 0, false, false);
+
+        MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
+        mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", processOutput);
+
+        Assertions.assertTrue(new DdevImpl().isInstalled(getProject()));
+    }
+
+    @Test
+    public void isNotInstalledSuccessfully() throws CommandFailedException {
+        String expectedWhich = "which";
+        if (SystemInfo.isWindows) {
+            expectedWhich = "where";
+        }
+
+        ProcessOutput processOutput = new ProcessOutput("", "", 1, false, false);
+
+        MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
+        mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", processOutput);
+
+        Assertions.assertFalse(new DdevImpl().isInstalled(getProject()));
     }
 
     @Test

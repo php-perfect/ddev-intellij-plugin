@@ -14,6 +14,21 @@ import java.lang.reflect.Type;
 
 public final class DdevImpl implements Ddev {
     private static final @NotNull Logger LOG = Logger.getInstance(ServiceActionManagerImpl.class.getName());
+    private static final @NotNull String DDEV_COMMAND = "ddev";
+
+    @Override
+    public boolean isInstalled(@NotNull Project project) throws CommandFailedException {
+        final String projectDir = project.getBasePath();
+        final GeneralCommandLine commandLine = new GeneralCommandLine(WhichProvider.getWhichCommand(projectDir), DDEV_COMMAND).withWorkDirectory(projectDir);
+
+        try {
+            final ProcessOutput processOutput = ProcessExecutor.getInstance().executeCommandLine(commandLine, 2_000);
+            return processOutput.getExitCode() == 0;
+        } catch (ExecutionException e) {
+            LOG.error(e);
+            return false;
+        }
+    }
 
     public @NotNull Versions version(@NotNull Project project) throws CommandFailedException {
         return execute("version", Versions.class, project);
@@ -47,6 +62,6 @@ public final class DdevImpl implements Ddev {
     }
 
     private @NotNull GeneralCommandLine createDdevCommandLine(String action, String workingDirectory) {
-        return new GeneralCommandLine("ddev", action, "--json-output").withWorkDirectory(workingDirectory).withEnvironment("DDEV_NONINTERACTIVE", "true");
+        return new GeneralCommandLine(DDEV_COMMAND, action, "--json-output").withWorkDirectory(workingDirectory).withEnvironment("DDEV_NONINTERACTIVE", "true");
     }
 }

@@ -39,6 +39,12 @@ public final class DdevStateManagerImpl implements DdevStateManager {
     }
 
     @Override
+    public void updateVersion() {
+        // @todo Events
+        this.loadVersion();
+    }
+
+    @Override
     public void updateDescription() {
         Description newDescription = null;
 
@@ -59,8 +65,18 @@ public final class DdevStateManagerImpl implements DdevStateManager {
     }
 
     private void loadVersion() {
+        Ddev ddev = Ddev.getInstance();
+
         try {
-            this.state.setVersions(Ddev.getInstance().version(this.project));
+            this.state.setInstalled(ddev.isInstalled(this.project));
+        } catch (CommandFailedException ignored) {
+            this.state.setInstalled(false);
+            this.state.setVersions(null);
+            return;
+        }
+
+        try {
+            this.state.setVersions(ddev.version(this.project));
         } catch (CommandFailedException ignored) {
             this.state.setVersions(null);
         }
