@@ -20,6 +20,7 @@
 
     <idea-version since-build="213"/>
     <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.terminal</depends>
     <depends config-file="DdevIntegration-withPhp.xml" optional="true">com.jetbrains.php</depends>
     <depends config-file="DdevIntegration-withDatabase.xml" optional="true">com.intellij.database</depends>
 
@@ -39,6 +40,10 @@
         <ddevAwareActivity implementation="de.php_perfect.intellij.ddev.activities.CheckVersionActivity"/>
         <ddevAwareActivity implementation="de.php_perfect.intellij.ddev.activities.LoadSchemaActivity"/>
         <ddevAwareActivity implementation="de.php_perfect.intellij.ddev.activities.WatchDdevActivity"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="org.jetbrains.plugins.terminal">
+        <openPredefinedTerminalProvider implementation="de.php_perfect.intellij.ddev.terminal.DdevPredefinedTerminalActionProvider"/>
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
@@ -127,5 +132,6 @@
         </group>
         <group id="DdevIntegration.Services" class="de.php_perfect.intellij.ddev.actions.ServicesActionGroup"/>
         <action id="DdevIntegration.CheckVersion" class="de.php_perfect.intellij.ddev.actions.CheckVersionAction"/>
+        <action id="DdevIntegration.Terminal" class="de.php_perfect.intellij.ddev.actions.DdevPredefinedTerminalAction"/>
     </actions>
 </idea-plugin>
