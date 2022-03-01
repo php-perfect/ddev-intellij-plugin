@@ -36,11 +36,11 @@ jobs:
           path: build/distributions/*.zip
 
   tests:
-    runs-on: ubuntu-latest
-#    runs-on: ${{ matrix.os }}
-#      strategy:
-#        matrix:
-#          os: [ ubuntu-latest, macos-latest, windows-latest ]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+#        os: [ ubuntu-latest, macos-latest, windows-latest ]
 
     steps:
       - uses: actions/checkout@v2
@@ -57,19 +57,20 @@ jobs:
       - name: Run tests
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: test --info
+          arguments: test --info jacocoTestReport
 
       ##
       # Upload test reports
       ##
-      - name: Upload HTML test reports
+      - name: Upload HTML test report
         uses: actions/upload-artifact@v2
         with:
-          name: html-report-${{ matrix.os }}
+          name: test-report-${{ matrix.os }}
           path: build/reports/tests/test
 
-      - name: Upload XML test reports
+      - name: Upload HTML test coverage report
+        if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v2
         with:
-          name: xml-report-${{ matrix.os }}
-          path: build/test-results/test
+          name: coverage-report
+          path: build/reports/jacoco/test/html

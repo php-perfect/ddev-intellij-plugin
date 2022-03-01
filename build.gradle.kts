@@ -1,6 +1,7 @@
 plugins {
     id("org.jetbrains.intellij") version "1.3.1"
     java
+    jacoco
 }
 
 group = "de.php_perfect.intellij.ddev"
