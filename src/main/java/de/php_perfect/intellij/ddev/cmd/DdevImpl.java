@@ -56,7 +56,7 @@ public final class DdevImpl implements Ddev {
                 throw new CommandFailedException("Failed to parse output of command " + commandLine.getCommandLineString(), exception);
             }
         } catch (Exception exception) {
-            LOG.info(exception);
+            LOG.error(exception);
             throw exception;
         }
     }

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class StateWatcherImpl implements StateWatcher, Disposable {
+public final class StateWatcherImpl implements StateWatcher, Disposable {
     private @Nullable ScheduledFuture<?> scheduledFuture = null;
 
     private final @NotNull Project project;
@@ -22,7 +22,9 @@ public class StateWatcherImpl implements StateWatcher, Disposable {
     public void startWatching() {
         this.stopWatching();
         this.scheduledFuture = AppExecutorUtil.getAppScheduledExecutorService().scheduleWithFixedDelay(() -> {
-            DdevStateManager.getInstance(this.project).updateDescription();
+            DdevStateManager ddevStateManager = DdevStateManager.getInstance(this.project);
+            ddevStateManager.updateConfiguration();
+            ddevStateManager.updateDescription();
         }, 10L, 10L, TimeUnit.SECONDS);
     }
 

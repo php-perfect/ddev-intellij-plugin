@@ -13,22 +13,28 @@ final class StateImpl implements State {
 
     private @Nullable Description description = null;
 
-    private boolean isInstalled = false;
+    private boolean installed = false;
+
+    private boolean configured = false;
 
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
     @Override
     public boolean isInstalled() {
-        return this.isInstalled;
+        return this.installed;
     }
 
     public void setInstalled(boolean installed) {
-        isInstalled = installed;
+        this.installed = installed;
     }
 
     @Override
     public boolean isConfigured() {
-        return this.getDescription() != null;
+        return this.configured;
+    }
+
+    public void setConfigured(boolean configured) {
+        this.configured = configured;
     }
 
     @Override
@@ -74,16 +80,21 @@ final class StateImpl implements State {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StateImpl state = (StateImpl) o;
-        return Objects.equals(getVersions(), state.getVersions()) && Objects.equals(getDescription(), state.getDescription());
+        return isInstalled() == state.isInstalled() && isConfigured() == state.isConfigured() && Objects.equals(getVersions(), state.getVersions()) && Objects.equals(getDescription(), state.getDescription());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getVersions(), getDescription());
+        return Objects.hash(getVersions(), getDescription(), isInstalled(), isConfigured());
     }
 
     @Override
     public String toString() {
-        return "StateImpl{" + "versions=" + versions + ", description=" + description + '}';
+        return "StateImpl{" +
+                "versions=" + versions +
+                ", description=" + description +
+                ", installed=" + installed +
+                ", configured=" + configured +
+                '}';
     }
 }

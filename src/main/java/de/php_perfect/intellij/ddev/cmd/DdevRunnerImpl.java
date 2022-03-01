@@ -4,11 +4,10 @@ import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import de.php_perfect.intellij.ddev.php.PhpVersion;
+import de.php_perfect.intellij.ddev.state.DdevConfigLoader;
 import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -60,19 +59,15 @@ public final class DdevRunnerImpl implements DdevRunner {
     public void config(@NotNull Project project) {
         final String title = DdevIntegrationBundle.message("ddev.run.config");
         final Runner runner = Runner.getInstance(project);
-        runner.run(
-                this.buildConfigCommandLine(project),
-                title,
-                () -> VirtualFileManager.getInstance().asyncRefresh(() -> {
-                    VirtualFile[] vFiles = ProjectRootManager.getInstance(project).getContentRoots();
-                    VirtualFile ddevConfig = vFiles[0].findFileByRelativePath(".ddev/config.yaml");
+        runner.run(this.buildConfigCommandLine(project), title, () -> {
+                    DdevStateManager.getInstance(project).updateConfiguration();
+                    this.updateDescription(project);
+                    VirtualFile ddevConfig = DdevConfigLoader.getInstance(project).load();
 
                     if (ddevConfig != null && ddevConfig.exists()) {
                         FileEditorManager.getInstance(project).openFile(ddevConfig, true);
                     }
-
-                    this.updateDescription(project);
-                })
+                }
         );
     }
 

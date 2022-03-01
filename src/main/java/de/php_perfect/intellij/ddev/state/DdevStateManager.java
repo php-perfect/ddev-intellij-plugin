@@ -11,6 +11,8 @@ public interface DdevStateManager {
 
     void updateVersion();
 
+    void updateConfiguration();
+
     void updateDescription();
 
     static DdevStateManager getInstance(@NotNull Project project) {

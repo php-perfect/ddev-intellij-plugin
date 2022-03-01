@@ -59,6 +59,9 @@
 
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.notification.DdevNotifierImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.notification.DdevNotifier"/>
+        <projectService serviceImplementation="de.php_perfect.intellij.ddev.state.DdevConfigLoaderImpl"
+                        serviceInterface="de.php_perfect.intellij.ddev.state.DdevConfigLoader"
+                        testServiceImplementation="de.php_perfect.intellij.ddev.state.MockDdevConfigLoader"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.state.DdevStateManagerImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.state.DdevStateManager"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.state.StateWatcherImpl"

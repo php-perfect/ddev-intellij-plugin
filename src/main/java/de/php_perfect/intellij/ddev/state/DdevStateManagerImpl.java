@@ -1,21 +1,17 @@
 package de.php_perfect.intellij.ddev.state;
 
-import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.messages.MessageBus;
 import de.php_perfect.intellij.ddev.DdevStateChangedListener;
 import de.php_perfect.intellij.ddev.DescriptionChangedListener;
 import de.php_perfect.intellij.ddev.cmd.CommandFailedException;
 import de.php_perfect.intellij.ddev.cmd.Ddev;
-import de.php_perfect.intellij.ddev.cmd.Description;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-@Service(Service.Level.PROJECT)
 public final class DdevStateManagerImpl implements DdevStateManager {
-
     private final @NotNull StateImpl state = new StateImpl();
     private final @NotNull Project project;
 
@@ -23,16 +19,20 @@ public final class DdevStateManagerImpl implements DdevStateManager {
         this.project = project;
     }
 
-    @NotNull
     @Override
-    public State getState() {
+    public @NotNull State getState() {
         return state;
     }
 
     @Override
     public void initialize(@Nullable Runnable afterInit) {
-        this.loadVersion();
-        this.updateDescription();
+        this.checkChanged(() -> {
+            this.checkIsInstalled();
+            this.checkVersion();
+            this.checkConfiguration();
+            this.checkDescription();
+        });
+
         if (afterInit != null) {
             afterInit.run();
         }
@@ -40,45 +40,70 @@ public final class DdevStateManagerImpl implements DdevStateManager {
 
     @Override
     public void updateVersion() {
-        // @todo Events
-        this.loadVersion();
+        this.checkChanged(this::checkVersion);
+    }
+
+    @Override
+    public void updateConfiguration() {
+        this.checkChanged(this::checkConfiguration);
     }
 
     @Override
     public void updateDescription() {
-        Description newDescription = null;
+        this.checkChanged(this::checkDescription);
+    }
 
-        if (this.state.isInstalled()) {
-            try {
-                newDescription = Ddev.getInstance().describe(this.project);
-            } catch (CommandFailedException ignored) {
-            }
-        }
+    private void checkChanged(Runnable runnable) {
+        int oldState = this.state.hashCode();
+        int oldDescription = Objects.hashCode(this.state.getDescription());
 
-        if (!Objects.equals(this.state.getDescription(), newDescription)) {
+        runnable.run();
+
+        if (oldState != this.state.hashCode()) {
             MessageBus messageBus = this.project.getMessageBus();
-
-            this.state.setDescription(newDescription);
-            messageBus.syncPublisher(DescriptionChangedListener.DESCRIPTION_CHANGED).onDescriptionChanged(newDescription);
             messageBus.syncPublisher(DdevStateChangedListener.DDEV_CHANGED).onDdevChanged(this.state);
+
+            if (oldDescription != Objects.hashCode(this.state.getDescription())) {
+                messageBus.syncPublisher(DescriptionChangedListener.DESCRIPTION_CHANGED).onDescriptionChanged(this.state.getDescription());
+            }
         }
     }
 
-    private void loadVersion() {
-        Ddev ddev = Ddev.getInstance();
-
+    private void checkIsInstalled() {
         try {
-            this.state.setInstalled(ddev.isInstalled(this.project));
+            this.state.setInstalled(Ddev.getInstance().isInstalled(this.project));
         } catch (CommandFailedException ignored) {
             this.state.setInstalled(false);
+        }
+    }
+
+    private void checkVersion() {
+        if (!this.state.isInstalled()) {
             this.state.setVersions(null);
             return;
         }
 
         try {
-            this.state.setVersions(ddev.version(this.project));
+            this.state.setVersions(Ddev.getInstance().version(this.project));
         } catch (CommandFailedException ignored) {
             this.state.setVersions(null);
+        }
+    }
+
+    private void checkConfiguration() {
+        this.state.setConfigured(DdevConfigLoader.getInstance(this.project).exists());
+    }
+
+    private void checkDescription() {
+        if (!this.state.isInstalled() || !this.state.isConfigured()) {
+            this.state.setDescription(null);
+            return;
+        }
+
+        try {
+            this.state.setDescription(Ddev.getInstance().describe(this.project));
+        } catch (CommandFailedException ignored) {
+            this.state.setDescription(null);
         }
     }
 }
