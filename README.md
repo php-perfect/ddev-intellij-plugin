@@ -2,18 +2,17 @@
   <img alt="Mc-Auth Logo" width="128px" height="auto" src="./src/main/resources/META-INF/pluginIcon.svg">
 </p>
 
+[//]: # (FIXME: Change to correct URL and Image for SonarCloud badges)
 <p align="center">
   <a href="https://github.com/php-perfect/ddev-intellij-plugin/actions/workflows/gradle.yml">
     <img alt="Java CI with Gradle" src="https://github.com/php-perfect/ddev-intellij-plugin/actions/workflows/gradle.yml/badge.svg">
   </a>
 
-[//]: # (FIXME: Change to correct URL and Image)
   <a href="https://sonarcloud.io/summary/new_code?id=Sprax2013_Api.Sprax2013.de">
     <img alt="Quality Gate Status"
          src="https://sonarcloud.io/api/project_badges/measure?project=Sprax2013_Api.Sprax2013.de&metric=alert_status">
   </a>
 
-[//]: # (FIXME: Change to correct URL and Image)
   <a href="https://sonarcloud.io/dashboard?id=Mc-Auth-com_Mc-Auth">
     <img alt="Security Rating"
          src="https://sonarcloud.io/api/project_badges/measure?project=Mc-Auth-com_Mc-Auth&metric=security_rating">
