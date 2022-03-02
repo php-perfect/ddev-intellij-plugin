@@ -8,7 +8,7 @@ import com.intellij.execution.wsl.WslPath;
 import org.jetbrains.annotations.NotNull;
 
 public class WslAware {
-    public static GeneralCommandLine patchCommandLine(GeneralCommandLine commandLine) {
+    public static <T extends GeneralCommandLine> T patchCommandLine(T commandLine) {
         WSLDistribution distribution = WslPath.getDistributionByWindowsUncPath(commandLine.getWorkDirectory().getPath());
 
         if (distribution == null) {
@@ -23,7 +23,7 @@ public class WslAware {
     }
 
     @NotNull
-    private static GeneralCommandLine applyWslPatch(GeneralCommandLine generalCommandLine, WSLDistribution distribution) throws ExecutionException {
+    private static <T extends GeneralCommandLine> T applyWslPatch(T generalCommandLine, WSLDistribution distribution) throws ExecutionException {
         WSLCommandLineOptions options = new WSLCommandLineOptions()
                 .setShellPath("/usr/bin/bash")
                 .setExecuteCommandInLoginShell(true);
