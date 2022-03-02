@@ -4,7 +4,6 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.extensions.ExtensionPointName;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.startup.StartupActivity;
-import com.intellij.testIntegration.TestFramework;
 import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import org.jetbrains.annotations.NotNull;
 

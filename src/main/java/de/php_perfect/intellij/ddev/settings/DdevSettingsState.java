@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public final class DdevSettingsState implements PersistentStateComponent<DdevSettingsState> {
     public boolean checkForUpdates = true;
     public boolean watchDdev = true;
+    public boolean autoConfigureDataSource = true;
 
     public static @NotNull DdevSettingsState getInstance(Project project) {
         return project.getService(DdevSettingsState.class);

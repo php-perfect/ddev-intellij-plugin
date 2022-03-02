@@ -12,6 +12,7 @@ public final class DdevSettingsComponent {
     private final @NotNull JPanel jPanel;
     private final @NotNull JBCheckBox checkForUpdatesCheckbox = new JBCheckBox(DdevIntegrationBundle.message("settings.check_for_updates"));
     private final @NotNull JBCheckBox watchDdevCheckbox = new JBCheckBox(DdevIntegrationBundle.message("settings.watch_ddev"));
+    private final @NotNull JBCheckBox autoConfigureDataSource = new JBCheckBox(DdevIntegrationBundle.message("settings.autoConfigureDataSource"));
 
     public DdevSettingsComponent() {
         final JPanel checkForUpdatesPanel = UI.PanelFactory.panel(this.checkForUpdatesCheckbox).withComment(DdevIntegrationBundle.message("settings.check_for_updates.description")).createPanel();
@@ -20,6 +21,7 @@ public final class DdevSettingsComponent {
         this.jPanel = FormBuilder.createFormBuilder()
                 .addComponent(checkForUpdatesPanel, 1)
                 .addComponent(watchDdevPanel, 1)
+                .addComponent(this.autoConfigureDataSource, 1)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
     }
@@ -42,6 +44,14 @@ public final class DdevSettingsComponent {
 
     public boolean getWatchDdevCheckboxStatus() {
         return this.watchDdevCheckbox.isSelected();
+    }
+
+    public void setAutoConfigureDataSource(boolean newStatus) {
+        this.autoConfigureDataSource.setSelected(newStatus);
+    }
+
+    public boolean getAutoConfigureDataSource() {
+        return this.autoConfigureDataSource.isSelected();
     }
 
     public void setWatchDdevCheckboxStatus(boolean newStatus) {

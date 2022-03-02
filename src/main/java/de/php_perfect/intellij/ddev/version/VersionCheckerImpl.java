@@ -30,7 +30,7 @@ public final class VersionCheckerImpl {
     }
 
     public void checkDdevVersion(boolean confirmNewestVersion) {
-        State state = DdevStateManager.getInstance(project).getState();
+        State state = DdevStateManager.getInstance(this.project).getState();
 
         if (!state.isInstalled()) {
             return;
@@ -63,7 +63,7 @@ public final class VersionCheckerImpl {
                 final ComparableVersion latestVersion = new ComparableVersion(latestRelease.getTagName());
 
                 if (latestVersion.compareTo(currentVersion) < 0) {
-                    DdevNotifier.getInstance(project).asyncNotifyNewVersionAvailable(currentVersion.toString(), latestVersion.toString());
+                    DdevNotifier.getInstance(project).asyncNotifyNewVersionAvailable(ddevVersion, latestVersion.toString());
                 } else if (confirmNewestVersion) {
                     DdevNotifier.getInstance(project).asyncNotifyAlreadyLatestVersion();
                 }

@@ -6,7 +6,7 @@ import com.intellij.openapi.project.DumbAwareAction;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import org.jetbrains.annotations.NotNull;
 
-public class RestartIdeAction extends DumbAwareAction {
+public final class RestartIdeAction extends DumbAwareAction {
     public RestartIdeAction() {
         super(DdevIntegrationBundle.messagePointer("action.DdevIntegration.RestartIde.text"), DdevIntegrationBundle.messagePointer("action.DdevIntegration.RestartIde.description"), null);
     }

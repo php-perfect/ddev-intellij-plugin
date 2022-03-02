@@ -41,6 +41,7 @@ public final class DdevSettingsConfigurable implements Configurable {
         DdevSettingsState settings = DdevSettingsState.getInstance(this.project);
         boolean modified = this.ddevSettingsComponent.getCheckForUpdatedStatus() != settings.checkForUpdates;
         modified |= this.ddevSettingsComponent.getWatchDdevCheckboxStatus() != settings.watchDdev;
+        modified |= this.ddevSettingsComponent.getAutoConfigureDataSource() != settings.autoConfigureDataSource;
 
         return modified;
     }
@@ -50,6 +51,7 @@ public final class DdevSettingsConfigurable implements Configurable {
         DdevSettingsState settings = DdevSettingsState.getInstance(this.project);
         settings.checkForUpdates = this.ddevSettingsComponent.getCheckForUpdatedStatus();
         settings.watchDdev = this.ddevSettingsComponent.getWatchDdevCheckboxStatus();
+        settings.autoConfigureDataSource = this.ddevSettingsComponent.getAutoConfigureDataSource();
         DdevNotifier.getInstance(this.project).asyncNotifyRestartAfterSettingsChange();
     }
 
@@ -58,6 +60,7 @@ public final class DdevSettingsConfigurable implements Configurable {
         DdevSettingsState settings = DdevSettingsState.getInstance(this.project);
         this.ddevSettingsComponent.setCheckForUpdatesStatus(settings.checkForUpdates);
         this.ddevSettingsComponent.setWatchDdevCheckboxStatus(settings.watchDdev);
+        this.ddevSettingsComponent.setAutoConfigureDataSource(settings.autoConfigureDataSource);
     }
 
     @Override

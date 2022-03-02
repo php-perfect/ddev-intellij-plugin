@@ -2,9 +2,11 @@ package de.php_perfect.intellij.ddev.state;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.util.messages.MessageBus;
+import de.php_perfect.intellij.ddev.DatabaseInfoChangedListener;
 import de.php_perfect.intellij.ddev.DdevStateChangedListener;
 import de.php_perfect.intellij.ddev.DescriptionChangedListener;
 import de.php_perfect.intellij.ddev.cmd.CommandFailedException;
+import de.php_perfect.intellij.ddev.cmd.DatabaseInfo;
 import de.php_perfect.intellij.ddev.cmd.Ddev;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -54,8 +56,12 @@ public final class DdevStateManagerImpl implements DdevStateManager {
     }
 
     private void checkChanged(Runnable runnable) {
-        int oldState = this.state.hashCode();
-        int oldDescription = Objects.hashCode(this.state.getDescription());
+        final int oldState = this.state.hashCode();
+        final int oldDescription = Objects.hashCode(this.state.getDescription());
+        int oldDatabaseInfo = 0;
+        if (this.state.getDescription() != null) {
+            oldDatabaseInfo = Objects.hashCode(this.state.getDescription().getDatabaseInfo());
+        }
 
         runnable.run();
 
@@ -65,6 +71,12 @@ public final class DdevStateManagerImpl implements DdevStateManager {
 
             if (oldDescription != Objects.hashCode(this.state.getDescription())) {
                 messageBus.syncPublisher(DescriptionChangedListener.DESCRIPTION_CHANGED).onDescriptionChanged(this.state.getDescription());
+
+                final DatabaseInfo databaseInfo = this.state.getDescription().getDatabaseInfo();
+
+                if (oldDatabaseInfo != Objects.hashCode(databaseInfo)) {
+                    messageBus.syncPublisher(DatabaseInfoChangedListener.DATABASE_INFO_CHANGED_TOPIC).onDatabaseInfoChanged(databaseInfo);
+                }
             }
         }
     }
