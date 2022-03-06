@@ -9,7 +9,7 @@ public class DatabaseInfo {
     public enum Type {
         @SerializedName("mysql") MYSQL,
         @SerializedName("mariadb") MARIADB,
-        @SerializedName("postgres") POSTGRES,
+        @SerializedName("postgres") POSTGRESQL,
     }
 
     @SerializedName("database_type")

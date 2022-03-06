@@ -1,27 +1,38 @@
 package de.php_perfect.intellij.ddev.settings;
 
+import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.components.JBCheckBox;
 import com.intellij.util.ui.FormBuilder;
+import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UI;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import java.awt.*;
 
 public final class DdevSettingsComponent {
     private final @NotNull JPanel jPanel;
-    private final @NotNull JBCheckBox checkForUpdatesCheckbox = new JBCheckBox(DdevIntegrationBundle.message("settings.check_for_updates"));
-    private final @NotNull JBCheckBox watchDdevCheckbox = new JBCheckBox(DdevIntegrationBundle.message("settings.watch_ddev"));
-    private final @NotNull JBCheckBox autoConfigureDataSource = new JBCheckBox(DdevIntegrationBundle.message("settings.autoConfigureDataSource"));
+    private final @NotNull JBCheckBox checkForUpdatesCheckbox = new JBCheckBox(DdevIntegrationBundle.message("settings.checkForUpdates"));
+    private final @NotNull JBCheckBox watchDdevCheckbox = new JBCheckBox(DdevIntegrationBundle.message("settings.watchDdev"));
+    private final @NotNull JBCheckBox autoConfigureDataSource = new JBCheckBox(DdevIntegrationBundle.message("settings.automaticConfiguration.autoConfigureDataSource"));
+    private final @NotNull JBCheckBox autoConfigurePhpInterpreter = new JBCheckBox(DdevIntegrationBundle.message("settings.automaticConfiguration.phpInterpreter"));
 
     public DdevSettingsComponent() {
-        final JPanel checkForUpdatesPanel = UI.PanelFactory.panel(this.checkForUpdatesCheckbox).withComment(DdevIntegrationBundle.message("settings.check_for_updates.description")).createPanel();
-        final JPanel watchDdevPanel = UI.PanelFactory.panel(this.watchDdevCheckbox).withComment(DdevIntegrationBundle.message("settings.watch_ddev.description")).createPanel();
+        final JPanel checkForUpdatesPanel = UI.PanelFactory.panel(this.checkForUpdatesCheckbox).withComment(DdevIntegrationBundle.message("settings.checkForUpdates.description")).createPanel();
+        final JPanel watchDdevPanel = UI.PanelFactory.panel(this.watchDdevCheckbox).withComment(DdevIntegrationBundle.message("settings.watchDdev.description")).createPanel();
+
+        final JPanel panel = new JPanel();
+        panel.setBorder(IdeBorderFactory.createTitledBorder(DdevIntegrationBundle.message("settings.automaticConfiguration"), true));
+        panel.setLayout(new GridBagLayout());
+        final GridBagConstraints gc = new GridBagConstraints(0, GridBagConstraints.RELATIVE, 1, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, JBUI.emptyInsets(), 0, 0);
+        panel.add(this.autoConfigureDataSource, gc);
+        panel.add(this.autoConfigurePhpInterpreter, gc);
 
         this.jPanel = FormBuilder.createFormBuilder()
                 .addComponent(checkForUpdatesPanel, 1)
                 .addComponent(watchDdevPanel, 1)
-                .addComponent(this.autoConfigureDataSource, 1)
+                .addComponent(panel, 1)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
     }
@@ -52,6 +63,14 @@ public final class DdevSettingsComponent {
 
     public boolean getAutoConfigureDataSource() {
         return this.autoConfigureDataSource.isSelected();
+    }
+
+    public void setAutoConfigurePhpInterpreter(boolean newStatus) {
+        this.autoConfigurePhpInterpreter.setSelected(newStatus);
+    }
+
+    public boolean getAutoConfigurePhpInterpreter() {
+        return this.autoConfigurePhpInterpreter.isSelected();
     }
 
     public void setWatchDdevCheckboxStatus(boolean newStatus) {

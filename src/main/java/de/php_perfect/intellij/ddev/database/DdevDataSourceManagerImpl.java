@@ -8,8 +8,6 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 
 public final class DdevDataSourceManagerImpl implements DdevDataSourceManager {
-    public static final @NotNull String NAME = "DDEV";
-
     private final @NotNull Project project;
 
     public DdevDataSourceManagerImpl(@NotNull Project project) {

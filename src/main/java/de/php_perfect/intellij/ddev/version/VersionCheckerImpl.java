@@ -62,6 +62,7 @@ public final class VersionCheckerImpl {
                 final ComparableVersion currentVersion = new ComparableVersion(ddevVersion);
                 final ComparableVersion latestVersion = new ComparableVersion(latestRelease.getTagName());
 
+                // @todo: Maybe buggy; test it!
                 if (latestVersion.compareTo(currentVersion) < 0) {
                     DdevNotifier.getInstance(project).asyncNotifyNewVersionAvailable(ddevVersion, latestVersion.toString());
                 } else if (confirmNewestVersion) {

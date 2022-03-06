@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 public final class DisableCheckForUpdatesAction extends AnAction implements DumbAware {
     public DisableCheckForUpdatesAction() {
-        super(DdevIntegrationBundle.messagePointer("actions.disable_check_for_updates"));
+        super(DdevIntegrationBundle.messagePointer("actions.disableCheckForUpdates"));
     }
 
     @Override

@@ -56,7 +56,7 @@ public final class DataSourceProviderImpl implements DataSourceProvider {
         DatabaseDriverManager instance = DatabaseDriverManagerImpl.getInstance();
 
         switch (databaseType) {
-            case POSTGRES:
+            case POSTGRESQL:
                 return instance.getDriver("postgresql");
             case MARIADB:
                 return instance.getDriver("mariadb");
@@ -69,7 +69,7 @@ public final class DataSourceProviderImpl implements DataSourceProvider {
     private @NotNull String getDsnByDatabaseType(@NotNull DatabaseInfo databaseInfo) {
         String dsnType = "mysql";
 
-        if (databaseInfo.getType() == DatabaseInfo.Type.POSTGRES) {
+        if (databaseInfo.getType() == DatabaseInfo.Type.POSTGRESQL) {
             dsnType = "postgresql";
         }
 

@@ -21,7 +21,7 @@ public final class DdevSettingsConfigurable implements Configurable {
     @Nls(capitalization = Nls.Capitalization.Title)
     @Override
     public String getDisplayName() {
-        return DdevIntegrationBundle.message("settings.headline");
+        return DdevIntegrationBundle.message("settings.title");
     }
 
     @Override
@@ -42,6 +42,7 @@ public final class DdevSettingsConfigurable implements Configurable {
         boolean modified = this.ddevSettingsComponent.getCheckForUpdatedStatus() != settings.checkForUpdates;
         modified |= this.ddevSettingsComponent.getWatchDdevCheckboxStatus() != settings.watchDdev;
         modified |= this.ddevSettingsComponent.getAutoConfigureDataSource() != settings.autoConfigureDataSource;
+        modified |= this.ddevSettingsComponent.getAutoConfigurePhpInterpreter() != settings.autoConfigurePhpInterpreter;
 
         return modified;
     }
@@ -52,6 +53,8 @@ public final class DdevSettingsConfigurable implements Configurable {
         settings.checkForUpdates = this.ddevSettingsComponent.getCheckForUpdatedStatus();
         settings.watchDdev = this.ddevSettingsComponent.getWatchDdevCheckboxStatus();
         settings.autoConfigureDataSource = this.ddevSettingsComponent.getAutoConfigureDataSource();
+        settings.autoConfigurePhpInterpreter = this.ddevSettingsComponent.getAutoConfigurePhpInterpreter();
+
         DdevNotifier.getInstance(this.project).asyncNotifyRestartAfterSettingsChange();
     }
 
@@ -61,6 +64,7 @@ public final class DdevSettingsConfigurable implements Configurable {
         this.ddevSettingsComponent.setCheckForUpdatesStatus(settings.checkForUpdates);
         this.ddevSettingsComponent.setWatchDdevCheckboxStatus(settings.watchDdev);
         this.ddevSettingsComponent.setAutoConfigureDataSource(settings.autoConfigureDataSource);
+        this.ddevSettingsComponent.setAutoConfigurePhpInterpreter(settings.autoConfigurePhpInterpreter);
     }
 
     @Override

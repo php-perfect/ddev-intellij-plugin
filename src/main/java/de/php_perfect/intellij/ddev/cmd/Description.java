@@ -16,6 +16,8 @@ public class Description {
         @SerializedName("starting") STARTING,
     }
 
+    private final @Nullable String name;
+
     private final @Nullable String phpVersion;
 
     private final @Nullable Status status;
@@ -31,13 +33,18 @@ public class Description {
     @SerializedName("dbinfo")
     private final @Nullable DatabaseInfo databaseInfo;
 
-    public Description(@Nullable String phpVersion, @Nullable Status status, @Nullable String mailHogHttpsUrl, @Nullable String mailHogHttpUrl, @Nullable Map<String, Service> services, @Nullable DatabaseInfo databaseInfo) {
+    public Description(@Nullable String name, @Nullable String phpVersion, @Nullable Status status, @Nullable String mailHogHttpsUrl, @Nullable String mailHogHttpUrl, @Nullable Map<String, Service> services, @Nullable DatabaseInfo databaseInfo) {
+        this.name = name;
         this.phpVersion = phpVersion;
         this.status = status;
         this.mailHogHttpsUrl = mailHogHttpsUrl;
         this.mailHogHttpUrl = mailHogHttpUrl;
         this.services = services;
         this.databaseInfo = databaseInfo;
+    }
+
+    public @Nullable String getName() {
+        return name;
     }
 
     public @Nullable String getPhpVersion() {
@@ -73,18 +80,19 @@ public class Description {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Description that = (Description) o;
-        return Objects.equals(phpVersion, that.phpVersion) && status == that.status && Objects.equals(mailHogHttpsUrl, that.mailHogHttpsUrl) && Objects.equals(mailHogHttpUrl, that.mailHogHttpUrl) && Objects.equals(services, that.services) && Objects.equals(databaseInfo, that.databaseInfo);
+        return Objects.equals(getName(), that.getName()) && Objects.equals(getPhpVersion(), that.getPhpVersion()) && getStatus() == that.getStatus() && Objects.equals(getMailHogHttpsUrl(), that.getMailHogHttpsUrl()) && Objects.equals(getMailHogHttpUrl(), that.getMailHogHttpUrl()) && Objects.equals(getServices(), that.getServices()) && Objects.equals(getDatabaseInfo(), that.getDatabaseInfo());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(phpVersion, status, mailHogHttpsUrl, mailHogHttpUrl, services, databaseInfo);
+        return Objects.hash(getName(), getPhpVersion(), getStatus(), getMailHogHttpsUrl(), getMailHogHttpUrl(), getServices(), getDatabaseInfo());
     }
 
     @Override
     public String toString() {
         return "Description{" +
-                "phpVersion='" + phpVersion + '\'' +
+                "name='" + name + '\'' +
+                ", phpVersion='" + phpVersion + '\'' +
                 ", status=" + status +
                 ", mailHogHttpsUrl='" + mailHogHttpsUrl + '\'' +
                 ", mailHogHttpUrl='" + mailHogHttpUrl + '\'' +

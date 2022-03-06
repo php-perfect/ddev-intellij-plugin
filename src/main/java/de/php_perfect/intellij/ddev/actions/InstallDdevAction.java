@@ -9,6 +9,7 @@ import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import de.php_perfect.intellij.ddev.installer.DdevInstaller;
 import org.jetbrains.annotations.NotNull;
 
+// @todo: Remove?
 public final class InstallDdevAction extends AnAction implements DumbAware {
     public InstallDdevAction() {
         super(DdevIntegrationBundle.messagePointer("actions.install"), AllIcons.Actions.Download);
