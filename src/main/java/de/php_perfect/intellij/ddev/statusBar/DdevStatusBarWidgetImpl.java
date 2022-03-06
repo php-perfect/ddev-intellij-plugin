@@ -61,7 +61,7 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
     @Override
     public JComponent getComponent() {
         this.component = new TextPanel.WithIconAndArrows();
-        this.component.setIcon(DdevIntegrationIcons.DdevLogoGrey);
+        this.component.setIcon(DdevIntegrationIcons.DdevLogoMono);
         this.component.setToolTipText(DdevIntegrationBundle.message("statusBar.toolTip"));
         this.component.setVisible(false);
         return this.component;

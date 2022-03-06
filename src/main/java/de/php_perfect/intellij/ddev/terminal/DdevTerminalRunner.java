@@ -16,7 +16,6 @@ import de.php_perfect.intellij.ddev.cmd.wsl.WslAware;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.plugins.terminal.AbstractTerminalRunner;
-import org.jetbrains.plugins.terminal.LocalTerminalDirectRunner;
 import org.jetbrains.plugins.terminal.TerminalProcessOptions;
 import org.jetbrains.plugins.terminal.TerminalProjectOptionsProvider;
 
@@ -29,21 +28,20 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-public class DdevTerminalRunner extends AbstractTerminalRunner<PtyProcess> {
-    private static final Logger LOG = Logger.getInstance(LocalTerminalDirectRunner.class);
+public final class DdevTerminalRunner extends AbstractTerminalRunner<PtyProcess> {
+    private static final Logger LOG = Logger.getInstance(DdevTerminalRunner.class);
 
-    public DdevTerminalRunner(Project project) {
+    public DdevTerminalRunner(@NotNull Project project) {
         super(project);
     }
 
     @Override
-    public @NotNull PtyProcess createProcess(@NotNull TerminalProcessOptions options,
-                                             @Nullable JBTerminalWidget widget) throws java.util.concurrent.ExecutionException {
-        PtyCommandLine commandLine = new PtyCommandLine(List.of("ddev", "ssh"));
+    public @NotNull PtyProcess createProcess(@NotNull TerminalProcessOptions options, @Nullable JBTerminalWidget widget) throws java.util.concurrent.ExecutionException {
+        final PtyCommandLine commandLine = new PtyCommandLine(List.of("ddev", "ssh"));
         commandLine.setWorkDirectory(getProject().getBasePath());
-        commandLine = WslAware.patchCommandLine(commandLine);
-
-        String[] command = commandLine.getCommandLineString().split(" ");
+        final PtyCommandLine patchedCommandLine = WslAware.patchCommandLine(commandLine);
+        // @todo: Doesn't look right. Using Command line directly to create process results in strange behavior pressing backspace
+        final String[] command = patchedCommandLine.getCommandLineString().split(" ");
 
         try {
             PtyProcessBuilder builder = new PtyProcessBuilder(command)
@@ -94,12 +92,12 @@ public class DdevTerminalRunner extends AbstractTerminalRunner<PtyProcess> {
 
     @Override
     public String runningTargetName() {
-        return "Local DDEV Terminal";
+        return "DDEV web container";
     }
 
     @Override
     protected String getTerminalConnectionName(PtyProcess process) {
-        return "Local DDEV Terminal";
+        return "DDEV web container";
     }
 
     private @NotNull String getShellPath() {
