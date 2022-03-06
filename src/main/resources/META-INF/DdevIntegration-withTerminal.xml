@@ -1,0 +1,6 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="org.jetbrains.plugins.terminal">
+        <openPredefinedTerminalProvider
+                implementation="de.php_perfect.intellij.ddev.terminal.DdevPredefinedTerminalActionProvider"/>
+    </extensions>
+</idea-plugin>
