@@ -111,6 +111,10 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
     protected void tearDown() throws Exception {
         final MockDdevConfigLoader ddevConfigLoader = (MockDdevConfigLoader) DdevConfigLoader.getInstance(this.getProject());
         ddevConfigLoader.setExists(false);
+
+        final StateImpl state = (StateImpl) DdevStateManager.getInstance(this.getProject()).getState();
+        state.reset();
+
         super.tearDown();
     }
 }

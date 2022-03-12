@@ -3,6 +3,7 @@ package de.php_perfect.intellij.ddev.state;
 import de.php_perfect.intellij.ddev.cmd.Description;
 import de.php_perfect.intellij.ddev.cmd.Versions;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.TestOnly;
 
 import java.util.Objects;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -96,5 +97,18 @@ final class StateImpl implements State {
                 ", installed=" + installed +
                 ", configured=" + configured +
                 '}';
+    }
+
+    @TestOnly
+    public void reset() {
+        this.readWriteLock.writeLock().lock();
+        try {
+            this.versions = null;
+            this.description = null;
+            this.installed = false;
+            this.configured = false;
+        } finally {
+            this.readWriteLock.writeLock().unlock();
+        }
     }
 }
