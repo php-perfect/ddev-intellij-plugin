@@ -1,12 +1,18 @@
 package de.php_perfect.intellij.ddev.terminal;
 
 import com.intellij.execution.TaskExecutor;
+import com.intellij.execution.configuration.EnvironmentVariablesData;
 import com.intellij.execution.configurations.PtyCommandLine;
 import com.intellij.execution.process.*;
+import com.intellij.openapi.components.PathMacroManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.SystemInfo;
 import com.intellij.terminal.JBTerminalWidget;
+import com.intellij.util.EnvironmentRestorer;
+import com.intellij.util.EnvironmentUtil;
 import com.intellij.util.concurrency.AppExecutorUtil;
+import com.intellij.util.containers.CollectionFactory;
 import com.jediterm.pty.PtyProcessTtyConnector;
 import com.jediterm.terminal.TtyConnector;
 import com.pty4j.PtyProcess;
@@ -23,7 +29,10 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -45,6 +54,7 @@ public final class DdevTerminalRunner extends AbstractTerminalRunner<PtyProcess>
 
         try {
             PtyProcessBuilder builder = new PtyProcessBuilder(command)
+                    .setEnvironment(this.getTerminalEnvironment())
                     .setDirectory(getProject().getBasePath())
                     .setInitialColumns(options.getInitialColumns())
                     .setInitialRows(options.getInitialRows())
@@ -52,8 +62,33 @@ public final class DdevTerminalRunner extends AbstractTerminalRunner<PtyProcess>
 
             return builder.start();
         } catch (IOException e) {
-            throw new ExecutionException("errorMessage", e);
+            throw new ExecutionException("Opening DDEV Terminal failed", e);
         }
+    }
+
+    private Map<String, String> getTerminalEnvironment() {
+        Map<String, String> envs = SystemInfo.isWindows ? CollectionFactory.createCaseInsensitiveStringMap() : new HashMap<>();
+        EnvironmentVariablesData envData = TerminalProjectOptionsProvider.getInstance(myProject).getEnvData();
+        if (envData.isPassParentEnvs()) {
+            envs.putAll(System.getenv());
+            EnvironmentRestorer.restoreOverriddenVars(envs);
+        }
+
+        if (!SystemInfo.isWindows) {
+            envs.put("TERM", "xterm-256color");
+        }
+        envs.put("TERMINAL_EMULATOR", "JetBrains-JediTerm");
+        envs.put("TERM_SESSION_ID", UUID.randomUUID().toString());
+
+        if (SystemInfo.isMac) {
+            EnvironmentUtil.setLocaleEnv(envs, StandardCharsets.UTF_8);
+        }
+
+        PathMacroManager macroManager = PathMacroManager.getInstance(myProject);
+        for (Map.Entry<String, String> env : envData.getEnvs().entrySet()) {
+            envs.put(env.getKey(), macroManager.expandPath(env.getValue()));
+        }
+        return envs;
     }
 
     @Override
