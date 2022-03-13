@@ -22,7 +22,7 @@ public final class DdevImpl implements Ddev {
         final GeneralCommandLine commandLine = new GeneralCommandLine(WhichProvider.getWhichCommand(projectDir), DDEV_COMMAND).withWorkDirectory(projectDir);
 
         try {
-            final ProcessOutput processOutput = ProcessExecutor.getInstance().executeCommandLine(commandLine, 2_000);
+            final ProcessOutput processOutput = ProcessExecutor.getInstance().executeCommandLine(commandLine, 5_000);
             return processOutput.getExitCode() == 0;
         } catch (ExecutionException e) {
             LOG.error(e);

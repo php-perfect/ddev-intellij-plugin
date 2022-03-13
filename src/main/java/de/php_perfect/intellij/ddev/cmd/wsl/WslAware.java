@@ -25,8 +25,8 @@ public class WslAware {
     @NotNull
     private static <T extends GeneralCommandLine> T applyWslPatch(T generalCommandLine, WSLDistribution distribution) throws ExecutionException {
         WSLCommandLineOptions options = new WSLCommandLineOptions()
-                .setShellPath("/usr/bin/bash")
-                .setExecuteCommandInLoginShell(true);
+                .setExecuteCommandInLoginShell(true)
+                .setShellPath(distribution.getShellPath());
 
         return distribution.patchCommandLine(generalCommandLine, null, options);
     }
