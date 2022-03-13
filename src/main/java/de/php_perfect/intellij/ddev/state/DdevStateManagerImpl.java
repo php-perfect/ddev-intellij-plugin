@@ -1,5 +1,6 @@
 package de.php_perfect.intellij.ddev.state;
 
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.messages.MessageBus;
 import de.php_perfect.intellij.ddev.DatabaseInfoChangedListener;
@@ -14,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 public final class DdevStateManagerImpl implements DdevStateManager {
+    private static final @NotNull Logger LOG = Logger.getInstance(DdevStateManagerImpl.class.getName());
     private final @NotNull StateImpl state = new StateImpl();
     private final @NotNull Project project;
 
@@ -38,21 +40,26 @@ public final class DdevStateManagerImpl implements DdevStateManager {
         if (afterInit != null) {
             afterInit.run();
         }
+
+        LOG.info("DDEV state initialised " + this.state);
     }
 
     @Override
     public void updateVersion() {
         this.checkChanged(this::checkVersion);
+        LOG.debug("DDEV version updated");
     }
 
     @Override
     public void updateConfiguration() {
         this.checkChanged(this::checkConfiguration);
+        LOG.debug("DDEV configuration updated");
     }
 
     @Override
     public void updateDescription() {
         this.checkChanged(this::checkDescription);
+        LOG.debug("DDEV description updated");
     }
 
     private void checkChanged(Runnable runnable) {
