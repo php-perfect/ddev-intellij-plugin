@@ -1,11 +1,11 @@
 plugins {
-    id("org.jetbrains.intellij") version "1.3.1"
+    id("org.jetbrains.intellij") version "1.4.0"
     java
     jacoco
 }
 
 group = "de.php_perfect.intellij.ddev"
-version = "1.0-SNAPSHOT"
+version = "1.0-ALPHA-1"
 
 repositories {
     mavenCentral()
@@ -33,6 +33,7 @@ intellij {
     plugins.add("org.jetbrains.plugins.phpstorm-docker:213.5744.125")
     plugins.add("com.intellij.database")
     plugins.add("Docker:213.6461.58")
+    updateSinceUntilBuild.set(false)
 }
 tasks {
     patchPluginXml {
