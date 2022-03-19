@@ -16,6 +16,8 @@ final class StateImpl implements State {
 
     private boolean installed = false;
 
+    private @Nullable String ddevBinary = null;
+
     private boolean configured = false;
 
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
@@ -27,6 +29,15 @@ final class StateImpl implements State {
 
     public void setInstalled(boolean installed) {
         this.installed = installed;
+    }
+
+    @Override
+    public @Nullable String getDdevBinary() {
+        return ddevBinary;
+    }
+
+    public void setDdevBinary(@Nullable String ddevBinary) {
+        this.ddevBinary = ddevBinary;
     }
 
     @Override
@@ -79,14 +90,14 @@ final class StateImpl implements State {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof StateImpl)) return false;
         StateImpl state = (StateImpl) o;
-        return isInstalled() == state.isInstalled() && isConfigured() == state.isConfigured() && Objects.equals(getVersions(), state.getVersions()) && Objects.equals(getDescription(), state.getDescription());
+        return installed == state.installed && configured == state.configured && Objects.equals(versions, state.versions) && Objects.equals(description, state.description) && Objects.equals(ddevBinary, state.ddevBinary);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getVersions(), getDescription(), isInstalled(), isConfigured());
+        return Objects.hash(versions, description, installed, ddevBinary, configured);
     }
 
     @Override
@@ -95,7 +106,9 @@ final class StateImpl implements State {
                 "versions=" + versions +
                 ", description=" + description +
                 ", installed=" + installed +
+                ", ddevBinary='" + ddevBinary + '\'' +
                 ", configured=" + configured +
+                ", readWriteLock=" + readWriteLock +
                 '}';
     }
 
@@ -106,6 +119,7 @@ final class StateImpl implements State {
             this.versions = null;
             this.description = null;
             this.installed = false;
+            this.ddevBinary = null;
             this.configured = false;
         } finally {
             this.readWriteLock.writeLock().unlock();

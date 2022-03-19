@@ -9,6 +9,7 @@ import de.php_perfect.intellij.ddev.cmd.parser.JsonParser;
 import de.php_perfect.intellij.ddev.cmd.parser.JsonParserException;
 import de.php_perfect.intellij.ddev.serviceActions.ServiceActionManagerImpl;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
 
@@ -17,16 +18,22 @@ public final class DdevImpl implements Ddev {
     private static final @NotNull String DDEV_COMMAND = "ddev";
 
     @Override
-    public boolean isInstalled(@NotNull Project project) throws CommandFailedException {
+    public @Nullable String findBinary(@NotNull Project project) throws CommandFailedException {
         final String projectDir = project.getBasePath();
         final GeneralCommandLine commandLine = new GeneralCommandLine(WhichProvider.getWhichCommand(projectDir), DDEV_COMMAND).withWorkDirectory(projectDir);
 
         try {
             final ProcessOutput processOutput = ProcessExecutor.getInstance().executeCommandLine(commandLine, 5_000);
-            return processOutput.getExitCode() == 0;
+
+            if (processOutput.getExitCode() != 0) {
+                return null;
+            }
+
+            return processOutput.getStdout().strip();
         } catch (ExecutionException e) {
             LOG.error(e);
-            return false;
+
+            throw new CommandFailedException("Could not locate DDEV binary.", e);
         }
     }
 

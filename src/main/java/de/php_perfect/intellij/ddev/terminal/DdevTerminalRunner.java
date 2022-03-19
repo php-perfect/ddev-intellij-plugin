@@ -19,6 +19,8 @@ import com.pty4j.PtyProcess;
 import com.pty4j.PtyProcessBuilder;
 import com.pty4j.unix.UnixPtyProcess;
 import de.php_perfect.intellij.ddev.cmd.wsl.WslAware;
+import de.php_perfect.intellij.ddev.state.DdevStateManager;
+import de.php_perfect.intellij.ddev.state.State;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.plugins.terminal.AbstractTerminalRunner;
@@ -46,8 +48,17 @@ public final class DdevTerminalRunner extends AbstractTerminalRunner<PtyProcess>
 
     @Override
     public @NotNull PtyProcess createProcess(@NotNull TerminalProcessOptions options, @Nullable JBTerminalWidget widget) throws java.util.concurrent.ExecutionException {
-        final PtyCommandLine commandLine = new PtyCommandLine(List.of("ddev", "ssh"));
-        commandLine.setWorkDirectory(getProject().getBasePath());
+        State ddevState = DdevStateManager.getInstance(this.myProject).getState();
+
+        String ddevBinary = ddevState.getDdevBinary();
+
+        if (ddevBinary == null) {
+            ddevBinary = "ddev";
+        }
+
+        final PtyCommandLine commandLine = (PtyCommandLine) new PtyCommandLine(List.of(ddevBinary, "ssh"))
+            .withWorkDirectory(getProject().getBasePath());
+
         final PtyCommandLine patchedCommandLine = WslAware.patchCommandLine(commandLine);
         // @todo: Doesn't look right. Using Command line directly to create process results in strange behavior pressing backspace
         final String[] command = patchedCommandLine.getCommandLineString().split(" ");
@@ -76,7 +87,11 @@ public final class DdevTerminalRunner extends AbstractTerminalRunner<PtyProcess>
 
         if (!SystemInfo.isWindows) {
             envs.put("TERM", "xterm-256color");
+
+            String path = envs.get("PATH");
+            envs.replace("PATH", path+":/usr/local/bin");
         }
+
         envs.put("TERMINAL_EMULATOR", "JetBrains-JediTerm");
         envs.put("TERM_SESSION_ID", UUID.randomUUID().toString());
 

@@ -90,9 +90,13 @@ public final class DdevStateManagerImpl implements DdevStateManager {
 
     private void checkIsInstalled() {
         try {
-            this.state.setInstalled(Ddev.getInstance().isInstalled(this.project));
+            String ddevBinary = Ddev.getInstance().findBinary(this.project);
+
+            this.state.setInstalled(ddevBinary != null);
+            this.state.setDdevBinary(ddevBinary);
         } catch (CommandFailedException ignored) {
             this.state.setInstalled(false);
+            this.state.setDdevBinary(null);
         }
     }
 

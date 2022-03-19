@@ -21,22 +21,22 @@ final class DdevImplTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void isInstalled() throws CommandFailedException {
+    public void findBinary() throws CommandFailedException {
         String expectedWhich = "which";
         if (SystemInfo.isWindows) {
             expectedWhich = "where";
         }
 
-        ProcessOutput processOutput = new ProcessOutput("", "", 0, false, false);
+        ProcessOutput processOutput = new ProcessOutput("/foo/bar/bin/ddev", "", 0, false, false);
 
         MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
         mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", processOutput);
 
-        Assertions.assertTrue(new DdevImpl().isInstalled(getProject()));
+        Assertions.assertEquals("/foo/bar/bin/ddev", new DdevImpl().findBinary(getProject()));
     }
 
     @Test
-    public void isNotInstalledSuccessfully() throws CommandFailedException {
+    public void isNotInstalled() throws CommandFailedException {
         String expectedWhich = "which";
         if (SystemInfo.isWindows) {
             expectedWhich = "where";
@@ -47,7 +47,7 @@ final class DdevImplTest extends BasePlatformTestCase {
         MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
         mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", processOutput);
 
-        Assertions.assertFalse(new DdevImpl().isInstalled(getProject()));
+        Assertions.assertNull(new DdevImpl().findBinary(getProject()));
     }
 
     @Test

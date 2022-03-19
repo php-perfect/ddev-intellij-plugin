@@ -12,4 +12,6 @@ public interface State {
     @Nullable Versions getVersions();
 
     @Nullable Description getDescription();
+
+    @Nullable String getDdevBinary();
 }

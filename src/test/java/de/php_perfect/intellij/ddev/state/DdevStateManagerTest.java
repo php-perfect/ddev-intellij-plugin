@@ -37,7 +37,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
         final Project project = this.getProject();
         final MockDdevConfigLoader ddevConfigLoader = (MockDdevConfigLoader) DdevConfigLoader.getInstance(project);
         final MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
-        mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", new ProcessOutput(0));
+        mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", new ProcessOutput("/foo/bar/bin/ddev", "", 0, false, false));
 
         ddevConfigLoader.setExists(true);
         this.prepareCommand("ddev version --json-output", "src/test/resources/ddev_version.json");
@@ -49,6 +49,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
 
         StateImpl expectedState = new StateImpl();
         expectedState.setInstalled(true);
+        expectedState.setDdevBinary("/foo/bar/bin/ddev");
         expectedState.setConfigured(true);
         expectedState.setVersions(new Versions("v1.19.0"));
         expectedState.setDescription(new Description("acol", "8.1", Description.Status.STOPPED, null, null, new HashMap<>(), null));
@@ -67,7 +68,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
         final Project project = this.getProject();
         final MockDdevConfigLoader ddevConfigLoader = (MockDdevConfigLoader) DdevConfigLoader.getInstance(project);
         MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
-        mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", new ProcessOutput(0));
+        mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", new ProcessOutput("/foo/bar/bin/ddev", "", 0, false, false));
 
         ddevConfigLoader.setExists(true);
         this.prepareCommand("ddev version --json-output", "src/test/resources/ddev_version.json");
@@ -78,6 +79,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
 
         StateImpl expectedState = new StateImpl();
         expectedState.setInstalled(true);
+        expectedState.setDdevBinary("/foo/bar/bin/ddev");
         expectedState.setConfigured(true);
         expectedState.setVersions(new Versions("v1.19.0"));
         expectedState.setDescription(new Description("acol", "8.1", Description.Status.STOPPED, null, null, new HashMap<>(), null));

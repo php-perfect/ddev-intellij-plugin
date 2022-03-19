@@ -3,9 +3,10 @@ package de.php_perfect.intellij.ddev.cmd;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface Ddev {
-    boolean isInstalled(@NotNull Project project) throws CommandFailedException;
+    @Nullable String findBinary(@NotNull Project project) throws CommandFailedException;
 
     @NotNull Versions version(@NotNull Project project) throws CommandFailedException;
 
