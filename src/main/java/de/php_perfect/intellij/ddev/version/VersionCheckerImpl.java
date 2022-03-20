@@ -1,7 +1,5 @@
 package de.php_perfect.intellij.ddev.version;
 
-import com.intellij.openapi.components.Service;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
@@ -10,61 +8,48 @@ import de.php_perfect.intellij.ddev.cmd.Versions;
 import de.php_perfect.intellij.ddev.notification.DdevNotifier;
 import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import de.php_perfect.intellij.ddev.state.State;
-import org.apache.maven.artifact.versioning.ComparableVersion;
+import de.php_perfect.intellij.ddev.version.util.VersionCompare;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
-
-@Service(Service.Level.PROJECT)
-public final class VersionCheckerImpl {
-    private static final Logger LOG = Logger.getInstance(VersionCheckerImpl.class);
-
+public final class VersionCheckerImpl implements VersionChecker {
     private final @NotNull Project project;
 
     public VersionCheckerImpl(@NotNull Project project) {
         this.project = project;
     }
 
+    @Override
     public void checkDdevVersion() {
         this.checkDdevVersion(false);
     }
 
+    @Override
     public void checkDdevVersion(boolean confirmNewestVersion) {
         State state = DdevStateManager.getInstance(this.project).getState();
+        String currentVersion = this.getCurrentVersion(state);
 
-        if (!state.isInstalled()) {
-            return;
-        }
-
-        Versions versions = state.getVersions();
-
-        if (versions == null) {
-            // @todo Suggestion to install?
-            return;
-        }
-
-        String ddevVersion = versions.getDdevVersion();
-
-        if (ddevVersion == null) {
-            // @todo Suggestion to install?
+        if (currentVersion == null) {
+            if (state.isConfigured()) {
+                DdevNotifier.getInstance(project).asyncNotifyInstallDdev();
+            }
             return;
         }
 
         ProgressManager.getInstance().run(new Task.Backgroundable(project, "Checking DDEV version", true) {
+            @Override
             public void run(@NotNull ProgressIndicator progressIndicator) {
-                LatestRelease latestRelease = loadLatestRelease(progressIndicator);
+                final LatestRelease latestRelease = ReleaseClient.getInstance().loadCurrentVersion(progressIndicator);
                 progressIndicator.checkCanceled();
 
                 if (latestRelease == null || latestRelease.getTagName() == null) {
                     return;
                 }
 
-                final ComparableVersion currentVersion = new ComparableVersion(ddevVersion);
-                final ComparableVersion latestVersion = new ComparableVersion(latestRelease.getTagName());
+                final String latestVersion = latestRelease.getTagName();
 
-                // @todo: Maybe buggy; test it!
-                if (latestVersion.compareTo(currentVersion) < 0) {
-                    DdevNotifier.getInstance(project).asyncNotifyNewVersionAvailable(ddevVersion, latestVersion.toString());
+                if (VersionCompare.needsUpdate(currentVersion, latestVersion)) {
+                    DdevNotifier.getInstance(project).asyncNotifyNewVersionAvailable(currentVersion, latestVersion);
                 } else if (confirmNewestVersion) {
                     DdevNotifier.getInstance(project).asyncNotifyAlreadyLatestVersion();
                 }
@@ -72,16 +57,17 @@ public final class VersionCheckerImpl {
         });
     }
 
-    private LatestRelease loadLatestRelease(@NotNull ProgressIndicator progressIndicator) {
-        try {
-            return GithubClient.getInstance().loadCurrentVersion(progressIndicator);
-        } catch (IOException e) {
-            LOG.error(e);
+    private @Nullable String getCurrentVersion(State state) {
+        if (!state.isInstalled()) {
             return null;
         }
-    }
 
-    public static VersionCheckerImpl getInstance(@NotNull Project project) {
-        return project.getService(VersionCheckerImpl.class);
+        Versions versions = state.getVersions();
+
+        if (versions == null) {
+            return null;
+        }
+
+        return versions.getDdevVersion();
     }
 }

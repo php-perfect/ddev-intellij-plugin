@@ -6,7 +6,6 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
-import de.php_perfect.intellij.ddev.actions.InstallDdevAction;
 import de.php_perfect.intellij.ddev.actions.InstallationInstructionsAction;
 import de.php_perfect.intellij.ddev.actions.RestartIdeAction;
 import org.jetbrains.annotations.NotNull;
@@ -51,7 +50,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
                         DdevIntegrationBundle.message("notification.InstallDdev.text"),
                         NotificationType.INFORMATION
                 )
-                .addAction(new InstallDdevAction())
+                .addAction(new InstallationInstructionsAction())
                 .notify(this.project);
     }
 

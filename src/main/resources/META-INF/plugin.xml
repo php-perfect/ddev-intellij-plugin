@@ -57,6 +57,8 @@
                             serviceInterface="de.php_perfect.intellij.ddev.cmd.Ddev"/>
         <applicationService serviceImplementation="de.php_perfect.intellij.ddev.cmd.DdevRunnerImpl"
                             serviceInterface="de.php_perfect.intellij.ddev.cmd.DdevRunner"/>
+        <applicationService serviceImplementation="de.php_perfect.intellij.ddev.version.GithubClient"
+                            serviceInterface="de.php_perfect.intellij.ddev.version.ReleaseClient"/>
 
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.notification.DdevNotifierImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.notification.DdevNotifier"/>
@@ -71,6 +73,8 @@
                         serviceInterface="de.php_perfect.intellij.ddev.cmd.Runner"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.serviceActions.ServiceActionManagerImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.serviceActions.ServiceActionManager"/>
+        <projectService serviceImplementation="de.php_perfect.intellij.ddev.version.VersionCheckerImpl"
+                        serviceInterface="de.php_perfect.intellij.ddev.version.VersionChecker"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.settings.DdevSettingsState"/>
 
         <projectConfigurable parentId="tools" instance="de.php_perfect.intellij.ddev.settings.DdevSettingsConfigurable"

@@ -3,7 +3,7 @@ package de.php_perfect.intellij.ddev.actions;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.DumbAware;
-import de.php_perfect.intellij.ddev.version.VersionCheckerImpl;
+import de.php_perfect.intellij.ddev.version.VersionChecker;
 import org.jetbrains.annotations.NotNull;
 
 public final class CheckVersionAction extends AnAction implements DumbAware {
@@ -13,6 +13,6 @@ public final class CheckVersionAction extends AnAction implements DumbAware {
             return;
         }
 
-        VersionCheckerImpl.getInstance(e.getProject()).checkDdevVersion(true);
+        VersionChecker.getInstance(e.getProject()).checkDdevVersion(true);
     }
 }
