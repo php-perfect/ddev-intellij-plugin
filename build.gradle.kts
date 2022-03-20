@@ -25,7 +25,7 @@ java {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2021.3.2")
+    version.set("2021.3.3")
     type.set("IU")
     plugins.add("com.jetbrains.php:213.6777.58")
     plugins.add("org.jetbrains.plugins.phpstorm-remote-interpreter:213.5744.125")
