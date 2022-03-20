@@ -3,4 +3,9 @@
         <openPredefinedTerminalProvider
                 implementation="de.php_perfect.intellij.ddev.terminal.DdevPredefinedTerminalActionProvider"/>
     </extensions>
+
+    <actions>
+        <action id="DdevIntegration.Terminal" class="de.php_perfect.intellij.ddev.actions.DdevPredefinedTerminalAction"
+                icon="de.php_perfect.intellij.ddev.icons.DdevIntegrationIcons.DdevLogoColor"/>
+    </actions>
 </idea-plugin>
