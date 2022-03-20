@@ -5,16 +5,20 @@
     <vendor email="nico.loeber94@gmail.com" url="https://github.com/php-perfect">PHP-Perfect</vendor>
     <category>Deployment</category>
     <description><![CDATA[
-    <p>Integrates DDEV into JetBrains IDEs for your convenience</p>
+    <p>The goal of this plugin is to integrate all common DDEV tasks into the GUI of IntelliJ IDEA, so that no CLI commands are needed. In addition, this plugin automates some configurations for easier use of DDEV in your project.</p>
     <p>
         Features:
         <ul>
-          <li>Run DDEV actions via GUI</li>
-          <li>Quick access to DDEV Services</li>
-          <li>Code completion for DDEV config</li>
-          <li>Get notified about DDEV updates</li>
-          <li>And much more</li>
+            <li>Run DDEV actions via GUI
+            <li>Quick access DDEV Services</li>
+            <li>Auto configure PHP Remote Interpreter<sup>1</sup></li>
+            <li>Auto configure data source<sup>1</sup></li>
+            <li>Assistance and completion for DDEV configuration file</li>
+            <li>DDEV version check</li>
+            <li>Integrated DDEV terminal<sup>1</sup></li>
+            <li>And much more coming soon!</li>
         </ul>
+        <sup>1</sup> Features are only available in IDEs supporting these, like PHPStorm and IntelliJ Ultimate.
     </p>
     ]]></description>
 
