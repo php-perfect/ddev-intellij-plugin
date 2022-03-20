@@ -7,7 +7,7 @@
 
 [comment]: <> (Maybe add another badge or link here to quickly navigate to the plugin store?)
 
-# DDEV Integration for Intellij Platform
+# DDEV Integration for IntelliJ IDEA
 
 This plugin implements [DDEV](https://github.com/drud/ddev) integration in IntelliJ IDEA.
 
