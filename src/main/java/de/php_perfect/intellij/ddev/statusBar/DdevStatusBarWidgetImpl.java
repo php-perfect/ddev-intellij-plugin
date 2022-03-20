@@ -143,10 +143,17 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
     }
 
     private @NotNull @NlsContexts.StatusBarText String buildStatusMessage(Description.Status status) {
-        if (status == null) {
-            return DdevIntegrationBundle.message("status.UNDEFINED");
+        switch (status) {
+            case RUNNING:
+                return DdevIntegrationBundle.message("status.Running");
+            case STARTING:
+                return DdevIntegrationBundle.message("status.Starting");
+            case PAUSED:
+                return DdevIntegrationBundle.message("status.Paused");
+            case STOPPED:
+                return DdevIntegrationBundle.message("status.Stopped");
+            default:
+                return DdevIntegrationBundle.message("status.Undefined");
         }
-
-        return DdevIntegrationBundle.message("status." + status);
     }
 }
