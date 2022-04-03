@@ -1,6 +1,8 @@
 plugins {
     id("org.jetbrains.intellij") version "1.4.0"
     java
+
+    id("org.sonarqube") version "3.3"
     jacoco
 }
 
@@ -47,6 +49,29 @@ tasks {
         )
     }
 }
+
+/* Tests */
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+
+    reports {
+        xml.required.set(true)
+    }
+}
+
+/* SonarCloud */
+tasks.sonarqube {
+    dependsOn(tasks.build, tasks.jacocoTestReport)
+
+    sonarqube {
+        properties {
+            property("sonar.projectKey", "php-perfect_ddev-intellij-plugin")
+            property("sonar.organization", "php-perfect")
+            property("sonar.host.url", "https://sonarcloud.io/")
+        }
+    }
 }
