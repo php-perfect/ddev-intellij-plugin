@@ -24,11 +24,7 @@ final class StateImpl implements State {
 
     @Override
     public boolean isInstalled() {
-        return this.installed;
-    }
-
-    public void setInstalled(boolean installed) {
-        this.installed = installed;
+        return this.ddevBinary != null && !this.ddevBinary.equals("");
     }
 
     @Override

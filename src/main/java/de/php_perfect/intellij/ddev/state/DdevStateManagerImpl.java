@@ -62,6 +62,11 @@ public final class DdevStateManagerImpl implements DdevStateManager {
         LOG.debug("DDEV description updated");
     }
 
+    @Override
+    public void resetState() {
+        this.state.reset();
+    }
+
     private void checkChanged(Runnable runnable) {
         final int oldState = this.state.hashCode();
         final int oldDescription = Objects.hashCode(this.state.getDescription());
@@ -91,11 +96,8 @@ public final class DdevStateManagerImpl implements DdevStateManager {
     private void checkIsInstalled() {
         try {
             String ddevBinary = Ddev.getInstance().findBinary(this.project);
-
-            this.state.setInstalled(ddevBinary != null);
             this.state.setDdevBinary(ddevBinary);
         } catch (CommandFailedException ignored) {
-            this.state.setInstalled(false);
             this.state.setDdevBinary(null);
         }
     }
