@@ -42,14 +42,14 @@ public final class DdevTerminalRunner extends AbstractTerminalRunner<PtyProcess>
     public @NotNull PtyProcess createProcess(@NotNull TerminalProcessOptions options, @Nullable JBTerminalWidget widget) throws ExecutionException {
         State ddevState = DdevStateManager.getInstance(this.myProject).getState();
 
-        String ddevBinary = ddevState.getDdevBinary();
-
-        if (ddevBinary == null) {
+        if (!ddevState.isInstalled()) {
             throw new ExecutionException("DDEV not installed", null);
         }
 
-        final PtyCommandLine commandLine = (PtyCommandLine) new PtyCommandLine(List.of(ddevBinary, "ssh"))
-                .withWorkDirectory(getProject().getBasePath());
+        final PtyCommandLine commandLine = new PtyCommandLine(List.of("ddev", "ssh"))
+                .withConsoleMode(false);
+
+        commandLine.setWorkDirectory(getProject().getBasePath());
 
         final PtyCommandLine patchedCommandLine = WslAware.patchCommandLine(commandLine);
 
