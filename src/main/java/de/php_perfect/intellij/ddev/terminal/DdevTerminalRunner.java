@@ -27,6 +27,7 @@ import java.awt.*;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -46,7 +47,7 @@ public final class DdevTerminalRunner extends AbstractTerminalRunner<PtyProcess>
             throw new ExecutionException("DDEV not installed", null);
         }
 
-        final PtyCommandLine commandLine = new PtyCommandLine(List.of("ddev", "ssh"))
+        final PtyCommandLine commandLine = new PtyCommandLine(List.of(Objects.requireNonNull(ddevState.getDdevBinary()), "ssh"))
                 .withConsoleMode(false);
 
         commandLine.setWorkDirectory(getProject().getBasePath());
