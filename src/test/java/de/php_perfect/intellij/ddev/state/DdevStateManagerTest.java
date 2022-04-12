@@ -48,7 +48,6 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
         ddevStateManager.initialize(() -> runnableExecuted.set(true));
 
         StateImpl expectedState = new StateImpl();
-        expectedState.setInstalled(true);
         expectedState.setDdevBinary("/foo/bar/bin/ddev");
         expectedState.setConfigured(true);
         expectedState.setVersions(new Versions("v1.19.0"));
@@ -78,7 +77,6 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
         ddevStateManager.initialize(null);
 
         StateImpl expectedState = new StateImpl();
-        expectedState.setInstalled(true);
         expectedState.setDdevBinary("/foo/bar/bin/ddev");
         expectedState.setConfigured(true);
         expectedState.setVersions(new Versions("v1.19.0"));
@@ -114,8 +112,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
         final MockDdevConfigLoader ddevConfigLoader = (MockDdevConfigLoader) DdevConfigLoader.getInstance(this.getProject());
         ddevConfigLoader.setExists(false);
 
-        final StateImpl state = (StateImpl) DdevStateManager.getInstance(this.getProject()).getState();
-        state.reset();
+        DdevStateManager.getInstance(this.getProject()).resetState();
 
         super.tearDown();
     }

@@ -1,22 +1,18 @@
 package de.php_perfect.intellij.ddev.terminal;
 
 import com.intellij.execution.TaskExecutor;
-import com.intellij.execution.configuration.EnvironmentVariablesData;
 import com.intellij.execution.configurations.PtyCommandLine;
-import com.intellij.execution.process.*;
-import com.intellij.openapi.components.PathMacroManager;
+import com.intellij.execution.process.ProcessAdapter;
+import com.intellij.execution.process.ProcessEvent;
+import com.intellij.execution.process.ProcessHandler;
+import com.intellij.execution.process.ProcessWaitFor;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.SystemInfo;
 import com.intellij.terminal.JBTerminalWidget;
-import com.intellij.util.EnvironmentRestorer;
-import com.intellij.util.EnvironmentUtil;
 import com.intellij.util.concurrency.AppExecutorUtil;
-import com.intellij.util.containers.CollectionFactory;
 import com.jediterm.pty.PtyProcessTtyConnector;
 import com.jediterm.terminal.TtyConnector;
 import com.pty4j.PtyProcess;
-import com.pty4j.PtyProcessBuilder;
 import com.pty4j.unix.UnixPtyProcess;
 import de.php_perfect.intellij.ddev.cmd.wsl.WslAware;
 import de.php_perfect.intellij.ddev.state.DdevStateManager;
@@ -28,13 +24,10 @@ import org.jetbrains.plugins.terminal.TerminalProcessOptions;
 import org.jetbrains.plugins.terminal.TerminalProjectOptionsProvider;
 
 import java.awt.*;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -47,63 +40,25 @@ public final class DdevTerminalRunner extends AbstractTerminalRunner<PtyProcess>
     }
 
     @Override
-    public @NotNull PtyProcess createProcess(@NotNull TerminalProcessOptions options, @Nullable JBTerminalWidget widget) throws java.util.concurrent.ExecutionException {
+    public @NotNull PtyProcess createProcess(@NotNull TerminalProcessOptions options, @Nullable JBTerminalWidget widget) throws ExecutionException {
         State ddevState = DdevStateManager.getInstance(this.myProject).getState();
 
-        String ddevBinary = ddevState.getDdevBinary();
-
-        if (ddevBinary == null) {
-            ddevBinary = "ddev";
+        if (!ddevState.isInstalled()) {
+            throw new ExecutionException("DDEV not installed", null);
         }
 
-        final PtyCommandLine commandLine = (PtyCommandLine) new PtyCommandLine(List.of(ddevBinary, "ssh"))
-            .withWorkDirectory(getProject().getBasePath());
+        final PtyCommandLine commandLine = new PtyCommandLine(List.of(Objects.requireNonNull(ddevState.getDdevBinary()), "ssh"))
+                .withConsoleMode(false);
+
+        commandLine.setWorkDirectory(getProject().getBasePath());
 
         final PtyCommandLine patchedCommandLine = WslAware.patchCommandLine(commandLine);
-        // @todo: Doesn't look right. Using Command line directly to create process results in strange behavior pressing backspace
-        final String[] command = patchedCommandLine.getCommandLineString().split(" ");
 
         try {
-            PtyProcessBuilder builder = new PtyProcessBuilder(command)
-                    .setEnvironment(this.getTerminalEnvironment())
-                    .setDirectory(getProject().getBasePath())
-                    .setInitialColumns(options.getInitialColumns())
-                    .setInitialRows(options.getInitialRows())
-                    .setUseWinConPty(LocalPtyOptions.shouldUseWinConPty());
-
-            return builder.start();
-        } catch (IOException e) {
+            return (PtyProcess) patchedCommandLine.createProcess();
+        } catch (com.intellij.execution.ExecutionException e) {
             throw new ExecutionException("Opening DDEV Terminal failed", e);
         }
-    }
-
-    private Map<String, String> getTerminalEnvironment() {
-        Map<String, String> envs = SystemInfo.isWindows ? CollectionFactory.createCaseInsensitiveStringMap() : new HashMap<>();
-        EnvironmentVariablesData envData = TerminalProjectOptionsProvider.getInstance(myProject).getEnvData();
-        if (envData.isPassParentEnvs()) {
-            envs.putAll(System.getenv());
-            EnvironmentRestorer.restoreOverriddenVars(envs);
-        }
-
-        if (!SystemInfo.isWindows) {
-            envs.put("TERM", "xterm-256color");
-
-            String path = envs.get("PATH");
-            envs.replace("PATH", path+":/usr/local/bin");
-        }
-
-        envs.put("TERMINAL_EMULATOR", "JetBrains-JediTerm");
-        envs.put("TERM_SESSION_ID", UUID.randomUUID().toString());
-
-        if (SystemInfo.isMac) {
-            EnvironmentUtil.setLocaleEnv(envs, StandardCharsets.UTF_8);
-        }
-
-        PathMacroManager macroManager = PathMacroManager.getInstance(myProject);
-        for (Map.Entry<String, String> env : envData.getEnvs().entrySet()) {
-            envs.put(env.getKey(), macroManager.expandPath(env.getValue()));
-        }
-        return envs;
     }
 
     @Override
