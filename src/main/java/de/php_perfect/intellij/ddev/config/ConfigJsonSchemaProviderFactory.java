@@ -31,7 +31,7 @@ public final class ConfigJsonSchemaProviderFactory implements JsonSchemaProvider
 
             @Override
             public @Nullable VirtualFile getSchemaFile() {
-                return SchemaProvider.getInstance().getSchema();
+                return JsonSchemaProviderFactory.getResourceFile(getClass(), "/schema/ddev-config-1.19.schema.json");
             }
 
             @Override
