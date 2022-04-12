@@ -1,0 +1,367 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DDEV config 1.19",
+  "description": "Schema for DDEV config for version 1.19",
+  "type": "object",
+  "definitions": {
+    "DdevTask": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "exec": {
+            "type": "string"
+          },
+          "exec-host": {
+            "type": "string"
+          },
+          "composer": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "properties": {
+    "name": {
+      "description": "Provide the name of the project to configure (normally the same as the last part of directory name)",
+      "example": "example-project",
+      "type": "string"
+    },
+    "type": {
+      "description": "Provide the project type",
+      "example": "php",
+      "type": "string",
+      "enum": [
+        "backdrop",
+        "drupal10",
+        "drupal6",
+        "drupal7",
+        "drupal8",
+        "drupal9",
+        "laravel",
+        "magento",
+        "magento2",
+        "php",
+        "shopware6",
+        "typo3",
+        "wordpress"
+      ]
+    },
+    "docroot": {
+      "description": "Provide the relative docroot of the project, like 'docroot' or 'htdocs' or 'web', defaults to empty, the current directory",
+      "example": "public",
+      "type": "string"
+    },
+    "php_version": {
+      "description": "The version of PHP that will be enabled in the web container",
+      "example": "8.1",
+      "type": "string",
+      "enum": [
+        "5.6",
+        "7.0",
+        "7.1",
+        "7.2",
+        "7.3",
+        "7.4",
+        "8.0",
+        "8.1"
+      ]
+    },
+    "webserver_type": {
+      "description": "Sets the project's desired webserver type",
+      "type": "string",
+      "enum": [
+        "nginx-fpm",
+        "apache-fpm"
+      ]
+    },
+    "router_http_port": {
+      "description": "The router HTTP port for this project",
+      "example": "80",
+      "type": "string"
+    },
+    "router_https_port": {
+      "description": "The router HTTPS port for this project",
+      "example": "443",
+      "type": "string"
+    },
+    "xdebug_enabled": {
+      "description": "Whether or not XDebug is enabled in the web container",
+      "example": false,
+      "type": "boolean"
+    },
+    "additional_hostnames": {
+      "description": "A comma-delimited list of hostnames for the project",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "example": "somename"
+      }
+    },
+    "additional_fqdns": {
+      "description": "A comma-delimited list of FQDNs for the project",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "database": {
+      "description": "Specify the database type and version to use. Defaults to mariadb:10.3",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Specify the database type to use",
+          "example": "mariadb",
+          "type": "string"
+        },
+        "version": {
+          "description": "Specify the database version to use",
+          "example": "10.3",
+          "type": "string"
+        }
+      }
+    },
+    "nfs_mount_enabled": {
+      "description": "Enable NFS mounting of project in container",
+      "example": false,
+      "type": "boolean"
+    },
+    "mutagen_enabled": {
+      "description": "Enable mutagen asynchronous update of project in web container",
+      "example": false,
+      "type": "boolean"
+    },
+    "use_dns_when_possible": {
+      "description": "Use DNS for hostname resolution instead of /etc/hosts when possible",
+      "example": false,
+      "type": "boolean"
+    },
+    "composer_version": {
+      "description": "Specify override for composer version in web container. This may be \"\", \"1\", \"2\", or a specific version",
+      "example": "2",
+      "type": "string"
+    },
+    "nodejs_version": {
+      "description": "Specify the nodejs version to use if you don't want the default NodeJS 16",
+      "example": "16",
+      "type": "string"
+    },
+    "web_environment": {
+      "description": "Add environment variables to web container",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "bind_all_interfaces": {
+      "description": "Bind host ports on all interfaces, not just on localhost network interface",
+      "example": false,
+      "type": "boolean"
+    },
+    "dbimage_extra_packages": {
+      "description": "A list of Debian packages that should be added to db container when the project is started",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "webimage": {
+      "description": "Sets the web container image",
+      "type": "string"
+    },
+    "xhprof_enabled": {
+      "description": "Enable xhprof in the web container",
+      "example": false,
+      "type": "boolean"
+    },
+    "timezone": {
+      "description": "Specify timezone for containers and php",
+      "example": "Europe/Berlin",
+      "type": "string"
+    },
+    "upload_dir": {
+      "description": "Sets the project's upload directory, the destination directory of the import-files command",
+      "example": "custom/upload/dir",
+      "type": "string"
+    },
+    "working_dir": {
+      "description": "Override default project working directories for db and web service",
+      "type": "object",
+      "properties": {
+        "web": {
+          "description": "Overrides the default working directory for the web service",
+          "example": "/var/www/html",
+          "type": "string"
+        },
+        "db": {
+          "description": "Overrides the default working directory for the db service",
+          "example": "/home",
+          "type": "string"
+        }
+      }
+    },
+    "omit_containers": {
+      "description": "A list of container types that should not be started when the project is started",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "fail_on_hook_fail": {
+      "description": "Decide whether 'ddev start' should be interrupted by a failing hook",
+      "example": false,
+      "type": "boolean"
+    },
+    "host_https_port": {
+      "description": "The web container's localhost-bound https port",
+      "example": "59002",
+      "type": "string"
+    },
+    "host_webserver_port": {
+      "description": "The web container's localhost-bound port",
+      "example": "59001",
+      "type": "string"
+    },
+    "host_db_port": {
+      "description": "The db container's localhost-bound port",
+      "example": "59002",
+      "type": "string"
+    },
+    "phpmyadmin_port": {
+      "description": "Router port to be used for PHPMyAdmin (dba) container access",
+      "example": "8036",
+      "type": "string"
+    },
+    "phpmyadmin_https_port": {
+      "description": "Router port to be used for PHPMyAdmin (dba) container access (https)",
+      "example": "8037",
+      "type": "string"
+    },
+    "host_phpmyadmin_port": {
+      "description": "The dba (PHPMyAdmin) container's localhost-bound port, if exposed via bind-all-interfaces",
+      "example": "8036",
+      "type": "string"
+    },
+    "mailhog_port": {
+      "description": "Router port to be used for mailhog access",
+      "example": "8025",
+      "type": "string"
+    },
+    "mailhog_https_port": {
+      "description": "Router port to be used for mailhog access (https)",
+      "example": "8026",
+      "type": "string"
+    },
+    "host_mailhog_port": {
+      "description": "The mailhog container's localhost-bound port, if exposed via bind-all-interfaces",
+      "example": "8025",
+      "type": "string"
+    },
+    "webimage_extra_packages": {
+      "description": "A list of Debian packages that should be added to web container when the project is started",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "project_tld": {
+      "description": "Set the top-level domain to be used for projects, defaults to ddev.site (default \"ddev.site\")",
+      "example": "ddev.site",
+      "type": "string"
+    },
+    "ngrok_args": {
+      "description": "Provide extra args to ngrok in ddev share",
+      "example": "--subdomain mysite --auth username:pass",
+      "type": "string"
+    },
+    "disable_settings_management": {
+      "description": "Prevent ddev from creating or updating CMS settings files",
+      "example": false,
+      "type": "boolean"
+    },
+    "no_project_mount": {
+      "description": "Whether or not to skip mounting project code into the web container",
+      "example": false,
+      "type": "boolean"
+    },
+    "hooks": {
+      "description": "Run tasks before or after main DDEV commands are executed",
+      "type": "object",
+      "properties": {
+        "pre-start": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "post-start": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "pre-import-db": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "post-import-db": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "pre-import-files": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "post-import-files": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "pre-composer": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "post-composer": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "pre-stop": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "pre-config": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "post-config": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "pre-exec": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "post-exec": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "pre-pause": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "post-pause": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "pre-pull": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "post-pull": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "pre-push": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "post-push": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "pre-snapshot": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "post-snapshot": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "pre-restore-snapshot": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "post-restore-snapshot": {
+          "$ref": "#/definitions/DdevTask"
+        },
+        "post-stop": {
+          "$ref": "#/definitions/DdevTask"
+        }
+      }
+    }
+  }
+}
