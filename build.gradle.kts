@@ -51,7 +51,9 @@ tasks {
 }
 
 /* Tests */
-tasks.getByName<Test>("test") {
+tasks.test {
+    ignoreFailures = System.getProperty("test.ignoreFailures")?.toBoolean() ?: false
+
     useJUnitPlatform()
 }
 
