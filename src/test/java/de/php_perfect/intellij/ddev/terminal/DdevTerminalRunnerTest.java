@@ -1,7 +1,6 @@
 package de.php_perfect.intellij.ddev.terminal;
 
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.SystemInfo;
 import com.intellij.testFramework.fixtures.BasePlatformTestCase;
 import com.pty4j.PtyProcess;
 import de.php_perfect.intellij.ddev.state.DdevConfigLoader;
@@ -11,11 +10,14 @@ import de.php_perfect.intellij.ddev.state.State;
 import org.jetbrains.plugins.terminal.TerminalProcessOptions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 final class DdevTerminalRunnerTest extends BasePlatformTestCase {
     @Override
@@ -25,26 +27,17 @@ final class DdevTerminalRunnerTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void createProcess() throws ExecutionException, NoSuchFieldException, IllegalAccessException {
+    public void createProcess() throws ExecutionException {
+        Assumptions.assumeTrue(isDdevInstalled(), "ddev is not installed");
+
         Project project = getProject();
         DdevTerminalRunner ddevTerminalRunner = new DdevTerminalRunner(project);
-
-        State state = DdevStateManager.getInstance(project).getState();
-
-        Field field = state.getClass().getDeclaredField("ddevBinary");
-        field.setAccessible(true);
-
-        if (SystemInfo.isWindows) {
-            field.set(state, "where");
-        } else {
-            field.set(state, "which");
-        }
 
         Assertions.assertInstanceOf(PtyProcess.class, ddevTerminalRunner.createProcess(new TerminalProcessOptions(project.getBasePath(), null, null), null));
     }
 
     @Test
-    public void createProcessNotExistentDdev() throws ExecutionException, NoSuchFieldException, IllegalAccessException {
+    public void createProcessNotExistentDdev() throws NoSuchFieldException, IllegalAccessException {
         Project project = getProject();
         DdevTerminalRunner ddevTerminalRunner = new DdevTerminalRunner(project);
 
@@ -74,5 +67,24 @@ final class DdevTerminalRunnerTest extends BasePlatformTestCase {
         DdevStateManager.getInstance(this.getProject()).resetState();
 
         super.tearDown();
+    }
+
+    private boolean isDdevInstalled() {
+        try {
+            Process process = new ProcessBuilder("ddev", "--version")
+                    .redirectOutput(ProcessBuilder.Redirect.DISCARD)
+                    .redirectError(ProcessBuilder.Redirect.DISCARD)
+                    .start();
+
+            if (!process.waitFor(3, TimeUnit.SECONDS)) {
+                process.destroyForcibly();
+
+                return false;
+            }
+
+            return process.exitValue() == 0;
+        } catch (IOException | InterruptedException e) {
+            return false;
+        }
     }
 }
