@@ -2,10 +2,12 @@
     <img alt="The DDEV Integration Logo" height="128" src="./src/main/resources/META-INF/pluginIcon.svg" title="DDEV Integration Logo" width="128"/>
 </p>
 
-[![Java CI with Gradle](https://github.com/php-perfect/ddev-intellij-plugin/actions/workflows/gradle.yml/badge.svg "Build")](https://github.com/php-perfect/ddev-intellij-plugin/actions/workflows/gradle.yml)
+[![Build](https://img.shields.io/github/workflow/status/php-perfect/ddev-intellij-plugin/Java%20CI%20with%20Gradle/main "Build")](https://github.com/php-perfect/ddev-intellij-plugin/actions/workflows/gradle.yml)
+[![Version](https://img.shields.io/jetbrains/plugin/v/18813)](https://plugins.jetbrains.com/plugin/18813-ddev-integration)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/18813)](https://plugins.jetbrains.com/plugin/18813-ddev-integration)
+[![Rating](https://img.shields.io/jetbrains/plugin/r/rating/18813)](https://plugins.jetbrains.com/plugin/18813-ddev-integration/reviews)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/nico-loeber?label=Sponsors&logo=Github "Sponsors")](https://github.com/sponsors/nico-loeber?frequency=recurring&sponsor=nico-loeber)
 [![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg "BSD 3")](https://opensource.org/licenses/BSD-3-Clause)
-
-[comment]: <> (Maybe add another badge or link here to quickly navigate to the plugin store?)
 
 # DDEV Integration for IntelliJ IDEA
 
