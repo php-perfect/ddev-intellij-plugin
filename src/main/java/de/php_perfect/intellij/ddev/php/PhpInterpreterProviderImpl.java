@@ -9,7 +9,6 @@ import com.intellij.util.PathMappingSettings;
 import com.jetbrains.php.config.interpreters.PhpInterpreter;
 import com.jetbrains.php.config.interpreters.PhpInterpretersManagerImpl;
 import com.jetbrains.php.config.interpreters.PhpInterpretersPhpInfoCacheImpl;
-import com.jetbrains.php.config.interpreters.PhpSdkAdditionalData;
 import com.jetbrains.php.config.phpInfo.PhpInfo;
 import com.jetbrains.php.config.phpInfo.PhpInfoUtil;
 import com.jetbrains.php.remote.docker.compose.PhpDockerComposeStartCommand;
@@ -20,8 +19,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
-public class PhpInterpreterProviderImpl implements PhpInterpreterProvider {
+public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider {
     private static final String NAME = "DDEV";
     private static final String HELPERS_DIR = "/opt/.phpstorm_helpers";
     private static final String DOCKER_NAME = "Docker";
@@ -35,7 +35,21 @@ public class PhpInterpreterProviderImpl implements PhpInterpreterProvider {
     }
 
     public void registerInterpreter(@NotNull DdevInterpreterConfig interpreterConfig) {
+        final PhpInterpreter interpreter = getDdevPhpInterpreter();
+
+        if (!this.needsUpdate(interpreter, interpreterConfig)) {
+            return;
+        }
+
+        this.updateInterpreter(interpreter, interpreterConfig);
+
+        final PhpInfo phpInfo = PhpInfoUtil.getPhpInfo(this.project, interpreter, null);
+        PhpInterpretersPhpInfoCacheImpl.getInstance(this.project).setPhpInfo(interpreter.getName(), phpInfo);
+    }
+
+    private @NotNull PhpInterpreter getDdevPhpInterpreter() {
         final PhpInterpretersManagerImpl interpretersManager = PhpInterpretersManagerImpl.getInstance(this.project);
+
         PhpInterpreter interpreter = interpretersManager.findInterpreter(NAME);
 
         if (interpreter == null) {
@@ -46,20 +60,11 @@ public class PhpInterpreterProviderImpl implements PhpInterpreterProvider {
             interpretersManager.setInterpreters(interpreters);
         }
 
-        if (!this.needsUpdate(interpreter, interpreterConfig)) {
-            System.out.println("Needs no update");
-            return;
-        }
-
-        System.out.println("Updating!");
-        this.updateInterpreter(interpreter, interpreterConfig);
-        final PhpInfo phpInfo = PhpInfoUtil.getPhpInfo(this.project, interpreter, null);
-        PhpInterpretersPhpInfoCacheImpl.getInstance(this.project).setPhpInfo(interpreter.getName(), phpInfo);
+        return interpreter;
     }
 
     private @NotNull PhpInterpreter createInterpreter() {
-        PhpInterpreter interpreter;
-        interpreter = new PhpInterpreter();
+        final PhpInterpreter interpreter = new PhpInterpreter();
         interpreter.setName(NAME);
         interpreter.setIsProjectLevel(true);
 
@@ -67,17 +72,11 @@ public class PhpInterpreterProviderImpl implements PhpInterpreterProvider {
     }
 
     private boolean needsUpdate(@NotNull PhpInterpreter existingInterpreter, @NotNull DdevInterpreterConfig interpreterConfig) {
-        PhpSdkAdditionalData additionalData = existingInterpreter.getPhpSdkAdditionalData();
-
-        if (!(additionalData instanceof PhpRemoteSdkAdditionalData)) {
-            return true;
-        }
-
-        return !((PhpRemoteSdkAdditionalData) additionalData).getInterpreterPath().equals("php" + interpreterConfig.getPhpVersion());
+        return !(Objects.equals(existingInterpreter.getPathToPhpExecutable(), interpreterConfig.getPhpVersion()));
     }
 
     private void updateInterpreter(@NotNull PhpInterpreter interpreter, @NotNull DdevInterpreterConfig interpreterConfig) {
-        final PhpRemoteSdkAdditionalData sdkData = new PhpRemoteSdkAdditionalData("php" + interpreterConfig.getPhpVersion());
+        final PhpRemoteSdkAdditionalData sdkData = new PhpRemoteSdkAdditionalData(interpreterConfig.getPhpVersion());
         sdkData.setInterpreterId(interpreter.getId());
         sdkData.setHelpersPath(HELPERS_DIR);
 
@@ -93,6 +92,7 @@ public class PhpInterpreterProviderImpl implements PhpInterpreterProvider {
         sdkData.setPathMappings(this.loadPathMappings(sdkData));
 
         interpreter.setPhpSdkAdditionalData(sdkData);
+        interpreter.setHomePath(sdkData.getSdkId());
     }
 
     private PathMappingSettings loadPathMappings(PhpRemoteSdkAdditionalData sdkData) {

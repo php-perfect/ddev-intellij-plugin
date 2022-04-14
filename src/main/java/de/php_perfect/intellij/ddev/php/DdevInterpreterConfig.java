@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-class DdevInterpreterConfig {
+final class DdevInterpreterConfig {
     private final @NotNull String name;
     private final @NotNull String phpVersion;
     private final @NotNull String composeFilePath;

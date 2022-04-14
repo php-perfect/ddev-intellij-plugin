@@ -6,7 +6,7 @@ import de.php_perfect.intellij.ddev.cmd.Description;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class AutoConfigurePhpInterpreterListener implements DescriptionChangedListener {
+public final class AutoConfigurePhpInterpreterListener implements DescriptionChangedListener {
     private final @NotNull Project project;
 
     public AutoConfigurePhpInterpreterListener(@NotNull Project project) {

@@ -6,7 +6,7 @@ import de.php_perfect.intellij.ddev.cmd.Description;
 import de.php_perfect.intellij.ddev.settings.DdevSettingsState;
 import org.jetbrains.annotations.NotNull;
 
-public class ConfigurationProviderImpl implements ConfigurationProvider {
+public final class ConfigurationProviderImpl implements ConfigurationProvider {
     private final @NotNull Project project;
 
     public ConfigurationProviderImpl(@NotNull Project project) {
@@ -29,7 +29,7 @@ public class ConfigurationProviderImpl implements ConfigurationProvider {
             return;
         }
 
-        final DdevInterpreterConfig ddevInterpreterConfig = new DdevInterpreterConfig(description.getName(), description.getPhpVersion(), composeFile.getPath());
+        final DdevInterpreterConfig ddevInterpreterConfig = new DdevInterpreterConfig(description.getName(), "php" + description.getPhpVersion(), composeFile.getPath());
         PhpInterpreterProvider.getInstance(this.project).registerInterpreter(ddevInterpreterConfig);
     }
 }

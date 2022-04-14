@@ -5,8 +5,6 @@
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.php.PhpInterpreterProviderImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.php.PhpInterpreterProvider"/>
-        <projectService serviceImplementation="de.php_perfect.intellij.ddev.php.DdevPhpInterpreterManagerImpl"
-                        serviceInterface="de.php_perfect.intellij.ddev.php.DdevPhpInterpreterManager"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.php.DdevComposeFileLoaderImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.php.DdevComposeFileLoader"/>
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.php.ConfigurationProviderImpl"

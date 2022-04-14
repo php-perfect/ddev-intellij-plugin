@@ -5,7 +5,7 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PhpVersion {
+public final class PhpVersion {
     private static final ExtensionPointName<de.php_perfect.intellij.ddev.PhpVersionProvider> EP_NAME = ExtensionPointName.create("de.php_perfect.intellij.ddev.phpVersionProvider");
 
     public static @Nullable String getLanguageLevelIfAvailable(@NotNull Project project) {
