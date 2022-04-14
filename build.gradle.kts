@@ -1,5 +1,5 @@
 plugins {
-    id("org.jetbrains.intellij") version "1.4.0"
+    id("org.jetbrains.intellij") version "1.5.2"
     java
 
     id("org.sonarqube") version "3.3"
@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "de.php_perfect.intellij.ddev"
-version = "1.0-ALPHA-1"
+version = "1.0-ALPHA-2"
 
 repositories {
     mavenCentral()
@@ -27,14 +27,14 @@ java {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2021.3.3")
+    version.set("2022.1")
     type.set("IU")
-    plugins.add("com.jetbrains.php:213.6777.58")
-    plugins.add("org.jetbrains.plugins.phpstorm-remote-interpreter:213.5744.125")
+    plugins.add("com.jetbrains.php:221.5080.224")
+    plugins.add("org.jetbrains.plugins.phpstorm-remote-interpreter:221.5080.169")
     plugins.add("org.jetbrains.plugins.remote-run")
-    plugins.add("org.jetbrains.plugins.phpstorm-docker:213.5744.125")
+    plugins.add("org.jetbrains.plugins.phpstorm-docker:221.5080.169")
     plugins.add("com.intellij.database")
-    plugins.add("Docker:213.6461.58")
+    plugins.add("Docker:221.5080.126")
     updateSinceUntilBuild.set(false)
 }
 tasks {
