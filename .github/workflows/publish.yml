@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Make gradlew executable
+      - name: Make Gradlew Executable
         run: chmod +x gradlew
 
       - name: Set up JDK 11
@@ -22,13 +22,14 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      - uses: actions-ecosystem/action-regex-match@v2
+      - name: Extract Channel from Version
+        uses: actions-ecosystem/action-regex-match@v2
         id: match-channel
         with:
           text: ${{ env.GITHUB_REF }}
           regex: '(eap|beta|alpha)\d*$'
 
-      - name: Build project
+      - name: Publish Release
         uses: gradle/gradle-build-action@v2
         with:
           arguments: publishPlugin
@@ -37,4 +38,4 @@ jobs:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
           JETBRAINS_TOKEN: ${{ secrets.JETBRAINS_TOKEN }}
-          PUBLISH_CHANNEL: ${{ steps.match-channel.outputs.group1 }}
+          PUBLISH_CHANNEL: 'alpha'
