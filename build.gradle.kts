@@ -48,6 +48,15 @@ tasks {
             """.trimIndent()
         )
     }
+    signPlugin {
+        certificateChain.set(System.getenv("CERTIFICATE_CHAIN") ?: "")
+        privateKey.set(System.getenv("PRIVATE_KEY") ?: "")
+        password.set(System.getenv("PRIVATE_KEY_PASSWORD") ?: "")
+    }
+    publishPlugin {
+        channels.set(if (System.getenv("PUBLISH_CHANNEL") != null && System.getenv("PUBLISH_CHANNEL") != "") listOf(System.getenv("PUBLISH_CHANNEL")) else listOf())
+        token.set(System.getenv("JETBRAINS_TOKEN") ?: "")
+    }
 }
 
 /* Tests */
