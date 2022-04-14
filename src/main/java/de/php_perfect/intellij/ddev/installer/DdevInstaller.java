@@ -16,7 +16,6 @@ import org.jetbrains.annotations.Nullable;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.file.Files;
 
 @Service(Service.Level.PROJECT)
 public final class DdevInstaller {
@@ -104,19 +103,20 @@ public final class DdevInstaller {
     private void download(URL url, File file, @NotNull ProgressIndicator progressIndicator) throws IOException {
         final URLConnection connection = url.openConnection();
         final long completeFileSize = connection.getContentLength();
-        final BufferedInputStream in = new BufferedInputStream(connection.getInputStream());
-        final FileOutputStream fos = new FileOutputStream(file);
-        final BufferedOutputStream bout = new BufferedOutputStream(fos, 1024);
-        byte[] data = new byte[1024];
-        long downloadedFileSize = 0;
-        int x;
-        while ((x = in.read(data, 0, 1024)) >= 0) {
-            downloadedFileSize += x;
-            progressIndicator.setFraction((double) downloadedFileSize / (double) completeFileSize);
-            bout.write(data, 0, x);
+
+        try (final FileOutputStream fos = new FileOutputStream(file);
+             final BufferedOutputStream bout = new BufferedOutputStream(fos, 1024);
+             final BufferedInputStream in = new BufferedInputStream(connection.getInputStream())
+        ) {
+            byte[] data = new byte[1024];
+            long downloadedFileSize = 0;
+            int x;
+            while ((x = in.read(data, 0, 1024)) >= 0) {
+                downloadedFileSize += x;
+                progressIndicator.setFraction((double) downloadedFileSize / (double) completeFileSize);
+                bout.write(data, 0, x);
+            }
         }
-        bout.close();
-        in.close();
     }
 
     private void logOutput(Process process) throws IOException {
