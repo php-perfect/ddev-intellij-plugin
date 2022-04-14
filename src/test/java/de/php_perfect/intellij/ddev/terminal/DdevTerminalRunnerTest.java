@@ -27,16 +27,6 @@ final class DdevTerminalRunnerTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void createProcess() throws ExecutionException {
-        Assumptions.assumeTrue(isDdevInstalled(), "ddev is not installed");
-
-        Project project = getProject();
-        DdevTerminalRunner ddevTerminalRunner = new DdevTerminalRunner(project);
-
-        Assertions.assertInstanceOf(PtyProcess.class, ddevTerminalRunner.createProcess(new TerminalProcessOptions(project.getBasePath(), null, null), null));
-    }
-
-    @Test
     public void createProcessNotExistentDdev() throws NoSuchFieldException, IllegalAccessException {
         Project project = getProject();
         DdevTerminalRunner ddevTerminalRunner = new DdevTerminalRunner(project);
