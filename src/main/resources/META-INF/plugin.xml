@@ -85,7 +85,7 @@
                              id="de.php_perfect.intellij.ddev.settings.DdevSettingsConfigurable"
                              key="settings.title"/>
 
-        <postStartupActivity implementation="de.php_perfect.intellij.ddev.PostStartupActivity"/>
+        <postStartupActivity implementation="de.php_perfect.intellij.ddev.InitPluginActivity"/>
 
         <statusBarWidgetFactory order="before readOnlyWidget"
                                 implementation="de.php_perfect.intellij.ddev.statusBar.DdevStatusBarWidgetFactoryImpl"/>

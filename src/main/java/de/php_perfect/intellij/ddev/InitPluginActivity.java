@@ -7,7 +7,7 @@ import com.intellij.openapi.startup.StartupActivity;
 import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import org.jetbrains.annotations.NotNull;
 
-public class PostStartupActivity implements StartupActivity, StartupActivity.DumbAware {
+public final class InitPluginActivity implements StartupActivity, StartupActivity.DumbAware {
     private static final ExtensionPointName<DdevAwareActivity> EP_NAME = ExtensionPointName.create("de.php_perfect.intellij.ddev.ddevAwareActivity");
 
     @Override

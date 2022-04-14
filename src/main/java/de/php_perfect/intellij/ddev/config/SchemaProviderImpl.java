@@ -17,7 +17,6 @@ import java.nio.charset.StandardCharsets;
 public final class SchemaProviderImpl implements SchemaProvider {
     private static final Logger LOG = Logger.getInstance(SchemaProviderImpl.class);
     private static final @NonNls String FALLBACK_VERSION = "master";
-    // @todo Change to real github url
     private static final @NonNls String SCHEMA_URL = "https://raw.githubusercontent.com/drud/ddev/%s/markdown-link-check.json";
     private static final @NonNls String SCHEMA_NAME = "ddev-config-%s.schema.json";
 
@@ -47,7 +46,7 @@ public final class SchemaProviderImpl implements SchemaProvider {
 
     private @Nullable String requestSchema(String version) {
         String url = this.buildUrl(version);
-        LOG.debug(String.format("Loading DDEV config schema for version", version));
+        LOG.debug(String.format("Loading DDEV config schema for version %s", version));
 
         try {
             return request(url);
