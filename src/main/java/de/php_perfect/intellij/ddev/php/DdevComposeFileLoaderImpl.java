@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class DdevComposeFileLoaderImpl implements DdevComposeFileLoader {
+public final class DdevComposeFileLoaderImpl implements DdevComposeFileLoader {
     private static final @NotNull String DDEV_COMPOSE_PATH = ".ddev/.ddev-docker-compose-full.yaml";
 
     private final @NotNull Project project;

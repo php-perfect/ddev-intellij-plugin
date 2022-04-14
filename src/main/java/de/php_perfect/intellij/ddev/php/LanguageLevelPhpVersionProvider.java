@@ -5,7 +5,7 @@ import com.jetbrains.php.config.PhpLanguageLevel;
 import de.php_perfect.intellij.ddev.PhpVersionProvider;
 import org.jetbrains.annotations.NotNull;
 
-public class LanguageLevelPhpVersionProvider implements PhpVersionProvider {
+public final class LanguageLevelPhpVersionProvider implements PhpVersionProvider {
     @Override
     public String getVersion(@NotNull Project project) {
         return PhpLanguageLevel.current(project).getPresentableName();
