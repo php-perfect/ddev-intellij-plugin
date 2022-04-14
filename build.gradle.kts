@@ -38,9 +38,6 @@ intellij {
     updateSinceUntilBuild.set(false)
 }
 tasks {
-    runIde {
-        ideDir.set(File("C:\\Users\\nl\\AppData\\Local\\JetBrains\\Toolbox\\apps\\PhpStorm\\ch-0\\213.7172.28"))
-    }
     patchPluginXml {
         changeNotes.set(
             """
