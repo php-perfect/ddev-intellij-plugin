@@ -21,6 +21,7 @@
         <sup>1</sup> Features are only available in IDEs supporting these, like PHPStorm and IntelliJ Ultimate.
     </p>
     ]]></description>
+    <change-notes/>
 
     <idea-version since-build="221.5080.210" until-build="221.*"/>
     <depends>com.intellij.modules.platform</depends>

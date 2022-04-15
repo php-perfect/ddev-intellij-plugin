@@ -1,3 +1,5 @@
+import org.jetbrains.intellij.tasks.ListProductsReleasesTask
+
 plugins {
     id("org.jetbrains.changelog") version "1.3.1"
     id("org.jetbrains.intellij") version "1.5.2"
@@ -36,7 +38,6 @@ intellij {
     plugins.add("org.jetbrains.plugins.phpstorm-docker:221.5080.169")
     plugins.add("com.intellij.database")
     plugins.add("Docker:221.5080.126")
-    updateSinceUntilBuild.set(false)
 }
 tasks {
     patchPluginXml {
@@ -53,8 +54,9 @@ tasks {
             channels.set(listOf(System.getenv("PUBLISH_CHANNEL")))
         }
     }
-    runPluginVerifier {
-        ideVersions.set(listOf("IC-2022.1.1", "PS-2022.1.1", "DB-2022.1.1"))
+    listProductsReleases {
+        types.set(listOf("IC", "IU", "PS", "WS", "DB"))
+        releaseChannels.set(listOf(ListProductsReleasesTask.Channel.RELEASE))
     }
 }
 
