@@ -54,8 +54,10 @@ tasks {
         password.set(System.getenv("PRIVATE_KEY_PASSWORD") ?: "")
     }
     publishPlugin {
-        channels.set(if (System.getenv("PUBLISH_CHANNEL") != null && System.getenv("PUBLISH_CHANNEL") != "") listOf(System.getenv("PUBLISH_CHANNEL")) else listOf())
         token.set(System.getenv("JETBRAINS_TOKEN") ?: "")
+        if (System.getenv("PUBLISH_CHANNEL") != null && System.getenv("PUBLISH_CHANNEL") != "") {
+            channels.set(listOf(System.getenv("PUBLISH_CHANNEL")))
+        }
     }
 }
 
