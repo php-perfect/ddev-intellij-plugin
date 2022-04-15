@@ -34,6 +34,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: test
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
   release:
     needs: [ tests ]
@@ -58,6 +59,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: buildPlugin --exclude-task test
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
@@ -109,6 +111,7 @@ jobs:
 #        uses: gradle/gradle-build-action@v2
 #        with:
 #          arguments: publishPlugin
+#          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 #        env:
 #          CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
 #          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}

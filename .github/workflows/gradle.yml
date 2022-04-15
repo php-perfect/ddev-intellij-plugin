@@ -28,6 +28,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: buildPlugin --exclude-task test
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
       - name: Upload jar file
         uses: actions/upload-artifact@v2
@@ -58,6 +59,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: test --info jacocoTestReport
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
       ##
       # Upload test reports
