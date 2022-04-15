@@ -13,10 +13,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - General Refactorings
+- Supported IntelliJ Versions set 2022.1
 
 ### Fixed
 
 - Auto Configuration for PHP Remote Interpreter works much better now
+- Lots of Bug fixes
 
 ## [1.0.0-alpha1]
 
