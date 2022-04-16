@@ -1,4 +1,4 @@
-# Contributing Guide
+# Contributing Guidelines
 
 If you have ideas for improvements or new features,
 please [open a discussion](https://github.com/php-perfect/ddev-intellij-plugin/discussions/new?category=ideas) and share

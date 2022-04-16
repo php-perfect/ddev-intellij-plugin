@@ -40,4 +40,9 @@ or from your IDE.
 In your IDE, navigate to `Settings > Plugins > Marketplace` and search for "DDEV Integration". Click Install and restart
 your IDE.
 
-Please refer to the [Installation Guide](https://ddev.readthedocs.io/en/stable/) on how to install DDEV on your system.
+Please refer to the [DDEV Installation Guide](https://ddev.readthedocs.io/en/stable/) on how to install DDEV on your
+system.
+
+## Contributions and Issues
+
+Please refer to the [Contributing Guidelines](./CONTRIBUTING.md).
