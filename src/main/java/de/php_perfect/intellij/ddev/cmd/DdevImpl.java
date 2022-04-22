@@ -17,13 +17,15 @@ public final class DdevImpl implements Ddev {
     private static final @NotNull Logger LOG = Logger.getInstance(ServiceActionManagerImpl.class.getName());
     private static final @NotNull String DDEV_COMMAND = "ddev";
 
+    private static final int COMMAND_TIMEOUT = 8_000;
+
     @Override
     public @Nullable String findBinary(@NotNull Project project) throws CommandFailedException {
         final String projectDir = project.getBasePath();
         final GeneralCommandLine commandLine = new GeneralCommandLine(WhichProvider.getWhichCommand(projectDir), DDEV_COMMAND).withWorkDirectory(projectDir);
 
         try {
-            final ProcessOutput processOutput = ProcessExecutor.getInstance().executeCommandLine(commandLine, 5_000);
+            final ProcessOutput processOutput = ProcessExecutor.getInstance().executeCommandLine(commandLine, COMMAND_TIMEOUT);
 
             if (processOutput.getExitCode() != 0) {
                 return null;
@@ -51,7 +53,11 @@ public final class DdevImpl implements Ddev {
         try {
             ProcessOutput processOutput = null;
             try {
-                processOutput = ProcessExecutor.getInstance().executeCommandLine(commandLine, 5_000);
+                processOutput = ProcessExecutor.getInstance().executeCommandLine(commandLine, COMMAND_TIMEOUT);
+
+                if (processOutput.isTimeout()) {
+                    throw new CommandFailedException("Command timed out after " + (COMMAND_TIMEOUT / 1000) + " seconds: " + commandLine.getCommandLineString());
+                }
 
                 if (processOutput.getExitCode() != 0) {
                     throw new CommandFailedException("Command '" + commandLine.getCommandLineString() + "' returned non zero exit code " + processOutput);
