@@ -49,18 +49,19 @@ public final class DdevImpl implements Ddev {
         final GeneralCommandLine commandLine = createDdevCommandLine(action, project.getBasePath());
 
         try {
+            ProcessOutput processOutput = null;
             try {
-                final ProcessOutput processOutput = ProcessExecutor.getInstance().executeCommandLine(commandLine, 5_000);
+                processOutput = ProcessExecutor.getInstance().executeCommandLine(commandLine, 5_000);
 
                 if (processOutput.getExitCode() != 0) {
-                    throw new CommandFailedException("Command returned non zero exit code " + commandLine.getCommandLineString());
+                    throw new CommandFailedException("Command '" + commandLine.getCommandLineString() + "' returned non zero exit code " + processOutput);
                 }
 
                 return JsonParser.getInstance().parse(processOutput.getStdout(), type);
             } catch (ExecutionException exception) {
                 throw new CommandFailedException("Failed to execute " + commandLine.getCommandLineString(), exception);
             } catch (JsonParserException exception) {
-                throw new CommandFailedException("Failed to parse output of command " + commandLine.getCommandLineString(), exception);
+                throw new CommandFailedException("Failed to parse output of command '" + commandLine.getCommandLineString() + "': " + processOutput.getStdout(), exception);
             }
         } catch (Exception exception) {
             LOG.error(exception);
