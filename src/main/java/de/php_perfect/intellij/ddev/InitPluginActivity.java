@@ -17,7 +17,5 @@ public final class InitPluginActivity implements StartupActivity, StartupActivit
                 ApplicationManager.getApplication().executeOnPooledThread(() -> extension.runActivity(project));
             }
         });
-
-        System.out.println(DdevStateManager.getInstance(project).getState());
     }
 }
