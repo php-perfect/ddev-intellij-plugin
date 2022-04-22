@@ -7,16 +7,18 @@ import com.intellij.openapi.util.NlsActions;
 import de.php_perfect.intellij.ddev.cmd.Description;
 import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import de.php_perfect.intellij.ddev.state.State;
+import java.net.URL;
+import java.util.Objects;
+import javax.swing.Icon;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-import java.net.URL;
-
 public final class OpenServiceAction extends DdevAwareAction {
+
     private final @NotNull URL url;
 
-    public OpenServiceAction(@NotNull URL url, @NotNull @NlsActions.ActionText String text, @Nullable @NlsActions.ActionDescription String description, @Nullable Icon icon) {
+    public OpenServiceAction(@NotNull URL url, @NotNull @NlsActions.ActionText String text,
+        @Nullable @NlsActions.ActionDescription String description, @Nullable Icon icon) {
         super(text, description, icon);
         this.url = url;
     }
@@ -41,5 +43,22 @@ public final class OpenServiceAction extends DdevAwareAction {
         }
 
         return description.getStatus() == Description.Status.RUNNING;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final OpenServiceAction that = (OpenServiceAction) o;
+        return Objects.equals(url, that.url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(url);
     }
 }
