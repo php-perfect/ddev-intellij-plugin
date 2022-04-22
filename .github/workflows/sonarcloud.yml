@@ -19,6 +19,7 @@ jobs:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: Make gradlew executable
+        if: ${{ env.SONAR_TOKEN != null }}
         run: chmod +x gradlew
 
       - name: Set up JDK 11
