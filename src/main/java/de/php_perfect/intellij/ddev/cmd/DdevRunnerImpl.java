@@ -1,6 +1,7 @@
 package de.php_perfect.intellij.ddev.cmd;
 
 import com.intellij.execution.configurations.GeneralCommandLine;
+import com.intellij.execution.configurations.PtyCommandLine;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
@@ -10,6 +11,9 @@ import de.php_perfect.intellij.ddev.php.PhpVersion;
 import de.php_perfect.intellij.ddev.state.DdevConfigLoader;
 import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import org.jetbrains.annotations.NotNull;
+
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public final class DdevRunnerImpl implements DdevRunner {
 
@@ -89,8 +93,11 @@ public final class DdevRunnerImpl implements DdevRunner {
     }
 
     private @NotNull GeneralCommandLine createCommandLine(@NotNull String ddevAction, @NotNull Project project) {
-        return new GeneralCommandLine("ddev", ddevAction)
+        return new PtyCommandLine(List.of("ddev", ddevAction))
+                .withInitialRows(30)
+                .withInitialColumns(120)
                 .withWorkDirectory(project.getBasePath())
+                .withCharset(StandardCharsets.UTF_8)
                 .withEnvironment("DDEV_NONINTERACTIVE", "true");
     }
 }
