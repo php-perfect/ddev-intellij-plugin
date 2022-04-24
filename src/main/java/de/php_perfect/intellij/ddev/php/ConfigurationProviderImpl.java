@@ -3,6 +3,7 @@ package de.php_perfect.intellij.ddev.php;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import de.php_perfect.intellij.ddev.cmd.Description;
+import de.php_perfect.intellij.ddev.notification.DdevNotifier;
 import de.php_perfect.intellij.ddev.settings.DdevSettingsState;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,6 +27,13 @@ public final class ConfigurationProviderImpl implements ConfigurationProvider {
         final VirtualFile composeFile = DdevComposeFileLoader.getInstance(this.project).load();
 
         if (composeFile == null || !composeFile.exists()) {
+            return;
+        }
+
+        try {
+            Class.forName("com.intellij.docker.remote.DockerComposeCredentialsType");
+        } catch (ClassNotFoundException e) {
+            DdevNotifier.getInstance(this.project).asyncNotifyMissingPlugin("PHP Docker");
             return;
         }
 

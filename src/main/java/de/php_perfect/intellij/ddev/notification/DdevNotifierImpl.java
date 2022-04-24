@@ -7,6 +7,7 @@ import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import de.php_perfect.intellij.ddev.actions.InstallationInstructionsAction;
+import de.php_perfect.intellij.ddev.actions.ManagePluginsAction;
 import de.php_perfect.intellij.ddev.actions.RestartIdeAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
@@ -85,6 +86,24 @@ public final class DdevNotifierImpl implements DdevNotifier {
                         DdevIntegrationBundle.message("notification.AlreadyLatestVersion.text"),
                         NotificationType.INFORMATION
                 )
+                .notify(this.project);
+    }
+
+    @Override
+    public void asyncNotifyMissingPlugin(@NotNull final String pluginName) {
+        ApplicationManager.getApplication().invokeLater(() -> this.notifyMissingPlugin(pluginName), ModalityState.NON_MODAL);
+    }
+
+    @TestOnly
+    public void notifyMissingPlugin(@NotNull final String pluginName) {
+        NotificationGroupManager.getInstance()
+                .getNotificationGroup("DdevIntegration.Sticky")
+                .createNotification(
+                        DdevIntegrationBundle.message("notification.MissingPlugin.title"),
+                        DdevIntegrationBundle.message("notification.MissingPlugin.text", pluginName),
+                        NotificationType.WARNING
+                )
+                .addAction(new ManagePluginsAction())
                 .notify(this.project);
     }
 }
