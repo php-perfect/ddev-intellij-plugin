@@ -34,7 +34,7 @@ java {
 intellij {
     version.set("2022.1")
     type.set("IU")
-    plugins.add("com.intellij.database:221.5080.193")
+    plugins.add("com.intellij.database")
     plugins.add("org.jetbrains.plugins.terminal:221.5080.126")
     plugins.add("com.jetbrains.php:221.5080.224")
     plugins.add("org.jetbrains.plugins.phpstorm-remote-interpreter:221.5080.169")
