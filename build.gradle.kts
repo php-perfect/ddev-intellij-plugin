@@ -35,11 +35,11 @@ intellij {
     version.set("2022.1")
     type.set("IU")
     plugins.add("com.intellij.database")
-    plugins.add("org.jetbrains.plugins.terminal:221.5080.126")
+    plugins.add("org.jetbrains.plugins.terminal")
     plugins.add("com.jetbrains.php:221.5080.224")
     plugins.add("org.jetbrains.plugins.phpstorm-remote-interpreter:221.5080.169")
     plugins.add("org.jetbrains.plugins.phpstorm-docker:221.5080.169")
-    plugins.add("Docker:221.5080.126")
+    plugins.add("Docker")
 }
 tasks {
     patchPluginXml {
