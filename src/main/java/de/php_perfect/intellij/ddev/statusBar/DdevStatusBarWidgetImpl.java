@@ -17,12 +17,14 @@ import com.intellij.openapi.wm.impl.status.widget.StatusBarWidgetWrapper;
 import com.intellij.ui.awt.RelativePoint;
 import com.intellij.ui.popup.PopupState;
 import com.intellij.util.Consumer;
+import com.intellij.util.concurrency.EdtExecutorService;
 import com.intellij.util.messages.MessageBus;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import de.php_perfect.intellij.ddev.DdevStateChangedListener;
 import de.php_perfect.intellij.ddev.cmd.Description;
 import de.php_perfect.intellij.ddev.icons.DdevIntegrationIcons;
 import de.php_perfect.intellij.ddev.state.State;
+import de.php_perfect.intellij.ddev.tutorial.GotItTutorial;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -30,6 +32,9 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.concurrent.TimeUnit;
+
+import static com.intellij.util.ui.update.UiNotifyConnector.doWhenFirstShown;
 
 public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
     private static final @NotNull String ACTION_GROUP = "DdevIntegration.Services";
@@ -64,6 +69,8 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
         this.component.setIcon(DdevIntegrationIcons.DdevLogoMono);
         this.component.setToolTipText(DdevIntegrationBundle.message("statusBar.toolTip"));
         this.component.setVisible(false);
+        doWhenFirstShown(this.component, () -> delayTutorial(this.component), this);
+
         return this.component;
     }
 
@@ -129,6 +136,10 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
         if (description != null && description.getStatus() == Description.Status.RUNNING) {
             this.clickListener.installOn(this.component, true);
         }
+    }
+
+    private void delayTutorial(@NotNull JComponent component) {
+        EdtExecutorService.getScheduledExecutorInstance().schedule(() -> GotItTutorial.getInstance().showStatusBarTutorial(component, this), 3000, TimeUnit.MILLISECONDS);
     }
 
     private @NotNull @NlsContexts.StatusBarText String getText(@NotNull State state) {

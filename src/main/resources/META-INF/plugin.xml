@@ -59,6 +59,8 @@
                             serviceInterface="de.php_perfect.intellij.ddev.cmd.DdevRunner"/>
         <applicationService serviceImplementation="de.php_perfect.intellij.ddev.version.GithubClient"
                             serviceInterface="de.php_perfect.intellij.ddev.version.ReleaseClient"/>
+        <applicationService serviceImplementation="de.php_perfect.intellij.ddev.tutorial.GotItTutorialImpl"
+                            serviceInterface="de.php_perfect.intellij.ddev.tutorial.GotItTutorial"/>
 
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.notification.DdevNotifierImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.notification.DdevNotifier"/>
@@ -85,6 +87,8 @@
 
         <statusBarWidgetFactory order="before readOnlyWidget"
                                 implementation="de.php_perfect.intellij.ddev.statusBar.DdevStatusBarWidgetFactoryImpl"/>
+
+        <statistics.gotItTooltipAllowlist prefix="ddev.features"/>
     </extensions>
 
     <extensions defaultExtensionNs="JavaScript.JsonSchema">
