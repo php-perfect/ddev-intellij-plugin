@@ -6,6 +6,7 @@ import com.intellij.docker.remote.DockerCredentialsEditor;
 import com.intellij.execution.configuration.EnvironmentVariablesData;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.PathMappingSettings;
+import com.jetbrains.php.config.PhpProjectConfigurationFacade;
 import com.jetbrains.php.config.interpreters.PhpInterpreter;
 import com.jetbrains.php.config.interpreters.PhpInterpretersManagerImpl;
 import com.jetbrains.php.config.interpreters.PhpInterpretersPhpInfoCacheImpl;
@@ -42,9 +43,8 @@ public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider 
         }
 
         this.updateInterpreter(interpreter, interpreterConfig);
-
-        final PhpInfo phpInfo = PhpInfoUtil.getPhpInfo(this.project, interpreter, null);
-        PhpInterpretersPhpInfoCacheImpl.getInstance(this.project).setPhpInfo(interpreter.getName(), phpInfo);
+        this.loadPhpInfo(interpreter);
+        this.setDefaultIfNotSet(interpreter);
     }
 
     private @NotNull PhpInterpreter getDdevPhpInterpreter() {
@@ -103,5 +103,19 @@ public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider 
         }
 
         return null;
+    }
+
+    private void loadPhpInfo(final PhpInterpreter interpreter) {
+        final PhpInfo phpInfo = PhpInfoUtil.getPhpInfo(this.project, interpreter, null);
+        PhpInterpretersPhpInfoCacheImpl.getInstance(this.project).setPhpInfo(interpreter.getName(), phpInfo);
+    }
+
+    private void setDefaultIfNotSet(final PhpInterpreter interpreter) {
+        final var phpConfigurationFacade = PhpProjectConfigurationFacade.getInstance(this.project);
+        final var phpConfiguration = phpConfigurationFacade.getProjectConfiguration();
+
+        if (phpConfiguration.getInterpreterName() == null) {
+            phpConfiguration.setInterpreterName(interpreter.getName());
+        }
     }
 }
