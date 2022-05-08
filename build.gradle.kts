@@ -2,7 +2,7 @@ import org.jetbrains.intellij.tasks.ListProductsReleasesTask
 
 plugins {
     id("org.jetbrains.changelog") version "1.3.1"
-    id("org.jetbrains.intellij") version "1.5.2"
+    id("org.jetbrains.intellij") version "1.5.3"
     java
 
     id("org.sonarqube") version "3.3"
@@ -42,6 +42,9 @@ intellij {
     plugins.add("Docker")
 }
 tasks {
+    runIde {
+        ideDir.set(File("C:\\Users\\nl\\AppData\\Local\\JetBrains\\Toolbox\\apps\\PhpStorm\\ch-2\\221.5080.224"))
+    }
     patchPluginXml {
         changeNotes.set(provider { changelog.getOrNull(version.get())?.toHTML() })
     }
