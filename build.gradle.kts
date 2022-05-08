@@ -42,9 +42,6 @@ intellij {
     plugins.add("Docker")
 }
 tasks {
-    runIde {
-        ideDir.set(File("C:\\Users\\nl\\AppData\\Local\\JetBrains\\Toolbox\\apps\\PhpStorm\\ch-2\\221.5080.224"))
-    }
     patchPluginXml {
         changeNotes.set(provider { changelog.getOrNull(version.get())?.toHTML() })
     }
