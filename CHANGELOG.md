@@ -29,16 +29,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fixed [#24](https://github.com/php-perfect/ddev-intellij-plugin/issues/24) by connecting to database via 127.0.0.1
   instead of localhost
 
-## New Contributors
+### New Contributors
 
 * @kevin0x90 made their first contribution in https://github.com/php-perfect/ddev-intellij-plugin/pull/29
 
-## Special Thanks
+### Special Thanks
 
 Thanks to our alpha testers of the alpha2 pre release!
 
 Your feedback made this release possible:
-@marcvangend, @calien666, @cmuench, @kgaut and others
+[@marcvangend](https://github.com/marcvangend), [@calien666](https://github.com/calien666)
+, [@cmuench](https://github.com/cmuench), [@kgaut](https://github.com/kgaut) and others
 
 ## [1.0.0-alpha2]
 
