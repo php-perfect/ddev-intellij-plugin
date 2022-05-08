@@ -23,7 +23,7 @@ final class DataSourceProviderTest extends BasePlatformTestCase {
         LocalDataSource dataSource = dataSourceProvider.buildDdevDataSource(databaseInfo);
         Assertions.assertInstanceOf(LocalDataSource.class, dataSource);
         Assertions.assertNotNull(dataSource);
-        Assertions.assertEquals("jdbc:mysql://localhost:12345/?user=some-user&password=some-password", dataSource.getUrl());
+        Assertions.assertEquals("jdbc:mysql://127.0.0.1:12345/?user=some-user&password=some-password", dataSource.getUrl());
     }
 
     @Test
@@ -35,7 +35,7 @@ final class DataSourceProviderTest extends BasePlatformTestCase {
         LocalDataSource dataSource = dataSourceProvider.buildDdevDataSource(databaseInfo);
         Assertions.assertInstanceOf(LocalDataSource.class, dataSource);
         Assertions.assertNotNull(dataSource);
-        Assertions.assertEquals("jdbc:postgresql://localhost:12345/?user=some-user&password=some-password", dataSource.getUrl());
+        Assertions.assertEquals("jdbc:postgresql://127.0.0.1:12345/?user=some-user&password=some-password", dataSource.getUrl());
     }
 
 }
