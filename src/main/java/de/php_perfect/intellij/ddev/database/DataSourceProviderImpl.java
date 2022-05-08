@@ -68,11 +68,12 @@ public final class DataSourceProviderImpl implements DataSourceProvider {
 
     private @NotNull String getDsnByDatabaseType(@NotNull DatabaseInfo databaseInfo) {
         String dsnType = "mysql";
+        String host = "127.0.0.1";
 
         if (databaseInfo.getType() == DatabaseInfo.Type.POSTGRESQL) {
             dsnType = "postgresql";
         }
 
-        return String.format("jdbc:%s://localhost:%d/%s?user=%s&password=%s", dsnType, databaseInfo.getPublishedPort(), databaseInfo.getName(), databaseInfo.getUsername(), databaseInfo.getPassword());
+        return String.format("jdbc:%s://%s:%d/%s?user=%s&password=%s", dsnType, host, databaseInfo.getPublishedPort(), databaseInfo.getName(), databaseInfo.getUsername(), databaseInfo.getPassword());
     }
 }
