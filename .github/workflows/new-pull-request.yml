@@ -1,0 +1,12 @@
+on:
+  pull_request_target:
+    types: [ opened ]
+jobs:
+  createCard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create or Update Project Card
+        uses: peter-evans/create-or-update-project-card@v2
+        with:
+          project-name: 1
+          column-name: New
