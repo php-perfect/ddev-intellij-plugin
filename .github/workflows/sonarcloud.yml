@@ -32,7 +32,7 @@ jobs:
       # SonarCloud Cache
       - name: 'Cache: SonarCloud'
         if: ${{ env.SONAR_TOKEN != null }}
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
