@@ -10,3 +10,4 @@ jobs:
         with:
           project-name: Development
           column-name: New
+          issue-number: ${{ github.event.number }}
