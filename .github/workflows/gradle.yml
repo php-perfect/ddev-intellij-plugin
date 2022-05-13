@@ -31,7 +31,7 @@ jobs:
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
       - name: Upload jar file
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ddev-intellij-plugin
           path: build/distributions/*.zip
@@ -65,14 +65,14 @@ jobs:
       # Upload test reports
       ##
       - name: Upload HTML test report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: test-report-${{ matrix.os }}
           path: build/reports/tests/test
 
       - name: Upload HTML test coverage report
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage-report
           path: build/reports/jacoco/test/html
