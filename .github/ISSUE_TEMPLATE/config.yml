@@ -3,7 +3,7 @@ contact_links:
   - name: 💡 Feature Suggestions
     url: https://github.com/php-perfect/ddev-intellij-plugin/discussions/new?category=ideas
     about: Suggest and discuss new features for the DDEV Integration Plugin.
-  - name: 📘 Read the documentation
+  - name: 📘 Documentation
     url: https://github.com/php-perfect/ddev-intellij-plugin/wiki
     about: Read the documentation to find out more about the features and settings this plugin has to offer.
   - name: 💬 DDEV Community Discord

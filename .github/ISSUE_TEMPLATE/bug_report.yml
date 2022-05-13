@@ -29,7 +29,7 @@ body:
   - type: textarea
     id: reproduce
     attributes:
-      label: Steps To Reproduce
+      label: Steps to reproduce
       description: Steps to reproduce the behavior.
       placeholder: |
         1. Go to '...'
