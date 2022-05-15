@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 public final class DdevStateManagerImpl implements DdevStateManager {
-    private static final @NotNull Logger LOG = Logger.getInstance(DdevStateManagerImpl.class.getName());
+    private static final @NotNull Logger LOG = Logger.getInstance(DdevStateManagerImpl.class);
     private final @NotNull StateImpl state = new StateImpl();
     private final @NotNull Project project;
 
@@ -46,20 +46,20 @@ public final class DdevStateManagerImpl implements DdevStateManager {
 
     @Override
     public void updateVersion() {
+        LOG.debug("Updating DDEV version data");
         this.checkChanged(this::checkVersion);
-        LOG.debug("DDEV version updated");
     }
 
     @Override
     public void updateConfiguration() {
+        LOG.debug("Updating DDEV configuration data");
         this.checkChanged(this::checkConfiguration);
-        LOG.debug("DDEV configuration updated");
     }
 
     @Override
     public void updateDescription() {
+        LOG.debug("Updating DDEV description data");
         this.checkChanged(this::checkDescription);
-        LOG.debug("DDEV description updated");
     }
 
     @Override
@@ -78,6 +78,7 @@ public final class DdevStateManagerImpl implements DdevStateManager {
         runnable.run();
 
         if (oldState != this.state.hashCode()) {
+            LOG.debug("DDEV state changed: " + this.state);
             MessageBus messageBus = this.project.getMessageBus();
             messageBus.syncPublisher(DdevStateChangedListener.DDEV_CHANGED).onDdevChanged(this.state);
 

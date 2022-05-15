@@ -1,6 +1,7 @@
 package de.php_perfect.intellij.ddev.state;
 
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.concurrency.AppExecutorUtil;
 import org.jetbrains.annotations.NotNull;
@@ -10,6 +11,8 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public final class StateWatcherImpl implements StateWatcher, Disposable {
+    private static final @NotNull Logger LOG = Logger.getInstance(StateWatcherImpl.class);
+
     private @Nullable ScheduledFuture<?> scheduledFuture = null;
 
     private final @NotNull Project project;
@@ -22,10 +25,12 @@ public final class StateWatcherImpl implements StateWatcher, Disposable {
     public void startWatching() {
         this.stopWatching();
         this.scheduledFuture = AppExecutorUtil.getAppScheduledExecutorService().scheduleWithFixedDelay(() -> {
+            LOG.debug("DDEV state watcher triggering update");
             DdevStateManager ddevStateManager = DdevStateManager.getInstance(this.project);
             ddevStateManager.updateConfiguration();
             ddevStateManager.updateDescription();
         }, 10L, 10L, TimeUnit.SECONDS);
+        LOG.info("DDEV state watcher started");
     }
 
     @Override
@@ -33,6 +38,7 @@ public final class StateWatcherImpl implements StateWatcher, Disposable {
         if (this.scheduledFuture != null) {
             this.scheduledFuture.cancel(true);
         }
+        LOG.info("DDEV state watcher stopped");
     }
 
     @Override

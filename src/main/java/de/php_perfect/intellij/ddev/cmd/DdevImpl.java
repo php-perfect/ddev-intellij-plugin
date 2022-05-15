@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Type;
 
 public final class DdevImpl implements Ddev {
-    private static final @NotNull Logger LOG = Logger.getInstance(ServiceActionManagerImpl.class.getName());
+    private static final @NotNull Logger LOG = Logger.getInstance(ServiceActionManagerImpl.class);
     private static final @NotNull String DDEV_COMMAND = "ddev";
 
     private static final int COMMAND_TIMEOUT = 8_000;

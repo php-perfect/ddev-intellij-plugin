@@ -9,7 +9,7 @@ import de.php_perfect.intellij.ddev.cmd.wsl.WslAware;
 import org.jetbrains.annotations.NotNull;
 
 public class ProcessExecutorImpl implements ProcessExecutor {
-    public static final Logger LOG = Logger.getInstance(ProcessExecutorImpl.class.getName());
+    public static final Logger LOG = Logger.getInstance(ProcessExecutorImpl.class);
 
     public @NotNull ProcessOutput executeCommandLine(GeneralCommandLine commandLine, int timeout) throws ExecutionException {
         commandLine = WslAware.patchCommandLine(commandLine);

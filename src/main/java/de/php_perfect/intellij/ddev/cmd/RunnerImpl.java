@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class RunnerImpl implements Runner, Disposable {
-    private static final Logger LOG = Logger.getInstance(RunnerImpl.class.getName());
+    private static final Logger LOG = Logger.getInstance(RunnerImpl.class);
 
     private final @NotNull Project project;
 
