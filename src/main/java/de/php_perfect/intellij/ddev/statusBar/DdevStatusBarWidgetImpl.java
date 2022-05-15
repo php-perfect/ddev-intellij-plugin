@@ -3,6 +3,7 @@ package de.php_perfect.intellij.ddev.statusBar;
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.ActionPlaces;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.JBPopup;
@@ -112,8 +113,9 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
 
     private ListPopup createPopup(DataContext context) {
         ActionGroup group = (ActionGroup) ActionManager.getInstance().getAction(ACTION_GROUP);
+        String place = ActionPlaces.getPopupPlace(ActionPlaces.STATUS_BAR_PLACE);
 
-        return JBPopupFactory.getInstance().createActionGroupPopup(null, group, context, JBPopupFactory.ActionSelectionAid.SPEEDSEARCH, false);
+        return JBPopupFactory.getInstance().createActionGroupPopup(null, group, context, JBPopupFactory.ActionSelectionAid.SPEEDSEARCH, false, place);
     }
 
     private void updateComponent(State state) {
