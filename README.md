@@ -46,3 +46,8 @@ system.
 ## Contributions and Issues
 
 Please refer to the [Contributing Guidelines](./CONTRIBUTING.md).
+
+## Supported by
+
+[<img src="https://avatars.githubusercontent.com/u/8115114?s=100" alt="Drud" width="100" height="100">](https://github.com/drud)
+[<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains" width="100" height="100">](https://jb.gg/OpenSourceSupport)
