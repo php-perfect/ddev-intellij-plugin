@@ -34,8 +34,8 @@
     </projectListeners>
 
     <extensionPoints>
-        <extensionPoint name="ddevAwareActivity" interface="de.php_perfect.intellij.ddev.DdevAwareActivity"/>
-        <extensionPoint name="phpVersionProvider" interface="de.php_perfect.intellij.ddev.PhpVersionProvider"/>
+        <extensionPoint name="ddevAwareActivity" interface="de.php_perfect.intellij.ddev.DdevAwareActivity" dynamic="true"/>
+        <extensionPoint name="phpVersionProvider" interface="de.php_perfect.intellij.ddev.PhpVersionProvider" dynamic="true"/>
     </extensionPoints>
 
     <extensions defaultExtensionNs="de.php_perfect.intellij.ddev">
