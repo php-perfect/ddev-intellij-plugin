@@ -24,7 +24,7 @@ public final class DdevStartAction extends DdevRunAction {
         Description description = state.getDescription();
 
         if (description == null) {
-            return false;
+            return true;
         }
 
         return description.getStatus() != Description.Status.RUNNING && description.getStatus() != Description.Status.STARTING && description.getStatus() != null;
