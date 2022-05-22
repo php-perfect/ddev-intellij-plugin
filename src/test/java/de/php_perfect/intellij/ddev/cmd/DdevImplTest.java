@@ -64,7 +64,7 @@ final class DdevImplTest extends BasePlatformTestCase {
 
     @Test
     public void describe() throws CommandFailedException, IOException {
-        Description expected = new Description("acol", "8.1", Description.Status.STOPPED, null, null, new HashMap<>(), null);
+        Description expected = new Description("acol", "8.1", Description.Status.STOPPED, null, null, new HashMap<>(), null, "https://acol.ddev.site");
 
         ProcessOutput processOutput = new ProcessOutput(Files.readString(Path.of("src/test/resources/ddev_describe.json")), "", 0, false, false);
 

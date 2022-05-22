@@ -25,6 +25,8 @@
     <depends config-file="DdevIntegration-withTerminal.xml" optional="true">org.jetbrains.plugins.terminal</depends>
     <depends config-file="DdevIntegration-withPhp.xml" optional="true">com.jetbrains.php</depends>
     <depends config-file="DdevIntegration-withDatabase.xml" optional="true">com.intellij.database</depends>
+    <depends config-file="DdevIntegration-withWebDeployment.xml" optional="true">com.jetbrains.plugins.webDeployment
+    </depends>
 
     <resource-bundle>messages.DdevIntegrationBundle</resource-bundle>
 
@@ -34,8 +36,10 @@
     </projectListeners>
 
     <extensionPoints>
-        <extensionPoint name="ddevAwareActivity" interface="de.php_perfect.intellij.ddev.DdevAwareActivity" dynamic="true"/>
-        <extensionPoint name="phpVersionProvider" interface="de.php_perfect.intellij.ddev.PhpVersionProvider" dynamic="true"/>
+        <extensionPoint name="ddevAwareActivity" interface="de.php_perfect.intellij.ddev.DdevAwareActivity"
+                        dynamic="true"/>
+        <extensionPoint name="phpVersionProvider" interface="de.php_perfect.intellij.ddev.PhpVersionProvider"
+                        dynamic="true"/>
     </extensionPoints>
 
     <extensions defaultExtensionNs="de.php_perfect.intellij.ddev">

@@ -1,0 +1,12 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="com.intellij">
+        <projectService
+                serviceImplementation="de.php_perfect.intellij.ddev.deployment.DeploymentConfigManagerImpl"
+                serviceInterface="de.php_perfect.intellij.ddev.deployment.DeploymentConfigManager"/>
+    </extensions>
+
+    <projectListeners>
+        <listener class="de.php_perfect.intellij.ddev.deployment.ConfigureDeploymentListener"
+                  topic="de.php_perfect.intellij.ddev.DescriptionChangedListener"/>
+    </projectListeners>
+</idea-plugin>
