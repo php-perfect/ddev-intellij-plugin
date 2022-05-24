@@ -2,7 +2,7 @@ import org.jetbrains.intellij.tasks.ListProductsReleasesTask
 
 plugins {
     id("org.jetbrains.changelog") version "1.3.1"
-    id("org.jetbrains.intellij") version "1.5.3"
+    id("org.jetbrains.intellij") version "1.6.0"
     java
 
     id("org.sonarqube") version "3.3"
