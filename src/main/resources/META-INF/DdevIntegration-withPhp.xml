@@ -1,5 +1,4 @@
 <idea-plugin>
-    <depends>org.jetbrains.plugins.phpstorm-remote-interpreter</depends>
     <depends>org.jetbrains.plugins.phpstorm-docker</depends>
     <depends>Docker</depends>
 
