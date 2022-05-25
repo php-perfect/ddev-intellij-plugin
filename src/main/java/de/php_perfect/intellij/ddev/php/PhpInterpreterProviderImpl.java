@@ -16,6 +16,7 @@ import com.jetbrains.php.remote.docker.compose.PhpDockerComposeStartCommand;
 import com.jetbrains.php.remote.docker.compose.PhpDockerComposeTypeData;
 import com.jetbrains.php.remote.interpreter.PhpRemoteSdkAdditionalData;
 import com.jetbrains.php.run.remote.PhpRemoteInterpreterManager;
+import de.php_perfect.intellij.ddev.notification.DdevNotifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -45,6 +46,8 @@ public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider 
         this.updateInterpreter(interpreter, interpreterConfig);
         this.loadPhpInfo(interpreter);
         this.setDefaultIfNotSet(interpreter);
+
+        DdevNotifier.getInstance(project).asyncNotifyPhpInterpreterUpdated(interpreterConfig.getPhpVersion());
     }
 
     private @NotNull PhpInterpreter getDdevPhpInterpreter() {

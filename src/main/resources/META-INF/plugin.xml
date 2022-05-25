@@ -47,8 +47,8 @@
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
-        <notificationGroup id="DdevIntegration.Sticky" key="notificationGroup.main" displayType="STICKY_BALLOON"/>
-        <notificationGroup id="DdevIntegration.NonSticky" key="notificationGroup.main" displayType="BALLOON"/>
+        <notificationGroup id="DdevIntegration.Sticky" key="notificationGroup.sticky" displayType="STICKY_BALLOON"/>
+        <notificationGroup id="DdevIntegration.NonSticky" key="notificationGroup.nonSticky" displayType="BALLOON"/>
 
         <applicationService serviceImplementation="de.php_perfect.intellij.ddev.cmd.ProcessExecutorImpl"
                             serviceInterface="de.php_perfect.intellij.ddev.cmd.ProcessExecutor"

@@ -2,7 +2,6 @@ package de.php_perfect.intellij.ddev.notification;
 
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.TestOnly;
 
 public interface DdevNotifier {
     void asyncNotifyRestartAfterSettingsChange();
@@ -13,8 +12,9 @@ public interface DdevNotifier {
 
     void asyncNotifyAlreadyLatestVersion();
 
-    @TestOnly
     void asyncNotifyMissingPlugin(@NotNull String pluginName);
+
+    void asyncNotifyPhpInterpreterUpdated(@NotNull String phpVersion);
 
     static DdevNotifier getInstance(@NotNull Project project) {
         return project.getService(DdevNotifier.class);

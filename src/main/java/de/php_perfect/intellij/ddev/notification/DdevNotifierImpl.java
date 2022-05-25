@@ -106,4 +106,21 @@ public final class DdevNotifierImpl implements DdevNotifier {
                 .addAction(new ManagePluginsAction())
                 .notify(this.project);
     }
+
+    @Override
+    public void asyncNotifyPhpInterpreterUpdated(@NotNull String phpVersion) {
+        ApplicationManager.getApplication().invokeLater(() -> this.notifyPhpInterpreterUpdated(phpVersion), ModalityState.NON_MODAL);
+    }
+
+    @TestOnly
+    public void notifyPhpInterpreterUpdated(@NotNull final String phpVersion) {
+        NotificationGroupManager.getInstance()
+                .getNotificationGroup("DdevIntegration.NonSticky")
+                .createNotification(
+                        DdevIntegrationBundle.message("notification.InterpreterUpdated.title"),
+                        DdevIntegrationBundle.message("notification.InterpreterUpdated.text", phpVersion),
+                        NotificationType.INFORMATION
+                )
+                .notify(this.project);
+    }
 }
