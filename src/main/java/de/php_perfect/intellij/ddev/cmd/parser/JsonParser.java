@@ -11,24 +11,24 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
+import java.util.Scanner;
 
 @Service(Service.Level.APP)
 public final class JsonParser {
-    @NotNull
-    public <T> T parse(String json, Type typeOfT) throws JsonParserException {
-        Result<T> result = parseJson(json, typeOfT);
 
-        if (result == null) {
-            throw new JsonParserException("Could not parse the ddev status output object");
+    public <T> @NotNull T parse(final String json, final Type typeOfT) throws JsonParserException {
+        try (Scanner scanner = new Scanner(json)) {
+            while (scanner.hasNextLine()) {
+                final String line = scanner.nextLine();
+                final Result<T> result = parseJson(line, typeOfT);
+
+                if (result != null && result.getRaw() != null) {
+                    return result.getRaw();
+                }
+            }
         }
 
-        T data = result.getRaw();
-
-        if (data == null) {
-            throw new JsonParserException("Could not parse the required type from output");
-        }
-
-        return data;
+        throw new JsonParserException("Could not parse the ddev status output object");
     }
 
     @Nullable
