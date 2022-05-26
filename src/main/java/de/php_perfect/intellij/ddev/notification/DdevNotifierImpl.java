@@ -2,12 +2,14 @@ package de.php_perfect.intellij.ddev.notification;
 
 import com.intellij.notification.NotificationGroupManager;
 import com.intellij.notification.NotificationType;
+import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import de.php_perfect.intellij.ddev.actions.InstallationInstructionsAction;
 import de.php_perfect.intellij.ddev.actions.ManagePluginsAction;
+import de.php_perfect.intellij.ddev.actions.ReportIssueAction;
 import de.php_perfect.intellij.ddev.actions.RestartIdeAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
@@ -63,7 +65,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
     @TestOnly
     public void notifyNewVersionAvailable(@NotNull String currentVersion, @NotNull String latestVersion) {
         NotificationGroupManager.getInstance()
-                .getNotificationGroup("DdevIntegration.Sticky")
+                .getNotificationGroup("DdevIntegration.NonSticky")
                 .createNotification(
                         DdevIntegrationBundle.message("notification.NewVersionAvailable.title"),
                         DdevIntegrationBundle.message("notification.NewVersionAvailable.text", currentVersion, latestVersion),
@@ -121,6 +123,25 @@ public final class DdevNotifierImpl implements DdevNotifier {
                         DdevIntegrationBundle.message("notification.InterpreterUpdated.text", phpVersion),
                         NotificationType.INFORMATION
                 )
+                .notify(this.project);
+    }
+
+    @Override
+    public void asyncNotifyUnknownStateEntered() {
+        ApplicationManager.getApplication().invokeLater(this::notifyUnknownStateEntered, ModalityState.NON_MODAL);
+    }
+
+    @TestOnly
+    public void notifyUnknownStateEntered() {
+        NotificationGroupManager.getInstance()
+                .getNotificationGroup("DdevIntegration.Sticky")
+                .createNotification(
+                        DdevIntegrationBundle.message("notification.UnknownStateEntered.title"),
+                        DdevIntegrationBundle.message("notification.UnknownStateEntered.text"),
+                        NotificationType.WARNING
+                )
+                .addAction(ActionManager.getInstance().getAction("DdevIntegration.SyncState"))
+                .addAction(new ReportIssueAction())
                 .notify(this.project);
     }
 }

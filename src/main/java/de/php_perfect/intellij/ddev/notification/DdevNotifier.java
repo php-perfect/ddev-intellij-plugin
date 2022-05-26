@@ -16,6 +16,8 @@ public interface DdevNotifier {
 
     void asyncNotifyPhpInterpreterUpdated(@NotNull String phpVersion);
 
+    void asyncNotifyUnknownStateEntered();
+
     static DdevNotifier getInstance(@NotNull Project project) {
         return project.getService(DdevNotifier.class);
     }

@@ -85,6 +85,20 @@ final class DdevNotifierTest extends BasePlatformTestCase {
         assertSize(1, notifications);
     }
 
+    @Test
+    public void testNotifyUnknownStateEntered() {
+        Project project = getProject();
+
+        NotificationsManager notificationManager = NotificationsManager.getNotificationsManager();
+        Notification[] notifications = notificationManager.getNotificationsOfType(Notification.class, project);
+        assertEmpty(notifications);
+
+        new DdevNotifierImpl(project).notifyUnknownStateEntered();
+
+        notifications = notificationManager.getNotificationsOfType(Notification.class, project);
+        assertSize(1, notifications);
+    }
+
     @Override
     @AfterEach
     protected void tearDown() throws Exception {

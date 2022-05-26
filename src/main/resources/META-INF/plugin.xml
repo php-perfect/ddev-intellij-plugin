@@ -31,6 +31,8 @@
     <projectListeners>
         <listener class="de.php_perfect.intellij.ddev.serviceActions.ServiceActionChangedListener"
                   topic="de.php_perfect.intellij.ddev.DescriptionChangedListener"/>
+        <listener class="de.php_perfect.intellij.ddev.state.UnknownStateListener"
+                  topic="de.php_perfect.intellij.ddev.DescriptionChangedListener"/>
     </projectListeners>
 
     <extensionPoints>
@@ -139,5 +141,7 @@
         </group>
         <group id="DdevIntegration.Services" class="de.php_perfect.intellij.ddev.actions.ServicesActionGroup"/>
         <action id="DdevIntegration.CheckVersion" class="de.php_perfect.intellij.ddev.actions.CheckVersionAction"/>
+        <action id="DdevIntegration.SyncState" class="de.php_perfect.intellij.ddev.actions.SyncStateAction"
+                icon="AllIcons.Actions.Refresh"/>
     </actions>
 </idea-plugin>
