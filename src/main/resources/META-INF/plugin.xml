@@ -63,6 +63,8 @@
                             serviceInterface="de.php_perfect.intellij.ddev.version.ReleaseClient"/>
         <applicationService serviceImplementation="de.php_perfect.intellij.ddev.tutorial.GotItTutorialImpl"
                             serviceInterface="de.php_perfect.intellij.ddev.tutorial.GotItTutorial"/>
+        <applicationService serviceImplementation="de.php_perfect.intellij.ddev.cmd.parser.JsonParserImpl"
+                            serviceInterface="de.php_perfect.intellij.ddev.cmd.parser.JsonParser"/>
 
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.notification.DdevNotifierImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.notification.DdevNotifier"/>
