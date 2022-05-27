@@ -90,7 +90,7 @@ tasks {
 
 /* SonarCloud */
 tasks.sonarqube {
-    dependsOn(tasks.build)
+    dependsOn(tasks.build, tasks.jacocoTestReport)
 
     sonarqube {
         properties {
