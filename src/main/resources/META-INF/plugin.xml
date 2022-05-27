@@ -42,6 +42,10 @@
                         dynamic="true"/>
     </extensionPoints>
 
+    <extensions defaultExtensionNs="com.intellij">
+        <errorHandler implementation="de.php_perfect.intellij.ddev.error_reporting.SentryErrorReporter"/>
+    </extensions>
+
     <extensions defaultExtensionNs="de.php_perfect.intellij.ddev">
         <ddevAwareActivity implementation="de.php_perfect.intellij.ddev.activities.CheckVersionActivity"/>
         <ddevAwareActivity implementation="de.php_perfect.intellij.ddev.activities.LoadSchemaActivity"/>
