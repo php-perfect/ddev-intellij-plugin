@@ -12,6 +12,7 @@ import com.intellij.openapi.diagnostic.ErrorReportSubmitter;
 import com.intellij.openapi.diagnostic.IdeaLoggingEvent;
 import com.intellij.openapi.diagnostic.SubmittedReportInfo;
 import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
@@ -40,7 +41,7 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
         DataContext context = DataManager.getInstance().getDataContext(parentComponent);
         Project project = CommonDataKeys.PROJECT.getData(context);
 
-        new Task.Backgroundable(project, "Sending error report") {
+        ProgressManager.getInstance().run(new Task.Backgroundable(project, "Sending error report") {
             @Override
             public void run(@NotNull ProgressIndicator indicator) {
                 List<SentryId> sentryIds = new ArrayList<>();
@@ -62,7 +63,7 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
                         SubmittedReportInfo.SubmissionStatus.NEW_ISSUE;
                 consumer.consume(new SubmittedReportInfo(submissionStatus));
             }
-        }.queue();
+        });
 
         return true;
     }
