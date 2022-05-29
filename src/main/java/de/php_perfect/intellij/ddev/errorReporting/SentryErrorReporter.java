@@ -44,16 +44,17 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
         ProgressManager.getInstance().run(new Task.Backgroundable(project, "Sending error report") {
             @Override
             public void run(@NotNull ProgressIndicator indicator) {
+                indicator.setIndeterminate(true);
+
                 List<SentryId> sentryIds = new ArrayList<>();
                 ThreadSync threadSync = new ThreadSync();
 
                 AtomicBoolean oneOrMoreFailed = new AtomicBoolean(false);
 
-                for (int i = 0; i < events.length; ++i) {
-                    SentryId sentryId = captureIdeaLoggingEvent(events[i], threadSync, oneOrMoreFailed);
-                    sentryIds.add(sentryId);
 
-                    indicator.setFraction((i + 1.0) / events.length);
+                for (IdeaLoggingEvent event : events) {
+                    SentryId sentryId = captureIdeaLoggingEvent(event, threadSync, oneOrMoreFailed);
+                    sentryIds.add(sentryId);
                 }
 
                 announceReportSent(sentryIds, parentComponent);
