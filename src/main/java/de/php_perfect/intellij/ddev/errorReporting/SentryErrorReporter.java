@@ -17,6 +17,7 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.util.Consumer;
+import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import io.sentry.Sentry;
 import io.sentry.SentryEvent;
 import io.sentry.protocol.SentryId;
@@ -33,7 +34,7 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
     @NotNull
     @Override
     public String getReportActionText() {
-        return "Report to Author";
+        return DdevIntegrationBundle.message("errorReporting.submit");
     }
 
     @Override
@@ -41,7 +42,7 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
         DataContext context = DataManager.getInstance().getDataContext(parentComponent);
         Project project = CommonDataKeys.PROJECT.getData(context);
 
-        ProgressManager.getInstance().run(new Task.Backgroundable(project, "Sending error report") {
+        ProgressManager.getInstance().run(new Task.Backgroundable(project, DdevIntegrationBundle.message("errorReporting.taskTitle")) {
             @Override
             public void run(@NotNull ProgressIndicator indicator) {
                 indicator.setIndeterminate(true);
