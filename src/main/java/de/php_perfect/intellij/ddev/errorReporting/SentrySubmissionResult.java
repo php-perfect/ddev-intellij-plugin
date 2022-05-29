@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
-public class SentrySubmissionResult implements SubmissionResult {
+class SentrySubmissionResult implements SubmissionResult {
     private Consumer<Boolean> onResult;
 
     public SentrySubmissionResult(@NotNull Consumer<Boolean> onResult) {
