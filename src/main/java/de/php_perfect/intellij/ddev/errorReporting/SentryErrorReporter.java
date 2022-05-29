@@ -27,7 +27,6 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SentryErrorReporter extends ErrorReportSubmitter {
     @NotNull
@@ -46,43 +45,25 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
             public void run(@NotNull ProgressIndicator indicator) {
                 indicator.setIndeterminate(true);
 
-                List<String> sentryIds = new ArrayList<>();
-
-                AtomicBoolean oneOrMoreFailed = new AtomicBoolean(false);
-
+                List<String> reportIds = new ArrayList<>();
                 for (IdeaLoggingEvent event : events) {
-                    SentryId sentryId = captureIdeaLoggingEvent(event, project, oneOrMoreFailed);
-                    sentryIds.add(sentryId.toString());
+                    SentryId sentryId = captureIdeaLoggingEvent(event, project);
+                    reportIds.add(sentryId.toString());
                 }
 
                 if (project != null) {
-                    DdevNotifier.getInstance(project).asyncNotifyErrorReportSent(sentryIds);
+                    DdevNotifier.getInstance(project).asyncNotifyErrorReportSent(reportIds);
                 }
 
-                var submissionStatus = oneOrMoreFailed.get() ?
-                        SubmittedReportInfo.SubmissionStatus.FAILED :
-                        SubmittedReportInfo.SubmissionStatus.NEW_ISSUE;
-                consumer.consume(new SubmittedReportInfo(submissionStatus));
+                consumer.consume(new SubmittedReportInfo(SubmittedReportInfo.SubmissionStatus.NEW_ISSUE));
             }
         });
 
         return true;
     }
 
-    private SentryId captureIdeaLoggingEvent(IdeaLoggingEvent event, @Nullable Project project, AtomicBoolean oneOrMoreFailed) {
-        ThreadSync threadSync = new ThreadSync();
-
-        SentryId sentryId = Sentry.captureEvent(buildSentryEvent(event, project), new SentrySubmissionResult((success) -> {
-            if (!success) {
-                oneOrMoreFailed.set(true);
-            }
-
-            threadSync.release();
-        }));
-
-        threadSync.waitForRelease();
-
-        return sentryId;
+    private SentryId captureIdeaLoggingEvent(IdeaLoggingEvent event, @Nullable Project project) {
+        return Sentry.captureEvent(buildSentryEvent(event, project));
     }
 
     private SentryEvent buildSentryEvent(IdeaLoggingEvent ideaLoggingEvent, @Nullable Project project) {
