@@ -13,12 +13,12 @@ public final class InitPluginActivity implements StartupActivity, StartupActivit
 
     @Override
     public void runActivity(@NotNull Project project) {
+        SentrySdkInitializer.init();
+
         DdevStateManager.getInstance(project).initialize(() -> {
             for (DdevAwareActivity extension : EP_NAME.getExtensionList()) {
                 ApplicationManager.getApplication().executeOnPooledThread(() -> extension.runActivity(project));
             }
         });
-
-        SentrySdkInitializer.init();
     }
 }
