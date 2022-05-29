@@ -51,7 +51,7 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
                 AtomicBoolean oneOrMoreFailed = new AtomicBoolean(false);
 
                 for (IdeaLoggingEvent event : events) {
-                    SentryId sentryId = captureIdeaLoggingEvent(event, oneOrMoreFailed);
+                    SentryId sentryId = captureIdeaLoggingEvent(event, project, oneOrMoreFailed);
                     sentryIds.add(sentryId.toString());
                 }
 
@@ -69,10 +69,10 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
         return true;
     }
 
-    private SentryId captureIdeaLoggingEvent(IdeaLoggingEvent event, AtomicBoolean oneOrMoreFailed) {
+    private SentryId captureIdeaLoggingEvent(IdeaLoggingEvent event, @Nullable Project project, AtomicBoolean oneOrMoreFailed) {
         ThreadSync threadSync = new ThreadSync();
 
-        SentryId sentryId = Sentry.captureEvent(buildSentryEvent(event), new SentrySubmissionResult((success) -> {
+        SentryId sentryId = Sentry.captureEvent(buildSentryEvent(event, project), new SentrySubmissionResult((success) -> {
             if (!success) {
                 oneOrMoreFailed.set(true);
             }
@@ -85,7 +85,7 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
         return sentryId;
     }
 
-    private SentryEvent buildSentryEvent(IdeaLoggingEvent ideaLoggingEvent) {
+    private SentryEvent buildSentryEvent(IdeaLoggingEvent ideaLoggingEvent, @Nullable Project project) {
         SentryEvent event = new SentryEvent();
         event.setRelease(getPluginDescriptor().getVersion());
 
@@ -94,8 +94,22 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
             event.setThrowable(((AbstractMessage) ideaLoggingEvent.getData()).getThrowable());
         }
 
+        event.setTag("ddev_version", getDdevVersion(project));
         event.setExtra("last_action_id", IdeaLogger.ourLastActionId);
 
         return event;
+    }
+
+    private String getDdevVersion(@Nullable Project project) {
+        if (project == null) {
+            return "unknown";
+        }
+
+        Versions versions = DdevStateManager.getInstance(project).getState().getVersions();
+        if (versions != null) {
+            return versions.getDdevVersion();
+        }
+
+        return "unknown";
     }
 }
