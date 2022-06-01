@@ -33,9 +33,18 @@ public final class DdevStateManagerImpl implements DdevStateManager {
 
     @Override
     public void initialize() {
+        this.initialize(false);
+    }
+
+    @Override
+    public void reinitialize() {
+        this.initialize(true);
+    }
+
+    public void initialize(boolean reinitialize) {
         this.checkChanged(() -> {
             this.resetState();
-            this.checkIsInstalled();
+            this.checkIsInstalled(!reinitialize);
             this.checkVersion();
             this.checkConfiguration();
             this.checkDescription();
@@ -89,19 +98,22 @@ public final class DdevStateManagerImpl implements DdevStateManager {
             if (oldDescription != Objects.hashCode(newDescription)) {
                 messageBus.syncPublisher(DescriptionChangedListener.DESCRIPTION_CHANGED).onDescriptionChanged(this.state.getDescription());
 
-                final DatabaseInfo databaseInfo = newDescription.getDatabaseInfo();
+                DatabaseInfo newDatabaseInfo = null;
+                if (newDescription != null) {
+                    newDatabaseInfo = newDescription.getDatabaseInfo();
+                }
 
-                if (oldDatabaseInfoHash != Objects.hashCode(databaseInfo)) {
-                    messageBus.syncPublisher(DatabaseInfoChangedListener.DATABASE_INFO_CHANGED_TOPIC).onDatabaseInfoChanged(databaseInfo);
+                if (oldDatabaseInfoHash != Objects.hashCode(newDatabaseInfo)) {
+                    messageBus.syncPublisher(DatabaseInfoChangedListener.DATABASE_INFO_CHANGED_TOPIC).onDatabaseInfoChanged(newDatabaseInfo);
                 }
             }
         }
     }
 
-    private void checkIsInstalled() {
+    private void checkIsInstalled(boolean autodetect) {
         DdevSettingsState configurable = DdevSettingsState.getInstance(this.project);
 
-        if (configurable.ddevBinary.equals("")) {
+        if (autodetect && configurable.ddevBinary.equals("")) {
             String detectedDdevBinary = BinaryLocator.getInstance().findInPath(this.project);
 
             if (detectedDdevBinary != null) {

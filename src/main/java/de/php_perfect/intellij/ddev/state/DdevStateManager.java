@@ -9,6 +9,8 @@ public interface DdevStateManager {
 
     void initialize();
 
+    void reinitialize();
+
     void updateVersion();
 
     void updateConfiguration();

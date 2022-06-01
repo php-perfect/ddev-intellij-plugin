@@ -27,6 +27,10 @@ public final class DdevSettingsConfigurable implements Configurable {
     @Nls(capitalization = Nls.Capitalization.Title)
     @Override
     public String getDisplayName() {
+        return DdevSettingsConfigurable.getName();
+    }
+
+    public static String getName() {
         return DdevIntegrationBundle.message("settings.title");
     }
 
@@ -37,7 +41,7 @@ public final class DdevSettingsConfigurable implements Configurable {
 
     @Override
     public JComponent createComponent() {
-        this.ddevSettingsComponent = new DdevSettingsComponent();
+        this.ddevSettingsComponent = new DdevSettingsComponent(this.project);
 
         return this.ddevSettingsComponent.getPanel();
     }
@@ -70,7 +74,7 @@ public final class DdevSettingsConfigurable implements Configurable {
         settings.autoConfigurePhpInterpreter = this.ddevSettingsComponent.getAutoConfigurePhpInterpreter();
 
         StateWatcher.getInstance(this.project).stopWatching();
-        ApplicationManager.getApplication().executeOnPooledThread(() -> DdevStateManager.getInstance(this.project).initialize());
+        ApplicationManager.getApplication().executeOnPooledThread(() -> DdevStateManager.getInstance(this.project).reinitialize());
     }
 
     private void verifyBinary(String newBinary) throws ConfigurationException {
@@ -83,9 +87,9 @@ public final class DdevSettingsConfigurable implements Configurable {
             );
         } catch (CommandFailedException exception) {
             throw new ConfigurationException(
-                    DdevIntegrationBundle.message("settings.message.invalidBinary.message", newBinary),
+                    DdevIntegrationBundle.message("settings.validation.invalidBinary.message", newBinary),
                     exception,
-                    DdevIntegrationBundle.message("settings.message.invalidBinary.title")
+                    DdevIntegrationBundle.message("settings.validation.invalidBinary.title")
             );
         }
     }

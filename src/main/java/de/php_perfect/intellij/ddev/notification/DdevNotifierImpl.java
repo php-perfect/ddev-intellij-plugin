@@ -7,6 +7,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
+import de.php_perfect.intellij.ddev.actions.ChangeSettingsAction;
 import de.php_perfect.intellij.ddev.actions.InstallationInstructionsAction;
 import de.php_perfect.intellij.ddev.actions.ManagePluginsAction;
 import de.php_perfect.intellij.ddev.actions.ReportIssueAction;
@@ -141,6 +142,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
                         DdevIntegrationBundle.message("notification.ddevDetected.text", binary),
                         NotificationType.INFORMATION
                 )
+                .addAction(new ChangeSettingsAction())
                 .notify(this.project);
     }
 }
