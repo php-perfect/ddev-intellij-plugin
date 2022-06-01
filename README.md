@@ -49,5 +49,6 @@ Please refer to the [Contributing Guidelines](./CONTRIBUTING.md).
 
 ## Supported by
 
-[<img src="https://avatars.githubusercontent.com/u/8115114?s=100" alt="Drud" width="100" height="100">](https://github.com/drud)
-[<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains" width="100" height="100">](https://jb.gg/OpenSourceSupport)
+[<img alt="DDEV" height="100" src="https://avatars.githubusercontent.com/u/8115114?s=100" title="DDEV" width="100"/>](https://github.com/drud)
+[<img alt="JetBrains" height="100" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" title="JetBrains" width="100"/>](https://jb.gg/OpenSourceSupport)
+[<img alt="sentry.io" height="100" src="assets/sentry-glyph-dark-100x100.png" title="sentry.io" width="100"/>](https://sentry.io/welcome/)
