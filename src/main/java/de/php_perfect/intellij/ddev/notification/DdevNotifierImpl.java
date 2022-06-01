@@ -10,7 +10,6 @@ import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import de.php_perfect.intellij.ddev.actions.InstallationInstructionsAction;
 import de.php_perfect.intellij.ddev.actions.ManagePluginsAction;
 import de.php_perfect.intellij.ddev.actions.ReportIssueAction;
-import de.php_perfect.intellij.ddev.actions.RestartIdeAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
 
@@ -19,24 +18,6 @@ public final class DdevNotifierImpl implements DdevNotifier {
 
     public DdevNotifierImpl(@NotNull Project project) {
         this.project = project;
-    }
-
-    @Override
-    public void asyncNotifyRestartAfterSettingsChange() {
-        ApplicationManager.getApplication().invokeLater(this::notifyRestartAfterSettingsChange, ModalityState.NON_MODAL);
-    }
-
-    @TestOnly
-    public void notifyRestartAfterSettingsChange() {
-        NotificationGroupManager.getInstance()
-                .getNotificationGroup("DdevIntegration.Sticky")
-                .createNotification(
-                        DdevIntegrationBundle.message("notification.SettingsChanged.title"),
-                        DdevIntegrationBundle.message("notification.SettingsChanged.text"),
-                        NotificationType.INFORMATION
-                )
-                .addAction(new RestartIdeAction())
-                .notify(this.project);
     }
 
     @Override
@@ -142,6 +123,24 @@ public final class DdevNotifierImpl implements DdevNotifier {
                 )
                 .addAction(ActionManager.getInstance().getAction("DdevIntegration.SyncState"))
                 .addAction(new ReportIssueAction())
+                .notify(this.project);
+    }
+
+    @Override
+    public void asyncNotifyDdevDetected(String binary) {
+        ApplicationManager.getApplication().invokeLater(() -> this.notifyDdevDetected(binary), ModalityState.NON_MODAL);
+
+    }
+
+    @TestOnly
+    public void notifyDdevDetected(String binary) {
+        NotificationGroupManager.getInstance()
+                .getNotificationGroup("DdevIntegration.NonSticky")
+                .createNotification(
+                        DdevIntegrationBundle.message("notification.ddevDetected.title"),
+                        DdevIntegrationBundle.message("notification.ddevDetected.text", binary),
+                        NotificationType.INFORMATION
+                )
                 .notify(this.project);
     }
 }

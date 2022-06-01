@@ -1,12 +1,12 @@
 package de.php_perfect.intellij.ddev.state;
 
 import com.intellij.openapi.project.Project;
-import de.php_perfect.intellij.ddev.DescriptionChangedListener;
+import de.php_perfect.intellij.ddev.StateChangedListener;
 import de.php_perfect.intellij.ddev.cmd.Description;
 import de.php_perfect.intellij.ddev.notification.DdevNotifier;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-public final class UnknownStateListener implements DescriptionChangedListener {
+public final class UnknownStateListener implements StateChangedListener {
     private final Project project;
 
     public UnknownStateListener(Project project) {
@@ -14,8 +14,13 @@ public final class UnknownStateListener implements DescriptionChangedListener {
     }
 
     @Override
-    public void onDescriptionChanged(@Nullable Description description) {
-        System.out.println(description);
+    public void onDdevChanged(@NotNull State state) {
+        if (!state.isAvailable() || !state.isConfigured()) {
+            return;
+        }
+
+        Description description = state.getDescription();
+
         if (description == null || description.getStatus() == null) {
             DdevNotifier.getInstance(this.project).asyncNotifyUnknownStateEntered();
         }

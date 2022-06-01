@@ -11,8 +11,8 @@ import org.jetbrains.annotations.NotNull;
 public class ProcessExecutorImpl implements ProcessExecutor {
     public static final Logger LOG = Logger.getInstance(ProcessExecutorImpl.class);
 
-    public @NotNull ProcessOutput executeCommandLine(GeneralCommandLine commandLine, int timeout) throws ExecutionException {
-        commandLine = WslAware.patchCommandLine(commandLine);
+    public @NotNull ProcessOutput executeCommandLine(GeneralCommandLine commandLine, int timeout, boolean loginShell) throws ExecutionException {
+        commandLine = WslAware.patchCommandLine(commandLine, loginShell);
         final CapturingProcessHandler processHandler = new CapturingProcessHandler(commandLine);
         final ProcessOutput output = processHandler.runProcess(timeout);
 

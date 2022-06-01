@@ -10,10 +10,12 @@ import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import de.php_perfect.intellij.ddev.php.PhpVersion;
 import de.php_perfect.intellij.ddev.state.DdevConfigLoader;
 import de.php_perfect.intellij.ddev.state.DdevStateManager;
+import de.php_perfect.intellij.ddev.state.State;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Objects;
 
 public final class DdevRunnerImpl implements DdevRunner {
 
@@ -93,11 +95,14 @@ public final class DdevRunnerImpl implements DdevRunner {
     }
 
     private @NotNull GeneralCommandLine createCommandLine(@NotNull String ddevAction, @NotNull Project project) {
-        return new PtyCommandLine(List.of("ddev", ddevAction))
+        State state = DdevStateManager.getInstance(project).getState();
+
+        return new PtyCommandLine(List.of(Objects.requireNonNull(state.getDdevBinary()), ddevAction))
                 .withInitialRows(30)
                 .withInitialColumns(120)
                 .withWorkDirectory(project.getBasePath())
                 .withCharset(StandardCharsets.UTF_8)
-                .withEnvironment("DDEV_NONINTERACTIVE", "true");
+                .withEnvironment("DDEV_NONINTERACTIVE", "true")
+                .withParentEnvironmentType(GeneralCommandLine.ParentEnvironmentType.SYSTEM);
     }
 }

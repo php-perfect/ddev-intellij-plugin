@@ -2,6 +2,8 @@ package de.php_perfect.intellij.ddev.settings;
 
 import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.components.JBCheckBox;
+import com.intellij.ui.components.JBLabel;
+import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UI;
@@ -17,6 +19,7 @@ public final class DdevSettingsComponent {
     private final @NotNull JBCheckBox watchDdevCheckbox = new JBCheckBox(DdevIntegrationBundle.message("settings.watchDdev"));
     private final @NotNull JBCheckBox autoConfigureDataSource = new JBCheckBox(DdevIntegrationBundle.message("settings.automaticConfiguration.autoConfigureDataSource"));
     private final @NotNull JBCheckBox autoConfigurePhpInterpreter = new JBCheckBox(DdevIntegrationBundle.message("settings.automaticConfiguration.phpInterpreter"));
+    private final @NotNull JBTextField ddevBinary = new JBTextField();
 
     public DdevSettingsComponent() {
         final JPanel checkForUpdatesPanel = UI.PanelFactory.panel(this.checkForUpdatesCheckbox).withComment(DdevIntegrationBundle.message("settings.checkForUpdates.description")).createPanel();
@@ -30,6 +33,7 @@ public final class DdevSettingsComponent {
         panel.add(this.autoConfigurePhpInterpreter, gc);
 
         this.jPanel = FormBuilder.createFormBuilder()
+                .addLabeledComponent(new JBLabel(DdevIntegrationBundle.message("settings.ddevBinary")), this.ddevBinary, 1, false)
                 .addComponent(checkForUpdatesPanel, 1)
                 .addComponent(watchDdevPanel, 1)
                 .addComponent(panel, 1)
@@ -75,5 +79,13 @@ public final class DdevSettingsComponent {
 
     public void setWatchDdevCheckboxStatus(boolean newStatus) {
         this.watchDdevCheckbox.setSelected(newStatus);
+    }
+
+    public @NotNull String getDdevBinary() {
+        return this.ddevBinary.getText();
+    }
+
+    public void setDdevBinary(@NotNull String ddevBinary) {
+        this.ddevBinary.setText(ddevBinary);
     }
 }
