@@ -32,7 +32,7 @@ public final class OpenServiceAction extends DdevAwareAction {
     protected boolean isActive(@NotNull Project project) {
         final State state = DdevStateManager.getInstance(project).getState();
 
-        if (!state.isInstalled() || !state.isConfigured()) {
+        if (!state.isAvailable() || !state.isConfigured()) {
             return false;
         }
 

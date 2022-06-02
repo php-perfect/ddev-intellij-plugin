@@ -29,24 +29,23 @@
     <resource-bundle>messages.DdevIntegrationBundle</resource-bundle>
 
     <projectListeners>
+        <listener class="de.php_perfect.intellij.ddev.version.CheckVersionListener"
+                  topic="de.php_perfect.intellij.ddev.StateInitializedListener" activeInTestMode="false"/>
+        <listener class="de.php_perfect.intellij.ddev.state.StartWatcherListener"
+                  topic="de.php_perfect.intellij.ddev.StateInitializedListener" activeInTestMode="false"/>
+        <!-- <listener class="de.php_perfect.intellij.ddev.config.LoadSchemaListener"
+          topic="de.php_perfect.intellij.ddev.StateInitializedListener"/> -->
+
         <listener class="de.php_perfect.intellij.ddev.serviceActions.ServiceActionChangedListener"
-                  topic="de.php_perfect.intellij.ddev.DescriptionChangedListener"/>
+                  topic="de.php_perfect.intellij.ddev.DescriptionChangedListener" activeInTestMode="false"/>
         <listener class="de.php_perfect.intellij.ddev.state.UnknownStateListener"
-                  topic="de.php_perfect.intellij.ddev.DescriptionChangedListener"/>
+                  topic="de.php_perfect.intellij.ddev.StateChangedListener" activeInTestMode="false"/>
     </projectListeners>
 
     <extensionPoints>
-        <extensionPoint name="ddevAwareActivity" interface="de.php_perfect.intellij.ddev.DdevAwareActivity"
-                        dynamic="true"/>
         <extensionPoint name="phpVersionProvider" interface="de.php_perfect.intellij.ddev.PhpVersionProvider"
                         dynamic="true"/>
     </extensionPoints>
-
-    <extensions defaultExtensionNs="de.php_perfect.intellij.ddev">
-        <ddevAwareActivity implementation="de.php_perfect.intellij.ddev.activities.CheckVersionActivity"/>
-        <ddevAwareActivity implementation="de.php_perfect.intellij.ddev.activities.LoadSchemaActivity"/>
-        <ddevAwareActivity implementation="de.php_perfect.intellij.ddev.activities.WatchDdevActivity"/>
-    </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
         <errorHandler implementation="de.php_perfect.intellij.ddev.errorReporting.SentryErrorReporter"/>
@@ -59,6 +58,8 @@
                             testServiceImplementation="de.php_perfect.intellij.ddev.cmd.MockProcessExecutor"/>
         <applicationService serviceImplementation="de.php_perfect.intellij.ddev.config.SchemaProviderImpl"
                             serviceInterface="de.php_perfect.intellij.ddev.config.SchemaProvider"/>
+        <applicationService serviceImplementation="de.php_perfect.intellij.ddev.cmd.BinaryLocatorImpl"
+                            serviceInterface="de.php_perfect.intellij.ddev.cmd.BinaryLocator"/>
         <applicationService serviceImplementation="de.php_perfect.intellij.ddev.cmd.DdevImpl"
                             serviceInterface="de.php_perfect.intellij.ddev.cmd.Ddev"/>
         <applicationService serviceImplementation="de.php_perfect.intellij.ddev.cmd.DdevRunnerImpl"
@@ -67,6 +68,8 @@
                             serviceInterface="de.php_perfect.intellij.ddev.version.ReleaseClient"/>
         <applicationService serviceImplementation="de.php_perfect.intellij.ddev.tutorial.GotItTutorialImpl"
                             serviceInterface="de.php_perfect.intellij.ddev.tutorial.GotItTutorial"/>
+        <applicationService serviceImplementation="de.php_perfect.intellij.ddev.cmd.parser.JsonParserImpl"
+                            serviceInterface="de.php_perfect.intellij.ddev.cmd.parser.JsonParser"/>
 
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.notification.DdevNotifierImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.notification.DdevNotifier"/>

@@ -5,7 +5,9 @@ import de.php_perfect.intellij.ddev.cmd.Versions;
 import org.jetbrains.annotations.Nullable;
 
 public interface State {
-    boolean isInstalled();
+    boolean isBinaryConfigured();
+
+    boolean isAvailable();
 
     boolean isConfigured();
 

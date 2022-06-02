@@ -9,6 +9,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class WslAware {
     public static <T extends GeneralCommandLine> T patchCommandLine(T commandLine) {
+        return patchCommandLine(commandLine, false);
+    }
+
+    public static <T extends GeneralCommandLine> T patchCommandLine(T commandLine, boolean loginShell) {
         WSLDistribution distribution = WslPath.getDistributionByWindowsUncPath(commandLine.getWorkDirectory().getPath());
 
         if (distribution == null) {
@@ -16,16 +20,16 @@ public class WslAware {
         }
 
         try {
-            return applyWslPatch(commandLine, distribution);
+            return applyWslPatch(commandLine, distribution, loginShell);
         } catch (ExecutionException ignored) {
             return commandLine;
         }
     }
 
     @NotNull
-    private static <T extends GeneralCommandLine> T applyWslPatch(T generalCommandLine, WSLDistribution distribution) throws ExecutionException {
+    private static <T extends GeneralCommandLine> T applyWslPatch(T generalCommandLine, WSLDistribution distribution, boolean loginShell) throws ExecutionException {
         WSLCommandLineOptions options = new WSLCommandLineOptions()
-                .setExecuteCommandInLoginShell(true)
+                .setExecuteCommandInLoginShell(loginShell)
                 .setShellPath(distribution.getShellPath());
 
         return distribution.patchCommandLine(generalCommandLine, null, options);

@@ -43,7 +43,7 @@ public final class DdevTerminalRunner extends AbstractTerminalRunner<PtyProcess>
     public @NotNull PtyProcess createProcess(@NotNull TerminalProcessOptions options, @Nullable JBTerminalWidget widget) throws ExecutionException {
         State ddevState = DdevStateManager.getInstance(this.myProject).getState();
 
-        if (!ddevState.isInstalled()) {
+        if (!ddevState.isAvailable()) {
             throw new ExecutionException("DDEV not installed", null);
         }
 

@@ -25,7 +25,7 @@ public final class MockProcessExecutor implements ProcessExecutor {
     }
 
     @Override
-    public @NotNull ProcessOutput executeCommandLine(GeneralCommandLine commandLine, int timeout) throws ExecutionException {
+    public @NotNull ProcessOutput executeCommandLine(GeneralCommandLine commandLine, int timeout, boolean loginShell) throws ExecutionException {
         String commandLineString = commandLine.getCommandLineString();
 
         if (!this.processList.containsKey(commandLineString)) {

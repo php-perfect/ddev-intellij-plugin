@@ -1,7 +1,11 @@
 package de.php_perfect.intellij.ddev.settings;
 
+import com.intellij.openapi.fileChooser.FileChooserDescriptor;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.components.JBCheckBox;
+import com.intellij.ui.components.JBLabel;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UI;
@@ -17,8 +21,9 @@ public final class DdevSettingsComponent {
     private final @NotNull JBCheckBox watchDdevCheckbox = new JBCheckBox(DdevIntegrationBundle.message("settings.watchDdev"));
     private final @NotNull JBCheckBox autoConfigureDataSource = new JBCheckBox(DdevIntegrationBundle.message("settings.automaticConfiguration.autoConfigureDataSource"));
     private final @NotNull JBCheckBox autoConfigurePhpInterpreter = new JBCheckBox(DdevIntegrationBundle.message("settings.automaticConfiguration.phpInterpreter"));
+    private final @NotNull TextFieldWithBrowseButton ddevBinary = new TextFieldWithBrowseButton();
 
-    public DdevSettingsComponent() {
+    public DdevSettingsComponent(Project project) {
         final JPanel checkForUpdatesPanel = UI.PanelFactory.panel(this.checkForUpdatesCheckbox).withComment(DdevIntegrationBundle.message("settings.checkForUpdates.description")).createPanel();
         final JPanel watchDdevPanel = UI.PanelFactory.panel(this.watchDdevCheckbox).withComment(DdevIntegrationBundle.message("settings.watchDdev.description")).createPanel();
 
@@ -29,7 +34,10 @@ public final class DdevSettingsComponent {
         panel.add(this.autoConfigureDataSource, gc);
         panel.add(this.autoConfigurePhpInterpreter, gc);
 
+        this.ddevBinary.addBrowseFolderListener(DdevIntegrationBundle.message("settings.chooseBinary.title"), "", project, new FileChooserDescriptor(true, false, false, false, false, false));
+
         this.jPanel = FormBuilder.createFormBuilder()
+                .addLabeledComponent(new JBLabel(DdevIntegrationBundle.message("settings.ddevBinary")), this.ddevBinary, 1, false)
                 .addComponent(checkForUpdatesPanel, 1)
                 .addComponent(watchDdevPanel, 1)
                 .addComponent(panel, 1)
@@ -75,5 +83,13 @@ public final class DdevSettingsComponent {
 
     public void setWatchDdevCheckboxStatus(boolean newStatus) {
         this.watchDdevCheckbox.setSelected(newStatus);
+    }
+
+    public @NotNull String getDdevBinary() {
+        return this.ddevBinary.getText();
+    }
+
+    public void setDdevBinary(@NotNull String ddevBinary) {
+        this.ddevBinary.setText(ddevBinary);
     }
 }

@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 final class DdevStateManagerTest extends BasePlatformTestCase {
     @Override
@@ -28,7 +27,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
     }
 
     @Test
-    void initialize() {
+    public void testInitialize() {
         String expectedWhich = "which";
         if (SystemInfo.isWindows) {
             expectedWhich = "where";
@@ -40,12 +39,11 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
         mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", new ProcessOutput("/foo/bar/bin/ddev", "", 0, false, false));
 
         ddevConfigLoader.setExists(true);
-        this.prepareCommand("ddev version --json-output", "src/test/resources/ddev_version.json");
-        this.prepareCommand("ddev describe --json-output", "src/test/resources/ddev_describe.json");
+        this.prepareCommand("/foo/bar/bin/ddev version --json-output", "src/test/resources/ddev_version.json");
+        this.prepareCommand("/foo/bar/bin/ddev describe --json-output", "src/test/resources/ddev_describe.json");
 
         DdevStateManager ddevStateManager = DdevStateManager.getInstance(project);
-        AtomicBoolean runnableExecuted = new AtomicBoolean(false);
-        ddevStateManager.initialize(() -> runnableExecuted.set(true));
+        ddevStateManager.initialize();
 
         StateImpl expectedState = new StateImpl();
         expectedState.setDdevBinary("/foo/bar/bin/ddev");
@@ -54,11 +52,28 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
         expectedState.setDescription(new Description("acol", "8.1", Description.Status.STOPPED, null, null, new HashMap<>(), null));
 
         Assertions.assertEquals(expectedState, ddevStateManager.getState());
-        Assertions.assertTrue(runnableExecuted.get());
     }
 
     @Test
-    void updateDescription() {
+    public void testReinitialize() {
+        final Project project = this.getProject();
+        final MockDdevConfigLoader ddevConfigLoader = (MockDdevConfigLoader) DdevConfigLoader.getInstance(project);
+
+        ddevConfigLoader.setExists(true);
+        DdevStateManager ddevStateManager = DdevStateManager.getInstance(project);
+        ddevStateManager.reinitialize();
+
+        StateImpl expectedState = new StateImpl();
+        expectedState.setDdevBinary("");
+        expectedState.setConfigured(true);
+        expectedState.setVersions(null);
+        expectedState.setDescription(null);
+
+        Assertions.assertEquals(expectedState, ddevStateManager.getState());
+    }
+
+    @Test
+    public void testUpdateDescription() {
         String expectedWhich = "which";
         if (SystemInfo.isWindows) {
             expectedWhich = "where";
@@ -70,11 +85,11 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
         mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", new ProcessOutput("/foo/bar/bin/ddev", "", 0, false, false));
 
         ddevConfigLoader.setExists(true);
-        this.prepareCommand("ddev version --json-output", "src/test/resources/ddev_version.json");
-        this.prepareCommand("ddev describe --json-output", "src/test/resources/ddev_describe.json");
+        this.prepareCommand("/foo/bar/bin/ddev version --json-output", "src/test/resources/ddev_version.json");
+        this.prepareCommand("/foo/bar/bin/ddev describe --json-output", "src/test/resources/ddev_describe.json");
 
         DdevStateManager ddevStateManager = DdevStateManager.getInstance(this.getProject());
-        ddevStateManager.initialize(null);
+        ddevStateManager.initialize();
 
         StateImpl expectedState = new StateImpl();
         expectedState.setDdevBinary("/foo/bar/bin/ddev");
@@ -84,7 +99,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
 
         Assertions.assertEquals(expectedState, ddevStateManager.getState());
 
-        this.prepareCommand("ddev describe --json-output", "src/test/resources/ddev_describe2.json");
+        this.prepareCommand("/foo/bar/bin/ddev describe --json-output", "src/test/resources/ddev_describe2.json");
 
         ddevStateManager.updateDescription();
 

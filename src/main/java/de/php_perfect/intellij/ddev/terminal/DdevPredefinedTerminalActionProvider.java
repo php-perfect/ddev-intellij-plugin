@@ -15,7 +15,7 @@ public final class DdevPredefinedTerminalActionProvider implements OpenPredefine
     public @NotNull List<AnAction> listOpenPredefinedTerminalActions(@NotNull Project project) {
         State state = DdevStateManager.getInstance(project).getState();
 
-        if (!state.isInstalled() || !state.isConfigured()) {
+        if (!state.isAvailable() || !state.isConfigured()) {
             return List.of();
         }
 

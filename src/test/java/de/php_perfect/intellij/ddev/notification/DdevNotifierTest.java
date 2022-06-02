@@ -16,20 +16,6 @@ final class DdevNotifierTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void notifyRestartAfterSettingsChange() {
-        Project project = getProject();
-
-        NotificationsManager notificationManager = NotificationsManager.getNotificationsManager();
-        Notification[] notifications = notificationManager.getNotificationsOfType(Notification.class, project);
-        assertEmpty(notifications);
-
-        new DdevNotifierImpl(project).notifyRestartAfterSettingsChange();
-
-        notifications = notificationManager.getNotificationsOfType(Notification.class, project);
-        assertSize(1, notifications);
-    }
-
-    @Test
     public void notifyNewVersionAvailable() {
         Project project = getProject();
 
@@ -94,6 +80,20 @@ final class DdevNotifierTest extends BasePlatformTestCase {
         assertEmpty(notifications);
 
         new DdevNotifierImpl(project).notifyUnknownStateEntered();
+
+        notifications = notificationManager.getNotificationsOfType(Notification.class, project);
+        assertSize(1, notifications);
+    }
+
+    @Test
+    public void testNotifyDdevDetected() {
+        Project project = getProject();
+
+        NotificationsManager notificationManager = NotificationsManager.getNotificationsManager();
+        Notification[] notifications = notificationManager.getNotificationsOfType(Notification.class, project);
+        assertEmpty(notifications);
+
+        new DdevNotifierImpl(project).notifyDdevDetected("/some/path/ddev");
 
         notifications = notificationManager.getNotificationsOfType(Notification.class, project);
         assertSize(1, notifications);

@@ -6,8 +6,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public interface DdevNotifier {
-    void asyncNotifyRestartAfterSettingsChange();
-
     void asyncNotifyInstallDdev();
 
     void asyncNotifyNewVersionAvailable(@NotNull String currentVersion, @NotNull String newVersion);
@@ -21,6 +19,8 @@ public interface DdevNotifier {
     void asyncNotifyUnknownStateEntered();
 
     void asyncNotifyErrorReportSent(@NotNull String id);
+
+    void asyncNotifyDdevDetected(String binary);
 
     static DdevNotifier getInstance(@NotNull Project project) {
         return project.getService(DdevNotifier.class);
