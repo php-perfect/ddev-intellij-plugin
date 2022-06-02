@@ -36,6 +36,11 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
     }
 
     @Override
+    public @Nullable String getPrivacyNoticeText() {
+        return DdevIntegrationBundle.message("errorReporting.privacyNotice");
+    }
+
+    @Override
     public boolean submit(IdeaLoggingEvent @NotNull [] events, @Nullable String additionalInfo, @NotNull Component parentComponent, @NotNull Consumer<? super SubmittedReportInfo> consumer) {
         DataContext context = DataManager.getInstance().getDataContext(parentComponent);
         Project project = CommonDataKeys.PROJECT.getData(context);
