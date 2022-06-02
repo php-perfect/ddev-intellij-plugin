@@ -2,6 +2,8 @@ package de.php_perfect.intellij.ddev.errorReporting;
 
 import com.intellij.diagnostic.AbstractMessage;
 import com.intellij.diagnostic.IdeaReportingEvent;
+import com.intellij.execution.wsl.WSLDistribution;
+import com.intellij.execution.wsl.WslPath;
 import com.intellij.ide.DataManager;
 import com.intellij.idea.IdeaLogger;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
@@ -25,8 +27,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SentryErrorReporter extends ErrorReportSubmitter {
     @NotNull
@@ -44,15 +44,15 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
             @Override
             public void run(@NotNull ProgressIndicator indicator) {
                 indicator.setIndeterminate(true);
+                Versions ddevVersions = getDdevVersions(project);
+                WSLDistribution wslDistribution = getWslDistribution(project);
 
-                List<String> reportIds = new ArrayList<>();
                 for (IdeaLoggingEvent event : events) {
-                    SentryId sentryId = captureIdeaLoggingEvent(event, project);
-                    reportIds.add(sentryId.toString());
-                }
+                    SentryId sentryId = captureIdeaLoggingEvent(event, additionalInfo, ddevVersions, wslDistribution);
 
-                if (project != null) {
-                    DdevNotifier.getInstance(project).asyncNotifyErrorReportSent(reportIds);
+                    if (project != null) {
+                        DdevNotifier.getInstance(project).asyncNotifyErrorReportSent(sentryId.toString());
+                    }
                 }
 
                 consumer.consume(new SubmittedReportInfo(SubmittedReportInfo.SubmissionStatus.NEW_ISSUE));
@@ -62,35 +62,52 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
         return true;
     }
 
-    private SentryId captureIdeaLoggingEvent(IdeaLoggingEvent event, @Nullable Project project) {
-        return Sentry.captureEvent(buildSentryEvent(event, project));
+    private SentryId captureIdeaLoggingEvent(IdeaLoggingEvent event, @Nullable String additionalInfo, @Nullable Versions ddevVersions, @Nullable WSLDistribution wslDistribution) {
+        return Sentry.captureEvent(buildSentryEvent(event, additionalInfo, ddevVersions, wslDistribution));
     }
 
-    private SentryEvent buildSentryEvent(IdeaLoggingEvent ideaLoggingEvent, @Nullable Project project) {
+    private SentryEvent buildSentryEvent(IdeaLoggingEvent ideaLoggingEvent, @Nullable String additionalInfo, @Nullable Versions ddevVersions, @Nullable WSLDistribution wslDistribution) {
         SentryEvent event = new SentryEvent();
         event.setRelease(getPluginDescriptor().getVersion());
+
+        if (additionalInfo != null) {
+            event.setExtra("additional_info", additionalInfo);
+        }
 
         event.setThrowable(ideaLoggingEvent.getThrowable());
         if (ideaLoggingEvent instanceof IdeaReportingEvent && ideaLoggingEvent.getData() instanceof AbstractMessage) {
             event.setThrowable(((AbstractMessage) ideaLoggingEvent.getData()).getThrowable());
         }
 
-        event.setTag("ddev_version", getDdevVersion(project));
+        if (ddevVersions != null) {
+            event.setTag("ddev_version", ddevVersions.getDdevVersion() != null ? ddevVersions.getDdevVersion() : "");
+            event.setTag("docker_version", ddevVersions.getDockerVersion() != null ? ddevVersions.getDockerVersion() : "");
+            event.setTag("docker_platform", ddevVersions.getDockerPlatform() != null ? ddevVersions.getDockerPlatform() : "");
+            event.setTag("docker_compose_version", ddevVersions.getDockerComposeVersion() != null ? ddevVersions.getDockerComposeVersion() : "");
+        }
+
+        if (wslDistribution != null) {
+            event.setTag("wsl_distribution", wslDistribution.getMsId());
+        }
+
         event.setExtra("last_action_id", IdeaLogger.ourLastActionId);
 
         return event;
     }
 
-    private String getDdevVersion(@Nullable Project project) {
+    private @Nullable Versions getDdevVersions(@Nullable Project project) {
         if (project == null) {
-            return "unknown";
+            return null;
         }
 
-        Versions versions = DdevStateManager.getInstance(project).getState().getVersions();
-        if (versions != null) {
-            return versions.getDdevVersion();
+        return DdevStateManager.getInstance(project).getState().getVersions();
+    }
+
+    private @Nullable WSLDistribution getWslDistribution(@Nullable Project project) {
+        if (project == null || project.getBasePath() == null) {
+            return null;
         }
 
-        return "unknown";
+        return WslPath.getDistributionByWindowsUncPath(project.getBasePath());
     }
 }

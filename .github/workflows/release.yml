@@ -70,6 +70,7 @@ jobs:
 
       - name: Extract Tag Name
         uses: olegtarasov/get-tag@v2.1
+        id: tagName
 
       - name: Make Gradlew Executable
         run: chmod +x gradlew
@@ -104,16 +105,21 @@ jobs:
           files: build/distributions/*.zip
           body_path: build/extracted_release_changelog.md
 
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          version: ${{ steps.tagName.outputs.tag }}
+
   publish:
     needs: [ release ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Extract Tag Name
-        uses: olegtarasov/get-tag@v2.1
-        id: tagName
 
       - name: Make Gradlew Executable
         run: chmod +x gradlew
@@ -142,12 +148,3 @@ jobs:
           PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
           JETBRAINS_TOKEN: ${{ secrets.JETBRAINS_TOKEN }}
           PUBLISH_CHANNEL: ${{ steps.match-channel.outputs.group1 }}
-
-      - name: Create Sentry release
-        uses: getsentry/action-release@v1
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-        with:
-          version: ${{ steps.tagName.outputs.tag }}

@@ -14,8 +14,6 @@ import de.php_perfect.intellij.ddev.actions.RestartIdeAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
 
-import java.util.List;
-
 public final class DdevNotifierImpl implements DdevNotifier {
     private final @NotNull Project project;
 
@@ -148,19 +146,20 @@ public final class DdevNotifierImpl implements DdevNotifier {
     }
 
     @Override
-    public void asyncNotifyErrorReportSent(@NotNull List<String> reportIds) {
-        ApplicationManager.getApplication().invokeLater(() -> this.notifyErrorReportSent(reportIds), ModalityState.NON_MODAL);
+    public void asyncNotifyErrorReportSent(final @NotNull String reportId) {
+        ApplicationManager.getApplication().invokeLater(() -> this.notifyErrorReportSent(reportId), ModalityState.NON_MODAL);
     }
 
     @TestOnly
-    public void notifyErrorReportSent(@NotNull List<String> reportIds) {
+    public void notifyErrorReportSent(@NotNull String reportId) {
         NotificationGroupManager.getInstance()
                 .getNotificationGroup("DdevIntegration.NonSticky")
                 .createNotification(
                         DdevIntegrationBundle.message("errorReporting.success.title"),
-                        DdevIntegrationBundle.message("errorReporting.success.text", String.join("\n", reportIds)),
+                        DdevIntegrationBundle.message("errorReporting.success.text", reportId),
                         NotificationType.INFORMATION
                 )
+                .addAction(new ReportIssueAction())
                 .notify(this.project);
     }
 }

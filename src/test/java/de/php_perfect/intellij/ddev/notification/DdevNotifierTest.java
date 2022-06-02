@@ -8,8 +8,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 final class DdevNotifierTest extends BasePlatformTestCase {
     @Override
     @BeforeEach
@@ -109,12 +107,11 @@ final class DdevNotifierTest extends BasePlatformTestCase {
         Notification[] notifications = notificationManager.getNotificationsOfType(Notification.class, project);
         assertEmpty(notifications);
 
-        new DdevNotifierImpl(project).notifyErrorReportSent(Arrays.asList("id1", "id2"));
+        new DdevNotifierImpl(project).notifyErrorReportSent("cc83481fd7b74744afdd7f36ba827f7b");
 
         notifications = notificationManager.getNotificationsOfType(Notification.class, project);
         assertSize(1, notifications);
-        assertTrue(notifications[0].getContent().contains("id1"));
-        assertTrue(notifications[0].getContent().contains("id2"));
+        assertTrue(notifications[0].getContent().contains("cc83481fd7b74744afdd7f36ba827f7b"));
     }
 
     @Override

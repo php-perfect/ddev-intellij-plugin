@@ -6,9 +6,11 @@ import io.sentry.protocol.OperatingSystem;
 import io.sentry.protocol.SentryRuntime;
 
 public class SentrySdkInitializer {
+    private static final String DSN = "https://92fd27b7c1fe48a98b040b3a1b603570@o1261149.ingest.sentry.io/6438173";
+
     public static void init() {
         Sentry.init(options -> {
-            options.setDsn("https://92fd27b7c1fe48a98b040b3a1b603570@o1261149.ingest.sentry.io/6438173");
+            options.setDsn(DSN);
 
             options.setBeforeSend((event, hint) -> {
                 event.setServerName(null);

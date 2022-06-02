@@ -20,7 +20,7 @@ public interface DdevNotifier {
 
     void asyncNotifyUnknownStateEntered();
 
-    void asyncNotifyErrorReportSent(@NotNull List<String> reportIds);
+    void asyncNotifyErrorReportSent(@NotNull String id);
 
     static DdevNotifier getInstance(@NotNull Project project) {
         return project.getService(DdevNotifier.class);
