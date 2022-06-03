@@ -15,12 +15,7 @@ public class ProcessExecutorImpl implements ProcessExecutor {
         commandLine = WslAware.patchCommandLine(commandLine, loginShell);
         final CapturingProcessHandler processHandler = new CapturingProcessHandler(commandLine);
         final ProcessOutput output = processHandler.runProcess(timeout);
-
-        if (output.getExitCode() != 0 || output.isTimeout() || output.isCancelled()) {
-            LOG.info("command: " + processHandler.getCommandLine() + " has failed:" +
-                    "ec=" + output.getExitCode() + ",timeout=" + output.isTimeout() + ",cancelled=" + output.isCancelled()
-                    + ",stderr=" + output.getStderr() + ",stdout=" + output.getStdout());
-        }
+        LOG.debug("command: " + processHandler.getCommandLine() + " returned: " + output.toString());
 
         return output;
     }

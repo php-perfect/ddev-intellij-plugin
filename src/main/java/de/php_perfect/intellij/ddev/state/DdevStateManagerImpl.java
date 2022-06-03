@@ -7,10 +7,7 @@ import de.php_perfect.intellij.ddev.DatabaseInfoChangedListener;
 import de.php_perfect.intellij.ddev.DescriptionChangedListener;
 import de.php_perfect.intellij.ddev.StateChangedListener;
 import de.php_perfect.intellij.ddev.StateInitializedListener;
-import de.php_perfect.intellij.ddev.cmd.BinaryLocator;
-import de.php_perfect.intellij.ddev.cmd.CommandFailedException;
-import de.php_perfect.intellij.ddev.cmd.DatabaseInfo;
-import de.php_perfect.intellij.ddev.cmd.Ddev;
+import de.php_perfect.intellij.ddev.cmd.*;
 import de.php_perfect.intellij.ddev.notification.DdevNotifier;
 import de.php_perfect.intellij.ddev.settings.DdevSettingsState;
 import org.jetbrains.annotations.NotNull;
@@ -42,6 +39,13 @@ public final class DdevStateManagerImpl implements DdevStateManager {
     }
 
     public void initialize(boolean reinitialize) {
+        if (!reinitialize && !Docker.getInstance().isRunning(this.project.getBasePath())) {
+            LOG.debug("Docker not available. Skipping initialization");
+            DdevNotifier.getInstance(this.project).asyncNotifyDockerNotAvailable();
+
+            return;
+        }
+
         this.checkChanged(() -> {
             this.resetState();
             this.checkIsInstalled(!reinitialize);

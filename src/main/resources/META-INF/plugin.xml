@@ -70,6 +70,8 @@
                             serviceInterface="de.php_perfect.intellij.ddev.tutorial.GotItTutorial"/>
         <applicationService serviceImplementation="de.php_perfect.intellij.ddev.cmd.parser.JsonParserImpl"
                             serviceInterface="de.php_perfect.intellij.ddev.cmd.parser.JsonParser"/>
+        <applicationService serviceImplementation="de.php_perfect.intellij.ddev.cmd.DockerImpl"
+                            serviceInterface="de.php_perfect.intellij.ddev.cmd.Docker"/>
 
         <projectService serviceImplementation="de.php_perfect.intellij.ddev.notification.DdevNotifierImpl"
                         serviceInterface="de.php_perfect.intellij.ddev.notification.DdevNotifier"/>

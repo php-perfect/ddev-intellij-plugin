@@ -36,6 +36,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
         final Project project = this.getProject();
         final MockDdevConfigLoader ddevConfigLoader = (MockDdevConfigLoader) DdevConfigLoader.getInstance(project);
         final MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
+        mockProcessExecutor.addProcessOutput("docker info", new ProcessOutput(0));
         mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", new ProcessOutput("/foo/bar/bin/ddev", "", 0, false, false));
 
         ddevConfigLoader.setExists(true);
@@ -57,10 +58,11 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
     @Test
     public void testReinitialize() {
         final Project project = this.getProject();
-        final MockDdevConfigLoader ddevConfigLoader = (MockDdevConfigLoader) DdevConfigLoader.getInstance(project);
 
+        final MockDdevConfigLoader ddevConfigLoader = (MockDdevConfigLoader) DdevConfigLoader.getInstance(project);
         ddevConfigLoader.setExists(true);
-        DdevStateManager ddevStateManager = DdevStateManager.getInstance(project);
+
+        final DdevStateManager ddevStateManager = DdevStateManager.getInstance(project);
         ddevStateManager.reinitialize();
 
         StateImpl expectedState = new StateImpl();
@@ -82,6 +84,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
         final Project project = this.getProject();
         final MockDdevConfigLoader ddevConfigLoader = (MockDdevConfigLoader) DdevConfigLoader.getInstance(project);
         MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
+        mockProcessExecutor.addProcessOutput("docker info", new ProcessOutput(0));
         mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", new ProcessOutput("/foo/bar/bin/ddev", "", 0, false, false));
 
         ddevConfigLoader.setExists(true);
