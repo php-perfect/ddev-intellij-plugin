@@ -18,6 +18,8 @@ repositories {
 
 dependencies {
     implementation("com.google.code.gson:gson:2.9.0")
+    implementation("io.sentry:sentry:5.7.4")
+
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("org.mockito:mockito-core:4.6.0")

@@ -99,6 +99,21 @@ final class DdevNotifierTest extends BasePlatformTestCase {
         assertSize(1, notifications);
     }
 
+    @Test
+    public void testNotifyErrorReportSent() {
+        Project project = getProject();
+
+        NotificationsManager notificationManager = NotificationsManager.getNotificationsManager();
+        Notification[] notifications = notificationManager.getNotificationsOfType(Notification.class, project);
+        assertEmpty(notifications);
+
+        new DdevNotifierImpl(project).notifyErrorReportSent("cc83481fd7b74744afdd7f36ba827f7b");
+
+        notifications = notificationManager.getNotificationsOfType(Notification.class, project);
+        assertSize(1, notifications);
+        assertTrue(notifications[0].getContent().contains("cc83481fd7b74744afdd7f36ba827f7b"));
+    }
+
     @Override
     @AfterEach
     protected void tearDown() throws Exception {

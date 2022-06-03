@@ -48,7 +48,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
         StateImpl expectedState = new StateImpl();
         expectedState.setDdevBinary("/foo/bar/bin/ddev");
         expectedState.setConfigured(true);
-        expectedState.setVersions(new Versions("v1.19.0"));
+        expectedState.setVersions(new Versions("v1.19.0", "20.10.12", "v2.2.2", "docker-desktop"));
         expectedState.setDescription(new Description("acol", "8.1", Description.Status.STOPPED, null, null, new HashMap<>(), null));
 
         Assertions.assertEquals(expectedState, ddevStateManager.getState());
@@ -94,7 +94,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
         StateImpl expectedState = new StateImpl();
         expectedState.setDdevBinary("/foo/bar/bin/ddev");
         expectedState.setConfigured(true);
-        expectedState.setVersions(new Versions("v1.19.0"));
+        expectedState.setVersions(new Versions("v1.19.0", "20.10.12", "v2.2.2", "docker-desktop"));
         expectedState.setDescription(new Description("acol", "8.1", Description.Status.STOPPED, null, null, new HashMap<>(), null));
 
         Assertions.assertEquals(expectedState, ddevStateManager.getState());

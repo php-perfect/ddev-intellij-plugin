@@ -21,7 +21,7 @@ final class DdevImplTest extends BasePlatformTestCase {
 
     @Test
     public void version() throws CommandFailedException, IOException {
-        Versions expected = new Versions("v1.19.0");
+        Versions expected = new Versions("v1.19.0", "20.10.12", "v2.2.2", "docker-desktop");
 
         ProcessOutput processOutput = new ProcessOutput(Files.readString(Path.of("src/test/resources/ddev_version.json")), "", 0, false, false);
 

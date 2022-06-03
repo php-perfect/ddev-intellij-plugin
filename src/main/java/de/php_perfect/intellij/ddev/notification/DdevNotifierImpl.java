@@ -128,6 +128,23 @@ public final class DdevNotifierImpl implements DdevNotifier {
     }
 
     @Override
+    public void asyncNotifyErrorReportSent(final @NotNull String reportId) {
+        ApplicationManager.getApplication().invokeLater(() -> this.notifyErrorReportSent(reportId), ModalityState.NON_MODAL);
+    }
+
+    @TestOnly
+    public void notifyErrorReportSent(@NotNull String reportId) {
+        NotificationGroupManager.getInstance()
+                .getNotificationGroup("DdevIntegration.NonSticky")
+                .createNotification(
+                        DdevIntegrationBundle.message("errorReporting.success.title"),
+                        DdevIntegrationBundle.message("errorReporting.success.text", reportId),
+                        NotificationType.INFORMATION
+                )
+                .addAction(new ReportIssueAction())
+                .notify(this.project);
+    }
+
     public void asyncNotifyDdevDetected(String binary) {
         ApplicationManager.getApplication().invokeLater(() -> this.notifyDdevDetected(binary), ModalityState.NON_MODAL);
 
