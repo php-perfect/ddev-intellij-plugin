@@ -7,14 +7,13 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
-import de.php_perfect.intellij.ddev.actions.ChangeSettingsAction;
-import de.php_perfect.intellij.ddev.actions.InstallationInstructionsAction;
-import de.php_perfect.intellij.ddev.actions.ManagePluginsAction;
-import de.php_perfect.intellij.ddev.actions.ReportIssueAction;
+import de.php_perfect.intellij.ddev.actions.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
 
 public final class DdevNotifierImpl implements DdevNotifier {
+    public static final String STICKY = "DdevIntegration.Sticky";
+    public static final String NON_STICKY = "DdevIntegration.NonSticky";
     private final @NotNull Project project;
 
     public DdevNotifierImpl(@NotNull Project project) {
@@ -29,7 +28,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
     @TestOnly
     public void notifyInstallDdev() {
         NotificationGroupManager.getInstance()
-                .getNotificationGroup("DdevIntegration.Sticky")
+                .getNotificationGroup(STICKY)
                 .createNotification(
                         DdevIntegrationBundle.message("notification.InstallDdev.title"),
                         DdevIntegrationBundle.message("notification.InstallDdev.text"),
@@ -47,7 +46,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
     @TestOnly
     public void notifyNewVersionAvailable(@NotNull String currentVersion, @NotNull String latestVersion) {
         NotificationGroupManager.getInstance()
-                .getNotificationGroup("DdevIntegration.NonSticky")
+                .getNotificationGroup(NON_STICKY)
                 .createNotification(
                         DdevIntegrationBundle.message("notification.NewVersionAvailable.title"),
                         DdevIntegrationBundle.message("notification.NewVersionAvailable.text", currentVersion, latestVersion),
@@ -65,7 +64,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
     @TestOnly
     public void notifyAlreadyLatestVersion() {
         NotificationGroupManager.getInstance()
-                .getNotificationGroup("DdevIntegration.NonSticky")
+                .getNotificationGroup(NON_STICKY)
                 .createNotification(
                         DdevIntegrationBundle.message("notification.AlreadyLatestVersion.text"),
                         NotificationType.INFORMATION
@@ -81,7 +80,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
     @TestOnly
     public void notifyMissingPlugin(@NotNull final String pluginName) {
         NotificationGroupManager.getInstance()
-                .getNotificationGroup("DdevIntegration.Sticky")
+                .getNotificationGroup(STICKY)
                 .createNotification(
                         DdevIntegrationBundle.message("notification.MissingPlugin.title"),
                         DdevIntegrationBundle.message("notification.MissingPlugin.text", pluginName),
@@ -99,7 +98,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
     @TestOnly
     public void notifyPhpInterpreterUpdated(@NotNull final String phpVersion) {
         NotificationGroupManager.getInstance()
-                .getNotificationGroup("DdevIntegration.NonSticky")
+                .getNotificationGroup(NON_STICKY)
                 .createNotification(
                         DdevIntegrationBundle.message("notification.InterpreterUpdated.title"),
                         DdevIntegrationBundle.message("notification.InterpreterUpdated.text", phpVersion),
@@ -116,7 +115,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
     @TestOnly
     public void notifyUnknownStateEntered() {
         NotificationGroupManager.getInstance()
-                .getNotificationGroup("DdevIntegration.Sticky")
+                .getNotificationGroup(STICKY)
                 .createNotification(
                         DdevIntegrationBundle.message("notification.UnknownStateEntered.title"),
                         DdevIntegrationBundle.message("notification.UnknownStateEntered.text"),
@@ -135,7 +134,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
     @TestOnly
     public void notifyErrorReportSent(@NotNull String reportId) {
         NotificationGroupManager.getInstance()
-                .getNotificationGroup("DdevIntegration.NonSticky")
+                .getNotificationGroup(NON_STICKY)
                 .createNotification(
                         DdevIntegrationBundle.message("errorReporting.success.title"),
                         DdevIntegrationBundle.message("errorReporting.success.text", reportId),
@@ -145,21 +144,39 @@ public final class DdevNotifierImpl implements DdevNotifier {
                 .notify(this.project);
     }
 
+    @Override
     public void asyncNotifyDdevDetected(String binary) {
         ApplicationManager.getApplication().invokeLater(() -> this.notifyDdevDetected(binary), ModalityState.NON_MODAL);
-
     }
 
     @TestOnly
     public void notifyDdevDetected(String binary) {
         NotificationGroupManager.getInstance()
-                .getNotificationGroup("DdevIntegration.NonSticky")
+                .getNotificationGroup(NON_STICKY)
                 .createNotification(
                         DdevIntegrationBundle.message("notification.ddevDetected.title"),
                         DdevIntegrationBundle.message("notification.ddevDetected.text", binary),
                         NotificationType.INFORMATION
                 )
                 .addAction(new ChangeSettingsAction())
+                .notify(this.project);
+    }
+
+    @Override
+    public void asyncNotifyDockerNotAvailable() {
+        ApplicationManager.getApplication().invokeLater(this::notifyDockerNotAvailable, ModalityState.NON_MODAL);
+    }
+
+    @TestOnly
+    public void notifyDockerNotAvailable() {
+        NotificationGroupManager.getInstance()
+                .getNotificationGroup(STICKY)
+                .createNotification(
+                        DdevIntegrationBundle.message("notification.dockerNotAvailable.title"),
+                        DdevIntegrationBundle.message("notification.dockerNotAvailable.text"),
+                        NotificationType.WARNING
+                )
+                .addAction(new ReloadPluginAction())
                 .notify(this.project);
     }
 }
