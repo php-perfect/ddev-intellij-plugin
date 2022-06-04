@@ -48,7 +48,6 @@ public final class DdevImpl implements Ddev {
     private @NotNull GeneralCommandLine createDdevCommandLine(final @NotNull String binary, final @NotNull String action, final @NotNull Project project) {
         return new GeneralCommandLine(Objects.requireNonNull(binary), action, "--json-output")
                 .withWorkDirectory(project.getBasePath())
-                .withParentEnvironmentType(GeneralCommandLine.ParentEnvironmentType.SYSTEM)
                 .withEnvironment("DDEV_NONINTERACTIVE", "true");
     }
 }

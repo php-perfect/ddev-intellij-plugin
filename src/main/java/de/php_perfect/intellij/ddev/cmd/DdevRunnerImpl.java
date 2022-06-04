@@ -102,7 +102,6 @@ public final class DdevRunnerImpl implements DdevRunner {
                 .withInitialColumns(120)
                 .withWorkDirectory(project.getBasePath())
                 .withCharset(StandardCharsets.UTF_8)
-                .withEnvironment("DDEV_NONINTERACTIVE", "true")
-                .withParentEnvironmentType(GeneralCommandLine.ParentEnvironmentType.SYSTEM);
+                .withEnvironment("DDEV_NONINTERACTIVE", "true");
     }
 }
