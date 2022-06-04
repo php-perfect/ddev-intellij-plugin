@@ -2,7 +2,7 @@ import org.jetbrains.intellij.tasks.ListProductsReleasesTask
 
 plugins {
     id("org.jetbrains.changelog") version "1.3.1"
-    id("org.jetbrains.intellij") version "1.5.3"
+    id("org.jetbrains.intellij") version "1.6.0"
     java
 
     id("org.sonarqube") version "3.3"
@@ -38,6 +38,8 @@ intellij {
     type.set("IU")
     plugins.add("com.intellij.database")
     plugins.add("org.jetbrains.plugins.terminal")
+    plugins.add("com.jetbrains.plugins.webDeployment")
+    plugins.add("org.jetbrains.plugins.remote-run")
     plugins.add("com.jetbrains.php:221.5080.224")
     plugins.add("org.jetbrains.plugins.phpstorm-remote-interpreter:221.5080.169")
     plugins.add("org.jetbrains.plugins.phpstorm-docker:221.5080.169")
@@ -81,7 +83,7 @@ tasks.jacocoTestReport {
 
 /* SonarCloud */
 tasks.sonarqube {
-    dependsOn(tasks.build, tasks.jacocoTestReport)
+    dependsOn(tasks.build)
 
     sonarqube {
         properties {
