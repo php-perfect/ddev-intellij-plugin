@@ -22,8 +22,8 @@ body:
   - type: input
     id: report_id
     attributes:
-      label: Enter your error report id (If available)
-      description: You will get an report id after submitting a error report in your IDE, related to this plugin.
+      label: Enter your error report ID (If available)
+      description: You will get a report ID after submitting a error report in your IDE, related to this plugin.
   - type: textarea
     id: description
     attributes:
