@@ -10,7 +10,7 @@ public final class DockerImpl implements Docker {
             return ProcessExecutor.getInstance().executeCommandLine(
                     new GeneralCommandLine("docker", "info")
                             .withWorkDirectory(workDirectory),
-                    2_000,
+                    5_000,
                     false
             ).getExitCode() == 0;
         } catch (ExecutionException e) {
