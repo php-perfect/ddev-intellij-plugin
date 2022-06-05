@@ -137,7 +137,7 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
         }
 
         Description description = state.getDescription();
-        if (description != null && description.getStatus() == Description.Status.RUNNING) {
+        if (this.clickListener != null && description != null && description.getStatus() == Description.Status.RUNNING) {
             this.clickListener.installOn(this.component, true);
         }
     }
