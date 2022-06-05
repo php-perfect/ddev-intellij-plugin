@@ -132,7 +132,9 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
         this.component.setVisible(true);
         this.component.setText(this.getText(state));
 
-        this.clickListener.uninstall(this.component);
+        if (this.clickListener != null) {
+            this.clickListener.uninstall(this.component);
+        }
 
         Description description = state.getDescription();
         if (description != null && description.getStatus() == Description.Status.RUNNING) {
@@ -165,10 +167,16 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
                 return DdevIntegrationBundle.message("status.Running");
             case STARTING:
                 return DdevIntegrationBundle.message("status.Starting");
-            case PAUSED:
-                return DdevIntegrationBundle.message("status.Paused");
             case STOPPED:
                 return DdevIntegrationBundle.message("status.Stopped");
+            case DIR_MISSING:
+                return DdevIntegrationBundle.message("status.DirMissing");
+            case CONFIG_MISSING:
+                return DdevIntegrationBundle.message("status.ConfigMissing");
+            case PAUSED:
+                return DdevIntegrationBundle.message("status.Paused");
+            case UNHEALTHY:
+                return DdevIntegrationBundle.message("status.Unhealthy");
             default:
                 return DdevIntegrationBundle.message("status.Undefined");
         }
