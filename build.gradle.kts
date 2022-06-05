@@ -34,50 +34,54 @@ java {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2022.1")
     type.set("IU")
-    plugins.add("com.intellij.database")
-    plugins.add("org.jetbrains.plugins.terminal")
-    plugins.add("com.jetbrains.plugins.webDeployment")
-    plugins.add("org.jetbrains.plugins.remote-run")
-    plugins.add("com.jetbrains.php:221.5080.224")
-    plugins.add("org.jetbrains.plugins.phpstorm-remote-interpreter:221.5080.169")
-    plugins.add("org.jetbrains.plugins.phpstorm-docker:221.5080.169")
-    plugins.add("Docker")
+    version.set("IU-221.5787.30") // https://www.jetbrains.com/de-de/idea/download/other.html
+    plugins.add("com.intellij.database") // bundled
+    plugins.add("org.jetbrains.plugins.terminal") // bundled
+    plugins.add("com.jetbrains.plugins.webDeployment") // bundled
+    plugins.add("org.jetbrains.plugins.remote-run") // bundled
+    plugins.add("Docker") // bundled
+    plugins.add("com.jetbrains.php:221.5787.33") // https://plugins.jetbrains.com/plugin/6610-php/versions
+    plugins.add("org.jetbrains.plugins.phpstorm-remote-interpreter:221.5787.20") // https://plugins.jetbrains.com/plugin/7511-php-remote-interpreter/versions
+    plugins.add("org.jetbrains.plugins.phpstorm-docker:221.5787.20") // https://plugins.jetbrains.com/plugin/8595-php-docker/versions
 }
+
 tasks {
     patchPluginXml {
         changeNotes.set(provider { changelog.getOrNull(version.get())?.toHTML() })
     }
+
     signPlugin {
         certificateChain.set(System.getenv("CERTIFICATE_CHAIN") ?: "")
         privateKey.set(System.getenv("PRIVATE_KEY") ?: "")
         password.set(System.getenv("PRIVATE_KEY_PASSWORD") ?: "")
     }
+
     publishPlugin {
         token.set(System.getenv("JETBRAINS_TOKEN") ?: "")
         if (System.getenv("PUBLISH_CHANNEL") != null && System.getenv("PUBLISH_CHANNEL") != "") {
             channels.set(listOf(System.getenv("PUBLISH_CHANNEL")))
         }
     }
+
     listProductsReleases {
         types.set(listOf("IC", "IU", "PS", "WS", "DB"))
         releaseChannels.set(listOf(ListProductsReleasesTask.Channel.RELEASE))
     }
-}
 
-/* Tests */
-tasks.test {
-    ignoreFailures = System.getProperty("test.ignoreFailures")?.toBoolean() ?: false
+    /* Tests */
+    test {
+        ignoreFailures = System.getProperty("test.ignoreFailures")?.toBoolean() ?: false
 
-    useJUnitPlatform()
-}
+        useJUnitPlatform()
+    }
 
-tasks.jacocoTestReport {
-    dependsOn(tasks.test)
+    jacocoTestReport {
+        dependsOn(test)
 
-    reports {
-        xml.required.set(true)
+        reports {
+            xml.required.set(true)
+        }
     }
 }
 
