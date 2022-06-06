@@ -21,6 +21,10 @@ public final class DdevStartAction extends DdevRunAction {
             return false;
         }
 
+        if (!state.isConfigured()) {
+            return false;
+        }
+
         Description description = state.getDescription();
 
         if (description == null) {
