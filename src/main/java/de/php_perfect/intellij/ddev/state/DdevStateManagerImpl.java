@@ -68,7 +68,10 @@ public final class DdevStateManagerImpl implements DdevStateManager {
     @Override
     public void updateConfiguration() {
         LOG.debug("Updating DDEV configuration data");
-        this.checkChanged(this::checkConfiguration);
+        this.checkChanged(() -> {
+            this.checkConfiguration();
+            this.checkDescription();
+        });
     }
 
     @Override

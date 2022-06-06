@@ -58,7 +58,7 @@ public final class DdevRunnerImpl implements DdevRunner {
     public void share(@NotNull Project project) {
         final String title = DdevIntegrationBundle.message("ddev.run.share");
         final Runner runner = Runner.getInstance(project);
-        runner.run(this.createCommandLine("share", project), title, () -> this.updateDescription(project));
+        runner.run(this.createCommandLine("share", project), title);
     }
 
     @Override
@@ -66,19 +66,25 @@ public final class DdevRunnerImpl implements DdevRunner {
         final String title = DdevIntegrationBundle.message("ddev.run.config");
         final Runner runner = Runner.getInstance(project);
         runner.run(this.buildConfigCommandLine(project), title, () -> {
-                    DdevStateManager.getInstance(project).updateConfiguration();
-                    this.updateDescription(project);
-                    VirtualFile ddevConfig = DdevConfigLoader.getInstance(project).load();
+            this.updateConfiguration(project);
+            this.openConfig(project);
+        });
+    }
 
-                    if (ddevConfig != null && ddevConfig.exists()) {
-                        FileEditorManager.getInstance(project).openFile(ddevConfig, true);
-                    }
-                }
-        );
+    private void openConfig(@NotNull Project project) {
+        VirtualFile ddevConfig = DdevConfigLoader.getInstance(project).load();
+
+        if (ddevConfig != null && ddevConfig.exists()) {
+            FileEditorManager.getInstance(project).openFile(ddevConfig, true);
+        }
     }
 
     private void updateDescription(Project project) {
         ApplicationManager.getApplication().executeOnPooledThread(() -> DdevStateManager.getInstance(project).updateDescription());
+    }
+
+    private void updateConfiguration(Project project) {
+        ApplicationManager.getApplication().executeOnPooledThread(() -> DdevStateManager.getInstance(project).updateConfiguration());
     }
 
     private @NotNull GeneralCommandLine buildConfigCommandLine(@NotNull Project project) {

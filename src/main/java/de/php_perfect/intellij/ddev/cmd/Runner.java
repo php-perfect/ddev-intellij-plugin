@@ -6,6 +6,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface Runner {
+    void run(@NotNull GeneralCommandLine commandLine, @NotNull String title);
+
     void run(@NotNull GeneralCommandLine commandLine, @NotNull String title, @Nullable Runnable afterCompletion);
 
     static Runner getInstance(@NotNull Project project) {
