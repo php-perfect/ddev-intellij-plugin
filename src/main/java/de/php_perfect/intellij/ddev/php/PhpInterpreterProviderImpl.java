@@ -6,12 +6,14 @@ import com.intellij.docker.remote.DockerCredentialsEditor;
 import com.intellij.execution.configuration.EnvironmentVariablesData;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.PathMappingSettings;
+import com.jetbrains.php.composer.ComposerDataService;
 import com.jetbrains.php.config.PhpProjectConfigurationFacade;
 import com.jetbrains.php.config.interpreters.PhpInterpreter;
 import com.jetbrains.php.config.interpreters.PhpInterpretersManagerImpl;
 import com.jetbrains.php.config.interpreters.PhpInterpretersPhpInfoCacheImpl;
 import com.jetbrains.php.config.phpInfo.PhpInfo;
 import com.jetbrains.php.config.phpInfo.PhpInfoUtil;
+import com.jetbrains.php.remote.composer.ComposerRemoteInterpreterExecution;
 import com.jetbrains.php.remote.docker.compose.PhpDockerComposeStartCommand;
 import com.jetbrains.php.remote.docker.compose.PhpDockerComposeTypeData;
 import com.jetbrains.php.remote.interpreter.PhpRemoteSdkAdditionalData;
@@ -46,8 +48,17 @@ public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider 
         this.updateInterpreter(interpreter, interpreterConfig);
         this.loadPhpInfo(interpreter);
         this.setDefaultIfNotSet(interpreter);
+        this.updateComposerInterpreterIfNotSet(interpreter);
 
         DdevNotifier.getInstance(project).asyncNotifyPhpInterpreterUpdated(interpreterConfig.getPhpVersion());
+    }
+
+    private void updateComposerInterpreterIfNotSet(final PhpInterpreter interpreter) {
+        final ComposerDataService composerSettings = ComposerDataService.getInstance(project);
+
+        if (!Objects.equals(composerSettings.getComposerExecution().getInterpreterId(), interpreter.getId())) {
+            composerSettings.setComposerExecution(new ComposerRemoteInterpreterExecution(interpreter.getName(), "composer"));
+        }
     }
 
     private @NotNull PhpInterpreter getDdevPhpInterpreter() {
