@@ -11,8 +11,6 @@ public interface DdevStateManager {
 
     void reinitialize();
 
-    void updateVersion();
-
     void updateConfiguration();
 
     void updateDescription();
