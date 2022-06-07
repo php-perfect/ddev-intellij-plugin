@@ -80,14 +80,17 @@ tasks {
         dependsOn(test)
 
         reports {
+            html.required.set(true)
             xml.required.set(true)
         }
+
+        classDirectories.setFrom("build/classes/java/main")
     }
 }
 
 /* SonarCloud */
 tasks.sonarqube {
-    dependsOn(tasks.build)
+    dependsOn(tasks.build, tasks.jacocoTestReport)
 
     sonarqube {
         properties {
