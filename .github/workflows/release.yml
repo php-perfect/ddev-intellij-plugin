@@ -121,6 +121,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Extract Tag Name
+        uses: olegtarasov/get-tag@v2.1
+
       - name: Make Gradlew Executable
         run: chmod +x gradlew
 
