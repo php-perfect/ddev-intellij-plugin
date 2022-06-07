@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
-## [1.0.0-beta]
+## [1.0.0-beta1]
 
 ### Added
 
@@ -43,6 +43,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * @SpraxDev made their first contribution in https://github.com/php-perfect/ddev-intellij-plugin/pull/60
 
 **Full Changelog**: https://github.com/php-perfect/ddev-intellij-plugin/compare/1.0.0-alpha3...1.0.0-beta
+
+## [1.0.0-beta]
+
+Broken because of an error in the release pipeline.
 
 ## [1.0.0-alpha3]
 
