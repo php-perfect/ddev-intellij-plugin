@@ -5,7 +5,7 @@ plugins {
     id("org.jetbrains.intellij") version "1.6.0"
     java
 
-    id("org.sonarqube") version "3.3"
+    id("org.sonarqube") version "3.4.0.2513"
     jacoco
 }
 
