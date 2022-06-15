@@ -21,7 +21,7 @@ import com.intellij.util.Consumer;
 import com.intellij.util.concurrency.EdtExecutorService;
 import com.intellij.util.messages.MessageBus;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
-import de.php_perfect.intellij.ddev.DdevStateChangedListener;
+import de.php_perfect.intellij.ddev.StateChangedListener;
 import de.php_perfect.intellij.ddev.cmd.Description;
 import de.php_perfect.intellij.ddev.icons.DdevIntegrationIcons;
 import de.php_perfect.intellij.ddev.state.State;
@@ -82,12 +82,12 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
 
     private void registerUpdateListener() {
         MessageBus messageBus = this.project.getMessageBus();
-        messageBus.connect(this).subscribe(DdevStateChangedListener.DDEV_CHANGED, new StatusBarUpdateListener());
+        messageBus.connect(this).subscribe(StateChangedListener.DDEV_CHANGED, new StatusBarUpdateListener());
     }
 
-    private final class StatusBarUpdateListener implements DdevStateChangedListener {
+    private final class StatusBarUpdateListener implements StateChangedListener {
         @Override
-        public void onDdevChanged(State state) {
+        public void onDdevChanged(@NotNull State state) {
             DdevStatusBarWidgetImpl.this.updateComponent(state);
         }
     }
@@ -123,7 +123,7 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
             return;
         }
 
-        if (!state.isConfigured()) {
+        if (!state.isAvailable() || !state.isConfigured()) {
             this.component.setVisible(false);
 
             return;
@@ -132,10 +132,12 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
         this.component.setVisible(true);
         this.component.setText(this.getText(state));
 
-        this.clickListener.uninstall(this.component);
+        if (this.clickListener != null) {
+            this.clickListener.uninstall(this.component);
+        }
 
         Description description = state.getDescription();
-        if (description != null && description.getStatus() == Description.Status.RUNNING) {
+        if (this.clickListener != null && description != null && description.getStatus() == Description.Status.RUNNING) {
             this.clickListener.installOn(this.component, true);
         }
     }
@@ -165,10 +167,16 @@ public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
                 return DdevIntegrationBundle.message("status.Running");
             case STARTING:
                 return DdevIntegrationBundle.message("status.Starting");
-            case PAUSED:
-                return DdevIntegrationBundle.message("status.Paused");
             case STOPPED:
                 return DdevIntegrationBundle.message("status.Stopped");
+            case DIR_MISSING:
+                return DdevIntegrationBundle.message("status.DirMissing");
+            case CONFIG_MISSING:
+                return DdevIntegrationBundle.message("status.ConfigMissing");
+            case PAUSED:
+                return DdevIntegrationBundle.message("status.Paused");
+            case UNHEALTHY:
+                return DdevIntegrationBundle.message("status.Unhealthy");
             default:
                 return DdevIntegrationBundle.message("status.Undefined");
         }

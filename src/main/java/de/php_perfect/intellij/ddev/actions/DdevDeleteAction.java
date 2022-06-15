@@ -16,6 +16,6 @@ public final class DdevDeleteAction extends DdevRunAction {
     protected boolean isActive(@NotNull Project project) {
         final State state = DdevStateManager.getInstance(project).getState();
 
-        return state.isInstalled() && state.isConfigured();
+        return state.isAvailable() && state.isConfigured();
     }
 }

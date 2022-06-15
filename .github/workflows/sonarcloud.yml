@@ -41,7 +41,7 @@ jobs:
         if: ${{ env.SONAR_TOKEN != null }}
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: -Dtest.ignoreFailures=true sonarqube --info
+          arguments: -Dtest.ignoreFailures=true sonarqube --info --stacktrace
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

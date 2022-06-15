@@ -12,9 +12,12 @@ public class Description {
 
     public enum Status {
         @SerializedName("running") RUNNING,
-        @SerializedName("paused") PAUSED,
-        @SerializedName("stopped") STOPPED,
         @SerializedName("starting") STARTING,
+        @SerializedName("stopped") STOPPED,
+        @SerializedName("project directory missing") DIR_MISSING,
+        @SerializedName(".ddev/config.yaml missing") CONFIG_MISSING,
+        @SerializedName("paused") PAUSED,
+        @SerializedName("unhealthy") UNHEALTHY,
     }
 
     private final @Nullable String name;
@@ -79,8 +82,7 @@ public class Description {
         var serviceMap = new HashMap<>(this.services);
 
         if (this.getMailHogHttpsUrl() != null || this.getMailHogHttpUrl() != null) {
-            serviceMap.put("mailhog",
-                    new Service("ddev-config-test-mailhog", this.getMailHogHttpsUrl(), this.getMailHogHttpUrl()));
+            serviceMap.put("mailhog", new Service("ddev-config-test-mailhog", this.getMailHogHttpsUrl(), this.getMailHogHttpUrl()));
         }
 
         return serviceMap;

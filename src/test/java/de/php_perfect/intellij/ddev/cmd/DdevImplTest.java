@@ -2,7 +2,6 @@ package de.php_perfect.intellij.ddev.cmd;
 
 import com.intellij.execution.process.ProcessOutput;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.util.SystemInfo;
 import com.intellij.testFramework.fixtures.BasePlatformTestCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,45 +20,15 @@ final class DdevImplTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void findBinary() throws CommandFailedException {
-        String expectedWhich = "which";
-        if (SystemInfo.isWindows) {
-            expectedWhich = "where";
-        }
-
-        ProcessOutput processOutput = new ProcessOutput("/foo/bar/bin/ddev", "", 0, false, false);
-
-        MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
-        mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", processOutput);
-
-        Assertions.assertEquals("/foo/bar/bin/ddev", new DdevImpl().findBinary(getProject()));
-    }
-
-    @Test
-    public void isNotInstalled() throws CommandFailedException {
-        String expectedWhich = "which";
-        if (SystemInfo.isWindows) {
-            expectedWhich = "where";
-        }
-
-        ProcessOutput processOutput = new ProcessOutput("", "", 1, false, false);
-
-        MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
-        mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", processOutput);
-
-        Assertions.assertNull(new DdevImpl().findBinary(getProject()));
-    }
-
-    @Test
     public void version() throws CommandFailedException, IOException {
-        Versions expected = new Versions("v1.19.0");
+        Versions expected = new Versions("v1.19.0", "20.10.12", "v2.2.2", "docker-desktop");
 
         ProcessOutput processOutput = new ProcessOutput(Files.readString(Path.of("src/test/resources/ddev_version.json")), "", 0, false, false);
 
         MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
         mockProcessExecutor.addProcessOutput("ddev version --json-output", processOutput);
 
-        Assertions.assertEquals(expected, new DdevImpl().version(getProject()));
+        Assertions.assertEquals(expected, new DdevImpl().version("ddev", getProject()));
     }
 
     @Test
@@ -71,6 +40,6 @@ final class DdevImplTest extends BasePlatformTestCase {
         MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
         mockProcessExecutor.addProcessOutput("ddev describe --json-output", processOutput);
 
-        Assertions.assertEquals(expected, new DdevImpl().describe(getProject()));
+        Assertions.assertEquals(expected, new DdevImpl().describe("ddev", getProject()));
     }
 }

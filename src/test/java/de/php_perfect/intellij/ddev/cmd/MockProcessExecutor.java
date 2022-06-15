@@ -13,6 +13,8 @@ public final class MockProcessExecutor implements ProcessExecutor {
     private final Map<String, ProcessOutput> processList = new HashMap<>();
 
     public MockProcessExecutor() {
+        this.addProcessOutput("docker info", new ProcessOutput(0));
+
         if (SystemInfo.isWindows) {
             this.addProcessOutput("where ddev", new ProcessOutput(1));
         } else {
@@ -25,7 +27,7 @@ public final class MockProcessExecutor implements ProcessExecutor {
     }
 
     @Override
-    public @NotNull ProcessOutput executeCommandLine(GeneralCommandLine commandLine, int timeout) throws ExecutionException {
+    public @NotNull ProcessOutput executeCommandLine(GeneralCommandLine commandLine, int timeout, boolean loginShell) throws ExecutionException {
         String commandLineString = commandLine.getCommandLineString();
 
         if (!this.processList.containsKey(commandLineString)) {

@@ -3,7 +3,6 @@ package de.php_perfect.intellij.ddev.state;
 import de.php_perfect.intellij.ddev.cmd.Description;
 import de.php_perfect.intellij.ddev.cmd.Versions;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.TestOnly;
 
 import java.util.Objects;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -14,8 +13,6 @@ final class StateImpl implements State {
 
     private @Nullable Description description = null;
 
-    private boolean installed = false;
-
     private @Nullable String ddevBinary = null;
 
     private boolean configured = false;
@@ -23,8 +20,13 @@ final class StateImpl implements State {
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
     @Override
-    public boolean isInstalled() {
+    public boolean isBinaryConfigured() {
         return this.ddevBinary != null && !this.ddevBinary.equals("");
+    }
+
+    @Override
+    public boolean isAvailable() {
+        return this.versions != null;
     }
 
     @Override
@@ -88,12 +90,12 @@ final class StateImpl implements State {
         if (this == o) return true;
         if (!(o instanceof StateImpl)) return false;
         StateImpl state = (StateImpl) o;
-        return installed == state.installed && configured == state.configured && Objects.equals(versions, state.versions) && Objects.equals(description, state.description) && Objects.equals(ddevBinary, state.ddevBinary);
+        return configured == state.configured && Objects.equals(versions, state.versions) && Objects.equals(description, state.description) && Objects.equals(ddevBinary, state.ddevBinary);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(versions, description, installed, ddevBinary, configured);
+        return Objects.hash(versions, description, ddevBinary, configured);
     }
 
     @Override
@@ -101,20 +103,16 @@ final class StateImpl implements State {
         return "StateImpl{" +
                 "versions=" + versions +
                 ", description=" + description +
-                ", installed=" + installed +
                 ", ddevBinary='" + ddevBinary + '\'' +
                 ", configured=" + configured +
-                ", readWriteLock=" + readWriteLock +
                 '}';
     }
 
-    @TestOnly
     public void reset() {
         this.readWriteLock.writeLock().lock();
         try {
             this.versions = null;
             this.description = null;
-            this.installed = false;
             this.ddevBinary = null;
             this.configured = false;
         } finally {

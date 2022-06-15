@@ -25,6 +25,12 @@ public final class RunnerImpl implements Runner, Disposable {
         this.project = project;
     }
 
+    @Override
+    public void run(@NotNull GeneralCommandLine commandLine, @NotNull String title) {
+        this.run(commandLine, title, null);
+    }
+
+    @Override
     public void run(@NotNull GeneralCommandLine commandLine, @NotNull String title, @Nullable Runnable afterCompletion) {
         ApplicationManager.getApplication().invokeLater(() -> {
             try {

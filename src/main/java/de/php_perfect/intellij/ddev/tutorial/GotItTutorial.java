@@ -9,6 +9,8 @@ import javax.swing.*;
 public interface GotItTutorial {
     void showStatusBarTutorial(@NotNull JComponent component, @NotNull Disposable disposable);
 
+    void showTerminalTutorial(@NotNull JComponent component, @NotNull Disposable disposable);
+
     static GotItTutorial getInstance() {
         return ApplicationManager.getApplication().getService(GotItTutorial.class);
     }

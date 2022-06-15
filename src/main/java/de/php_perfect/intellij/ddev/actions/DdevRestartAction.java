@@ -17,7 +17,11 @@ public final class DdevRestartAction extends DdevRunAction {
     protected boolean isActive(@NotNull Project project) {
         final State state = DdevStateManager.getInstance(project).getState();
 
-        if (!state.isInstalled()) {
+        if (!state.isAvailable()) {
+            return false;
+        }
+
+        if (!state.isConfigured()) {
             return false;
         }
 

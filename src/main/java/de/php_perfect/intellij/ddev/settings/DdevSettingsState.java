@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 @State(name = "de.php_perfect.intellij.ddev.settings.DdevSettingsState", storages = @Storage("DdevIntegration.xml"))
 public final class DdevSettingsState implements PersistentStateComponent<DdevSettingsState> {
+    public @NotNull String ddevBinary = "";
     public boolean checkForUpdates = true;
     public boolean watchDdev = true;
     public boolean autoConfigureDataSource = true;

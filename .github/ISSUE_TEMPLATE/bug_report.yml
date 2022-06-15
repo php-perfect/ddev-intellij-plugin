@@ -19,6 +19,11 @@ body:
         An error message in your IDE is a clear indication that there is a bug in this DDEV integration plugin.
       options:
         - label: I am sure
+  - type: input
+    id: report_id
+    attributes:
+      label: Enter your error report ID (If available)
+      description: You will get a report ID after submitting a error report in your IDE, related to this plugin.
   - type: textarea
     id: description
     attributes:

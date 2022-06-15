@@ -2,19 +2,25 @@ package de.php_perfect.intellij.ddev.notification;
 
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.TestOnly;
 
 public interface DdevNotifier {
-    void asyncNotifyRestartAfterSettingsChange();
+    void notifyInstallDdev();
 
-    void asyncNotifyInstallDdev();
+    void notifyNewVersionAvailable(@NotNull String currentVersion, @NotNull String newVersion);
 
-    void asyncNotifyNewVersionAvailable(@NotNull String currentVersion, @NotNull String newVersion);
+    void notifyAlreadyLatestVersion();
 
-    void asyncNotifyAlreadyLatestVersion();
+    void notifyMissingPlugin(@NotNull String pluginName);
 
-    @TestOnly
-    void asyncNotifyMissingPlugin(@NotNull String pluginName);
+    void notifyPhpInterpreterUpdated(@NotNull String phpVersion);
+
+    void notifyUnknownStateEntered();
+
+    void notifyErrorReportSent(@NotNull String id);
+
+    void notifyDdevDetected(String binary);
+
+    void notifyDockerNotAvailable();
 
     static DdevNotifier getInstance(@NotNull Project project) {
         return project.getService(DdevNotifier.class);

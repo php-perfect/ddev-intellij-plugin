@@ -6,6 +6,7 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.cmd.Versions;
 import de.php_perfect.intellij.ddev.notification.DdevNotifier;
+import de.php_perfect.intellij.ddev.settings.DdevSettingsState;
 import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import de.php_perfect.intellij.ddev.state.State;
 import de.php_perfect.intellij.ddev.version.util.VersionCompare;
@@ -26,12 +27,18 @@ public final class VersionCheckerImpl implements VersionChecker {
 
     @Override
     public void checkDdevVersion(boolean confirmNewestVersion) {
+        var settings = DdevSettingsState.getInstance(this.project);
+
+        if (!settings.checkForUpdates) {
+            return;
+        }
+
         State state = DdevStateManager.getInstance(this.project).getState();
         String currentVersion = this.getCurrentVersion(state);
 
-        if (currentVersion == null) {
+        if (currentVersion == null || currentVersion.equals("")) {
             if (state.isConfigured()) {
-                DdevNotifier.getInstance(project).asyncNotifyInstallDdev();
+                DdevNotifier.getInstance(project).notifyInstallDdev();
             }
             return;
         }
@@ -49,16 +56,16 @@ public final class VersionCheckerImpl implements VersionChecker {
                 final String latestVersion = latestRelease.getTagName();
 
                 if (VersionCompare.needsUpdate(currentVersion, latestVersion)) {
-                    DdevNotifier.getInstance(project).asyncNotifyNewVersionAvailable(currentVersion, latestVersion);
+                    DdevNotifier.getInstance(project).notifyNewVersionAvailable(currentVersion, latestVersion);
                 } else if (confirmNewestVersion) {
-                    DdevNotifier.getInstance(project).asyncNotifyAlreadyLatestVersion();
+                    DdevNotifier.getInstance(project).notifyAlreadyLatestVersion();
                 }
             }
         });
     }
 
     private @Nullable String getCurrentVersion(State state) {
-        if (!state.isInstalled()) {
+        if (!state.isAvailable()) {
             return null;
         }
 

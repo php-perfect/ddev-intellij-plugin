@@ -21,7 +21,22 @@ repository with at least the following information:
 - Your IDE (PHPStorm, WebStorm, ...)
 - Your OS (In case of Windows, are you using the WSL?)
 - How can we reproduce the issue
-- In case of an error, its message and trace
+- In case of an error, please submit the error report and provide the report ID in your issue
+
+## Submitting an Error Report
+
+If a critical error occurs in the plugin, this will trigger an error in your IDE.
+You will be alerted by a flashing red exclamation mark in the lower right corner of your IDE, usually in combination
+with an error message.
+Clicking on it will open a dialog where you can file a bug report. Only bugs that are directly related to the code
+of this plugin will be sent to us.
+
+When you file an error report, you will be given an error report ID to refer to.
+
+These error reports help us a lot to find the cause of the error and provide you with better support.
+
+The error report will contain information about your operating system, your ddev, docker and IDE versions as well as
+the error information and the message shown in the report dialog.
 
 ## Testing of Pre-Releases
 

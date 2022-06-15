@@ -70,6 +70,7 @@ jobs:
 
       - name: Extract Tag Name
         uses: olegtarasov/get-tag@v2.1
+        id: tagName
 
       - name: Make Gradlew Executable
         run: chmod +x gradlew
@@ -103,6 +104,15 @@ jobs:
           fail_on_unmatched_files: true
           files: build/distributions/*.zip
           body_path: build/extracted_release_changelog.md
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          version: ${{ steps.tagName.outputs.tag }}
 
   publish:
     needs: [ release ]

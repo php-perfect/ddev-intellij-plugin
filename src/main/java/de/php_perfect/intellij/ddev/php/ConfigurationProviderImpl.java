@@ -46,7 +46,7 @@ public final class ConfigurationProviderImpl implements ConfigurationProvider {
             final PluginId pluginId = PluginId.findId(id);
 
             if (pluginId == null || pluginManager.findEnabledPlugin(pluginId) == null) {
-                DdevNotifier.getInstance(this.project).asyncNotifyMissingPlugin(id);
+                DdevNotifier.getInstance(this.project).notifyMissingPlugin(id);
                 return;
             }
         }

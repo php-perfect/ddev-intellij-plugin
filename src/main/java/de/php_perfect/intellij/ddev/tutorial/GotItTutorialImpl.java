@@ -25,4 +25,17 @@ public final class GotItTutorialImpl implements GotItTutorial {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void showTerminalTutorial(@NotNull JComponent component, @NotNull Disposable disposable) {
+        try {
+            new GotItTooltip(ID_PREFIX + "terminal", DdevIntegrationBundle.message("tutorial.terminal.text"), disposable)
+                    .withHeader(DdevIntegrationBundle.message("tutorial.terminal.title"))
+                    .withIcon(DdevIntegrationIcons.DdevLogoColor)
+                    .withBrowserLink(DdevIntegrationBundle.message("tutorial.terminal.link"), new URL("https://github.com/php-perfect/ddev-intellij-plugin/wiki/Features#integrated-ddev-terminal"))
+                    .show(component, GotItTooltip.BOTTOM_MIDDLE);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

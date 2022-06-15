@@ -4,6 +4,50 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [1.0.0-beta1]
+
+### Added
+
+- Make DDEV binary configurable and refactor command execution to use system environment
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/66
+- Add sentry.io error reporting (#37) by @SpraxDev in https://github.com/php-perfect/ddev-intellij-plugin/pull/60
+- Add check if docker is running on startup in https://github.com/php-perfect/ddev-intellij-plugin/pull/68
+- Add PHP Interpreter automatically for composer
+- Add notification if track of the DDEV status is lost
+- Add Got It Tutorial for the integrated DDEV terminal
+- Add validation for plugins that are required for PHP interpreter registration
+- Reload plugin on configuration change. A restart of the IDE is no longer required.
+
+### Changed
+
+- Parse DDEV JSON output per line in https://github.com/php-perfect/ddev-intellij-plugin/pull/61
+- Enable Start / Stop / Restart buttons when in DDEV status is unknown to restore the status
+- Enable dynamic loading of the plugin -> No restart needed when enabling / disabling the plugin
+- Various updates of the dependencies
+
+### Fixed
+
+- Fix error when DDEV status was not parsable by the plugin
+- Fix error when the output of DDEV contained multiple JSON objects
+- Fix timeout when using zsh with enabled git plugin in WSL as default shell
+- Fix wrong logging channel for some classes
+- Fix error when opening multiple projects with running DDEV container at the same time
+- Minor wording/typo fixes for DdevIntegrationBundle.properties, for #48 by @rfay
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/51
+- Various optimizations and fixes
+
+### New Contributors
+
+- @dependabot made their first contribution in https://github.com/php-perfect/ddev-intellij-plugin/pull/46
+- @rfay made their first contribution in https://github.com/php-perfect/ddev-intellij-plugin/pull/51
+- @SpraxDev made their first contribution in https://github.com/php-perfect/ddev-intellij-plugin/pull/60
+
+**Full Changelog**: https://github.com/php-perfect/ddev-intellij-plugin/compare/1.0.0-alpha3...1.0.0-beta
+
+## [1.0.0-beta]
+
+Broken because of an error in the release pipeline.
+
 ## [1.0.0-alpha3]
 
 ### Added
