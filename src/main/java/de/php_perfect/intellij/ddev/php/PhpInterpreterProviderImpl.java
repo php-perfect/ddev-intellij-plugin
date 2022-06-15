@@ -50,7 +50,7 @@ public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider 
         this.setDefaultIfNotSet(interpreter);
         this.updateComposerInterpreterIfNotSet(interpreter);
 
-        DdevNotifier.getInstance(project).asyncNotifyPhpInterpreterUpdated(interpreterConfig.getPhpVersion());
+        DdevNotifier.getInstance(project).notifyPhpInterpreterUpdated(interpreterConfig.getPhpVersion());
     }
 
     private void updateComposerInterpreterIfNotSet(final PhpInterpreter interpreter) {

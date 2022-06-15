@@ -2,7 +2,9 @@ package de.php_perfect.intellij.ddev.notification;
 
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationsManager;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.testFramework.PlatformTestUtil;
 import com.intellij.testFramework.fixtures.BasePlatformTestCase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +27,8 @@ final class DdevNotifierTest extends BasePlatformTestCase {
 
         new DdevNotifierImpl(project).notifyNewVersionAvailable("1.0.0", "2.0.0");
 
+        this.waitForEventQueue();
+
         notifications = notificationManager.getNotificationsOfType(Notification.class, project);
         assertSize(1, notifications);
     }
@@ -38,6 +42,8 @@ final class DdevNotifierTest extends BasePlatformTestCase {
         assertEmpty(notifications);
 
         new DdevNotifierImpl(project).notifyAlreadyLatestVersion();
+
+        this.waitForEventQueue();
 
         notifications = notificationManager.getNotificationsOfType(Notification.class, project);
         assertSize(1, notifications);
@@ -53,6 +59,8 @@ final class DdevNotifierTest extends BasePlatformTestCase {
 
         new DdevNotifierImpl(project).notifyMissingPlugin("Some Plugin");
 
+        this.waitForEventQueue();
+
         notifications = notificationManager.getNotificationsOfType(Notification.class, project);
         assertSize(1, notifications);
     }
@@ -66,6 +74,8 @@ final class DdevNotifierTest extends BasePlatformTestCase {
         assertEmpty(notifications);
 
         new DdevNotifierImpl(project).notifyPhpInterpreterUpdated("php99.9");
+
+        this.waitForEventQueue();
 
         notifications = notificationManager.getNotificationsOfType(Notification.class, project);
         assertSize(1, notifications);
@@ -81,6 +91,8 @@ final class DdevNotifierTest extends BasePlatformTestCase {
 
         new DdevNotifierImpl(project).notifyUnknownStateEntered();
 
+        this.waitForEventQueue();
+
         notifications = notificationManager.getNotificationsOfType(Notification.class, project);
         assertSize(1, notifications);
     }
@@ -95,6 +107,8 @@ final class DdevNotifierTest extends BasePlatformTestCase {
 
         new DdevNotifierImpl(project).notifyDdevDetected("/some/path/ddev");
 
+        this.waitForEventQueue();
+
         notifications = notificationManager.getNotificationsOfType(Notification.class, project);
         assertSize(1, notifications);
     }
@@ -108,6 +122,8 @@ final class DdevNotifierTest extends BasePlatformTestCase {
         assertEmpty(notifications);
 
         new DdevNotifierImpl(project).notifyErrorReportSent("cc83481fd7b74744afdd7f36ba827f7b");
+
+        this.waitForEventQueue();
 
         notifications = notificationManager.getNotificationsOfType(Notification.class, project);
         assertSize(1, notifications);
@@ -124,8 +140,14 @@ final class DdevNotifierTest extends BasePlatformTestCase {
 
         new DdevNotifierImpl(project).notifyDockerNotAvailable();
 
+        this.waitForEventQueue();
+
         notifications = notificationManager.getNotificationsOfType(Notification.class, project);
         assertSize(1, notifications);
+    }
+
+    private void waitForEventQueue() {
+        ApplicationManager.getApplication().invokeAndWait(PlatformTestUtil::dispatchAllInvocationEventsInIdeEventQueue);
     }
 
     @Override

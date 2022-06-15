@@ -41,7 +41,7 @@ public final class DdevStateManagerImpl implements DdevStateManager {
     public void initialize(boolean reinitialize) {
         if (!reinitialize && !Docker.getInstance().isRunning(this.project.getBasePath())) {
             LOG.debug("Docker not available. Skipping initialization");
-            DdevNotifier.getInstance(this.project).asyncNotifyDockerNotAvailable();
+            DdevNotifier.getInstance(this.project).notifyDockerNotAvailable();
 
             return;
         }
@@ -119,7 +119,7 @@ public final class DdevStateManagerImpl implements DdevStateManager {
 
             if (detectedDdevBinary != null) {
                 configurable.ddevBinary = detectedDdevBinary;
-                DdevNotifier.getInstance(this.project).asyncNotifyDdevDetected(detectedDdevBinary);
+                DdevNotifier.getInstance(this.project).notifyDdevDetected(detectedDdevBinary);
             }
         }
 

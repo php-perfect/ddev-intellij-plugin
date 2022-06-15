@@ -56,7 +56,7 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
                     SentryId sentryId = captureIdeaLoggingEvent(event, additionalInfo, ddevVersions, wslDistribution);
 
                     if (project != null) {
-                        DdevNotifier.getInstance(project).asyncNotifyErrorReportSent(sentryId.toString());
+                        DdevNotifier.getInstance(project).notifyErrorReportSent(sentryId.toString());
                     }
                 }
 

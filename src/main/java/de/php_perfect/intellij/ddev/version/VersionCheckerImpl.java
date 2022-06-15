@@ -38,7 +38,7 @@ public final class VersionCheckerImpl implements VersionChecker {
 
         if (currentVersion == null || currentVersion.equals("")) {
             if (state.isConfigured()) {
-                DdevNotifier.getInstance(project).asyncNotifyInstallDdev();
+                DdevNotifier.getInstance(project).notifyInstallDdev();
             }
             return;
         }
@@ -56,9 +56,9 @@ public final class VersionCheckerImpl implements VersionChecker {
                 final String latestVersion = latestRelease.getTagName();
 
                 if (VersionCompare.needsUpdate(currentVersion, latestVersion)) {
-                    DdevNotifier.getInstance(project).asyncNotifyNewVersionAvailable(currentVersion, latestVersion);
+                    DdevNotifier.getInstance(project).notifyNewVersionAvailable(currentVersion, latestVersion);
                 } else if (confirmNewestVersion) {
-                    DdevNotifier.getInstance(project).asyncNotifyAlreadyLatestVersion();
+                    DdevNotifier.getInstance(project).notifyAlreadyLatestVersion();
                 }
             }
         });

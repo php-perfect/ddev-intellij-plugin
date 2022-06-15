@@ -22,7 +22,7 @@ public final class UnknownStateListener implements StateChangedListener {
         Description description = state.getDescription();
 
         if (description == null || description.getStatus() == null) {
-            DdevNotifier.getInstance(this.project).asyncNotifyUnknownStateEntered();
+            DdevNotifier.getInstance(this.project).notifyUnknownStateEntered();
         }
     }
 }

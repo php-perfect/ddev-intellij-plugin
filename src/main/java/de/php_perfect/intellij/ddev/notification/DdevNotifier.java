@@ -4,23 +4,23 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 
 public interface DdevNotifier {
-    void asyncNotifyInstallDdev();
+    void notifyInstallDdev();
 
-    void asyncNotifyNewVersionAvailable(@NotNull String currentVersion, @NotNull String newVersion);
+    void notifyNewVersionAvailable(@NotNull String currentVersion, @NotNull String newVersion);
 
-    void asyncNotifyAlreadyLatestVersion();
+    void notifyAlreadyLatestVersion();
 
-    void asyncNotifyMissingPlugin(@NotNull String pluginName);
+    void notifyMissingPlugin(@NotNull String pluginName);
 
-    void asyncNotifyPhpInterpreterUpdated(@NotNull String phpVersion);
+    void notifyPhpInterpreterUpdated(@NotNull String phpVersion);
 
-    void asyncNotifyUnknownStateEntered();
+    void notifyUnknownStateEntered();
 
-    void asyncNotifyErrorReportSent(@NotNull String id);
+    void notifyErrorReportSent(@NotNull String id);
 
-    void asyncNotifyDdevDetected(String binary);
+    void notifyDdevDetected(String binary);
 
-    void asyncNotifyDockerNotAvailable();
+    void notifyDockerNotAvailable();
 
     static DdevNotifier getInstance(@NotNull Project project) {
         return project.getService(DdevNotifier.class);
