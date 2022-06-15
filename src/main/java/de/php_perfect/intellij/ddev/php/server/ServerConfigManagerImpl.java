@@ -6,13 +6,12 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.PathMappingSettings;
 import com.jetbrains.php.config.servers.PhpServer;
 import com.jetbrains.php.config.servers.PhpServersWorkspaceStateComponent;
-import de.php_perfect.intellij.ddev.deployment.DeploymentConfigManagerImpl;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public final class ServerConfigManagerImpl implements ServerConfigManager {
-    private static final @NotNull Logger LOG = Logger.getInstance(DeploymentConfigManagerImpl.class);
+    private static final @NotNull Logger LOG = Logger.getInstance(ServerConfigManagerImpl.class);
 
     private final static @NotNull String SERVER_NAME = "DDEV";
 
