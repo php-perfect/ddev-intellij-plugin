@@ -18,6 +18,22 @@ final class DdevNotifierTest extends BasePlatformTestCase {
     }
 
     @Test
+    public void notifyInstallDdev() {
+        Project project = getProject();
+
+        NotificationsManager notificationManager = NotificationsManager.getNotificationsManager();
+        Notification[] notifications = notificationManager.getNotificationsOfType(Notification.class, project);
+        assertEmpty(notifications);
+
+        new DdevNotifierImpl(project).notifyInstallDdev();
+
+        this.waitForEventQueue();
+
+        notifications = notificationManager.getNotificationsOfType(Notification.class, project);
+        assertSize(1, notifications);
+    }
+
+    @Test
     public void notifyNewVersionAvailable() {
         Project project = getProject();
 
