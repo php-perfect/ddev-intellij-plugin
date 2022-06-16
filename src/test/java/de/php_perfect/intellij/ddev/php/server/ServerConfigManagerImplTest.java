@@ -1,6 +1,7 @@
 package de.php_perfect.intellij.ddev.php.server;
 
 import com.intellij.testFramework.fixtures.BasePlatformTestCase;
+import com.intellij.util.PathUtil;
 import com.jetbrains.php.config.servers.PhpServer;
 import com.jetbrains.php.config.servers.PhpServersWorkspaceStateComponent;
 import org.junit.Assert;
@@ -51,7 +52,7 @@ final class ServerConfigManagerImplTest extends BasePlatformTestCase {
 
         var mapping = mappings.get(0);
 
-        Assert.assertEquals(serverConfig.getLocalPath(), mapping.getLocalRoot());
+        Assert.assertEquals(serverConfig.getLocalPath(), PathUtil.toSystemDependentName(mapping.getLocalRoot()));
         Assert.assertEquals(serverConfig.getRemotePath(), mapping.getRemoteRoot());
     }
 }
