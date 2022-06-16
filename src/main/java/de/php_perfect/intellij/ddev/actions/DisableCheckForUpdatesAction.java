@@ -1,14 +1,13 @@
 package de.php_perfect.intellij.ddev.actions;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.project.DumbAware;
+import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import de.php_perfect.intellij.ddev.settings.DdevSettingsState;
 import org.jetbrains.annotations.NotNull;
 
-public final class DisableCheckForUpdatesAction extends AnAction implements DumbAware {
+public final class DisableCheckForUpdatesAction extends DumbAwareAction {
     public DisableCheckForUpdatesAction() {
         super(DdevIntegrationBundle.messagePointer("actions.disableCheckForUpdates"));
     }

@@ -42,6 +42,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
                         NotificationType.INFORMATION
                 )
                 .addAction(new InstallationInstructionsAction())
+                .addAction(new DisableCheckForUpdatesAction())
                 .notify(this.project), ModalityState.NON_MODAL);
     }
 
