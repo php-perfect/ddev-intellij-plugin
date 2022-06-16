@@ -58,6 +58,6 @@ class ServiceActionManagerImplTest {
         var httpUrl = String.format("http://www.%s.com", name);
         var httpsUrl = String.format("https://www.%s.com", name);
 
-        return new Description(name, "7.4", status, httpsUrl, httpUrl, Map.of(name, new Service(name, httpsUrl, httpUrl)), dataBaseInfo);
+        return new Description(name, "7.4", status, httpsUrl, httpUrl, Map.of(name, new Service(name, httpsUrl, httpUrl)), dataBaseInfo, null);
     }
 }

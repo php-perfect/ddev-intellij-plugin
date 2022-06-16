@@ -37,14 +37,17 @@ public class Description {
     @SerializedName("dbinfo")
     private final @Nullable DatabaseInfo databaseInfo;
 
+    @SerializedName("primary_url")
+    private final @Nullable String primaryUrl;
+
     public Description(@Nullable String name, @Nullable String phpVersion, @Nullable Status status,
-                       @Nullable String mailHogHttpsUrl, @Nullable String mailHogHttpUrl, @Nullable DatabaseInfo databaseInfo) {
-        this(name, phpVersion, status, mailHogHttpsUrl, mailHogHttpUrl, new HashMap<>(), databaseInfo);
+                       @Nullable String mailHogHttpsUrl, @Nullable String mailHogHttpUrl, @Nullable DatabaseInfo databaseInfo, @Nullable String primaryUrl) {
+        this(name, phpVersion, status, mailHogHttpsUrl, mailHogHttpUrl, new HashMap<>(), databaseInfo, primaryUrl);
     }
 
     public Description(@Nullable String name, @Nullable String phpVersion, @Nullable Status status,
                        @Nullable String mailHogHttpsUrl, @Nullable String mailHogHttpUrl, Map<String, Service> services,
-                       @Nullable DatabaseInfo databaseInfo) {
+                       @Nullable DatabaseInfo databaseInfo, @Nullable String primaryUrl) {
         this.name = name;
         this.phpVersion = phpVersion;
         this.status = status;
@@ -52,6 +55,7 @@ public class Description {
         this.mailHogHttpUrl = mailHogHttpUrl;
         this.services = services;
         this.databaseInfo = databaseInfo;
+        this.primaryUrl = primaryUrl;
     }
 
     public @Nullable String getName() {
@@ -88,6 +92,10 @@ public class Description {
         return databaseInfo;
     }
 
+    public @Nullable String getPrimaryUrl() {
+        return primaryUrl;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -100,12 +108,14 @@ public class Description {
         return Objects.equals(getName(), that.getName()) && Objects.equals(getPhpVersion(), that.getPhpVersion())
                 && getStatus() == that.getStatus() && Objects.equals(getMailHogHttpsUrl(), that.getMailHogHttpsUrl())
                 && Objects.equals(getMailHogHttpUrl(), that.getMailHogHttpUrl()) && Objects.equals(getServices(),
-                that.getServices()) && Objects.equals(getDatabaseInfo(), that.getDatabaseInfo());
+                that.getServices()) && Objects.equals(getDatabaseInfo(), that.getDatabaseInfo())
+                && Objects.equals(getPrimaryUrl(), that.getPrimaryUrl());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getPhpVersion(), getStatus(), getMailHogHttpsUrl(), getMailHogHttpUrl(), getServices(), getDatabaseInfo());
+        return Objects.hash(getName(), getPhpVersion(), getStatus(), getMailHogHttpsUrl(), getMailHogHttpUrl(),
+                getServices(), getDatabaseInfo(), getPrimaryUrl());
     }
 
     @Override
@@ -118,6 +128,7 @@ public class Description {
                 ", mailHogHttpUrl='" + mailHogHttpUrl + '\'' +
                 ", services=" + services +
                 ", databaseInfo=" + databaseInfo +
+                ", primaryUrl=" + primaryUrl +
                 '}';
     }
 }
