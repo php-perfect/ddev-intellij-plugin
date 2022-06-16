@@ -19,7 +19,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Arrays.array;
 
-class ServiceActionManagerImplTest {
+final class ServiceActionManagerImplTest {
 
     @Test
     @DisplayName("should update actions from given description")

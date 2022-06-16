@@ -26,12 +26,12 @@ final class DdevConfigLoaderTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void nonExistentConfig() {
+    void nonExistentConfig() {
         Assertions.assertFalse(new DdevConfigLoaderImpl(this.getProject()).exists());
     }
 
     @Test
-    public void existentConfig() {
+    void existentConfig() {
         Project project = this.getProject();
 
         File ddevConfig = new File(project.getBasePath() + "/.ddev/config.yaml");
@@ -48,12 +48,12 @@ final class DdevConfigLoaderTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void loadNonExisting() {
+    void loadNonExisting() {
         Assertions.assertNull(new DdevConfigLoaderImpl(this.getProject()).load());
     }
 
     @Test
-    public void loadExisting() {
+    void loadExisting() {
         Project project = this.getProject();
 
         File ddevConfig = new File(project.getBasePath() + "/.ddev/config.yaml");

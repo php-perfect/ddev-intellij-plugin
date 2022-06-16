@@ -18,7 +18,7 @@ final class DdevNotifierTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void notifyInstallDdev() {
+    void notifyInstallDdev() {
         Project project = getProject();
 
         NotificationsManager notificationManager = NotificationsManager.getNotificationsManager();
@@ -34,7 +34,7 @@ final class DdevNotifierTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void notifyNewVersionAvailable() {
+    void notifyNewVersionAvailable() {
         Project project = getProject();
 
         NotificationsManager notificationManager = NotificationsManager.getNotificationsManager();
@@ -50,7 +50,7 @@ final class DdevNotifierTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void notifyAlreadyLatestVersion() {
+    void notifyAlreadyLatestVersion() {
         Project project = getProject();
 
         NotificationsManager notificationManager = NotificationsManager.getNotificationsManager();
@@ -66,7 +66,7 @@ final class DdevNotifierTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void notifyMissingPlugin() {
+    void notifyMissingPlugin() {
         Project project = getProject();
 
         NotificationsManager notificationManager = NotificationsManager.getNotificationsManager();
@@ -82,7 +82,7 @@ final class DdevNotifierTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void testNotifyPhpInterpreterUpdated() {
+    void notifyPhpInterpreterUpdated() {
         Project project = getProject();
 
         NotificationsManager notificationManager = NotificationsManager.getNotificationsManager();
@@ -98,7 +98,7 @@ final class DdevNotifierTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void testNotifyUnknownStateEntered() {
+    void notifyUnknownStateEntered() {
         Project project = getProject();
 
         NotificationsManager notificationManager = NotificationsManager.getNotificationsManager();
@@ -114,7 +114,7 @@ final class DdevNotifierTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void testNotifyDdevDetected() {
+    void notifyDdevDetected() {
         Project project = getProject();
 
         NotificationsManager notificationManager = NotificationsManager.getNotificationsManager();
@@ -130,7 +130,7 @@ final class DdevNotifierTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void testNotifyErrorReportSent() {
+    void notifyErrorReportSent() {
         Project project = getProject();
 
         NotificationsManager notificationManager = NotificationsManager.getNotificationsManager();

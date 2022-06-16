@@ -1,6 +1,7 @@
 package de.php_perfect.intellij.ddev.tutorial;
 
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.ui.GotItTooltip;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import de.php_perfect.intellij.ddev.icons.DdevIntegrationIcons;
@@ -11,6 +12,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public final class GotItTutorialImpl implements GotItTutorial {
+    private static final @NotNull Logger LOG = Logger.getInstance(GotItTutorialImpl.class);
+
     private static final @NotNull String ID_PREFIX = "ddev.features.";
 
     @Override
@@ -22,7 +25,7 @@ public final class GotItTutorialImpl implements GotItTutorial {
                     .withBrowserLink(DdevIntegrationBundle.message("tutorial.status.link"), new URL("https://github.com/php-perfect/ddev-intellij-plugin/wiki/Features#quick-access-to-ddev-services"))
                     .show(component, GotItTooltip.TOP_MIDDLE);
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            LOG.error(e);
         }
     }
 
@@ -35,7 +38,7 @@ public final class GotItTutorialImpl implements GotItTutorial {
                     .withBrowserLink(DdevIntegrationBundle.message("tutorial.terminal.link"), new URL("https://github.com/php-perfect/ddev-intellij-plugin/wiki/Features#integrated-ddev-terminal"))
                     .show(component, GotItTooltip.BOTTOM_MIDDLE);
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            LOG.error(e);
         }
     }
 }

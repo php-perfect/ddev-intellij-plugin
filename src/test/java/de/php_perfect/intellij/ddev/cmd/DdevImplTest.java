@@ -20,7 +20,7 @@ final class DdevImplTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void version() throws CommandFailedException, IOException {
+    void version() throws CommandFailedException, IOException {
         Versions expected = new Versions("v1.19.0", "20.10.12", "v2.2.2", "docker-desktop");
 
         ProcessOutput processOutput = new ProcessOutput(Files.readString(Path.of("src/test/resources/ddev_version.json")), "", 0, false, false);
@@ -32,7 +32,7 @@ final class DdevImplTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void describe() throws CommandFailedException, IOException {
+    void describe() throws CommandFailedException, IOException {
         Description expected = new Description("acol", "8.1", Description.Status.STOPPED, null, null, new HashMap<>(), null, "https://acol.ddev.site");
 
         ProcessOutput processOutput = new ProcessOutput(Files.readString(Path.of("src/test/resources/ddev_describe.json")), "", 0, false, false);

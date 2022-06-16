@@ -8,6 +8,8 @@ public interface StateWatcher {
 
     void stopWatching();
 
+    boolean isWatching();
+
     static StateWatcher getInstance(@NotNull Project project) {
         return project.getService(StateWatcher.class);
     }

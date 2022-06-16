@@ -30,5 +30,5 @@ abstract class DdevAwareAction extends DumbAwareAction {
         e.getPresentation().setEnabled(this.isActive(project));
     }
 
-    abstract protected boolean isActive(@NotNull Project project);
+    protected abstract boolean isActive(@NotNull Project project);
 }

@@ -15,7 +15,7 @@ final class DataSourceProviderTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void testMySQL() {
+    void mySql() {
         DatabaseInfo databaseInfo = new DatabaseInfo(DatabaseInfo.Type.MYSQL, "8.0", 533, "", "some-internal-host", "some-user", "some-password", 12345);
 
         DataSourceProviderImpl dataSourceProvider = new DataSourceProviderImpl();
@@ -27,7 +27,7 @@ final class DataSourceProviderTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void testPostgreSQL() {
+    void postgreSql() {
         DatabaseInfo databaseInfo = new DatabaseInfo(DatabaseInfo.Type.POSTGRESQL, "8.0", 533, "", "some-internal-host", "some-user", "some-password", 12345);
 
         DataSourceProviderImpl dataSourceProvider = new DataSourceProviderImpl();
@@ -37,5 +37,4 @@ final class DataSourceProviderTest extends BasePlatformTestCase {
         Assertions.assertNotNull(dataSource);
         Assertions.assertEquals("jdbc:postgresql://127.0.0.1:12345/?user=some-user&password=some-password", dataSource.getUrl());
     }
-
 }

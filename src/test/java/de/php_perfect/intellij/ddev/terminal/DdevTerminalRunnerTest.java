@@ -23,7 +23,7 @@ final class DdevTerminalRunnerTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void createProcessNotExistentDdev() throws NoSuchFieldException, IllegalAccessException {
+    void createProcessNotExistentDdev() throws NoSuchFieldException, IllegalAccessException {
         Project project = getProject();
         DdevTerminalRunner ddevTerminalRunner = new DdevTerminalRunner(project);
 
@@ -37,7 +37,7 @@ final class DdevTerminalRunnerTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void terminalIsNotPersistent() {
+    void terminalIsNotPersistent() {
         Project project = getProject();
         DdevTerminalRunner ddevTerminalRunner = new DdevTerminalRunner(project);
 

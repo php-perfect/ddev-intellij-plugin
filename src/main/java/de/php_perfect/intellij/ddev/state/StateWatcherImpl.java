@@ -23,7 +23,10 @@ public final class StateWatcherImpl implements StateWatcher, Disposable {
 
     @Override
     public void startWatching() {
-        this.stopWatching();
+        if (this.isWatching()) {
+            this.stopWatching();
+        }
+
         this.scheduledFuture = AppExecutorUtil.getAppScheduledExecutorService().scheduleWithFixedDelay(() -> {
             LOG.debug("DDEV state watcher triggering update");
             DdevStateManager ddevStateManager = DdevStateManager.getInstance(this.project);
@@ -39,6 +42,11 @@ public final class StateWatcherImpl implements StateWatcher, Disposable {
             this.scheduledFuture.cancel(true);
         }
         LOG.info("DDEV state watcher stopped");
+    }
+
+    @Override
+    public boolean isWatching() {
+        return this.scheduledFuture != null && !this.scheduledFuture.isCancelled();
     }
 
     @Override

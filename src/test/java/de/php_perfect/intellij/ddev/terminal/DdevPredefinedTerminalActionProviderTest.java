@@ -14,7 +14,7 @@ final class DdevPredefinedTerminalActionProviderTest extends BasePlatformTestCas
     }
 
     @Test
-    public void listOpenPredefinedTerminalActions() {
+    void listOpenPredefinedTerminalActions() {
         Project project = getProject();
         DdevPredefinedTerminalActionProvider ddevPredefinedTerminalActionProvider = new DdevPredefinedTerminalActionProvider();
 

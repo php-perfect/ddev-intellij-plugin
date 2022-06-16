@@ -7,8 +7,8 @@ import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,13 +21,13 @@ final class ServerConfigManagerImplTest extends BasePlatformTestCase {
     }
 
     @Test
-    void configure() throws MalformedURLException {
+    void configure() throws URISyntaxException {
         final ServerConfigManager serverConfigManager = ServerConfigManager.getInstance(this.getProject());
 
         final ServerConfig serverConfig = new ServerConfig(
                 Objects.requireNonNull(this.getProject().getBasePath()),
                 "/var/www/html",
-                new URL("https://test.ddev.site")
+                new URI("https://test.ddev.site")
         );
 
         serverConfigManager.configure(serverConfig);

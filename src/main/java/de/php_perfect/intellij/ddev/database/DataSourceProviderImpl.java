@@ -53,16 +53,16 @@ public final class DataSourceProviderImpl implements DataSourceProvider {
     }
 
     private @NotNull DatabaseDriver getDriverByDatabaseType(@NotNull DatabaseInfo.Type databaseType) {
-        DatabaseDriverManager instance = DatabaseDriverManagerImpl.getInstance();
+        DatabaseDriverManager databaseDriverManager = DatabaseDriverManager.getInstance();
 
         switch (databaseType) {
             case POSTGRESQL:
-                return instance.getDriver("postgresql");
+                return databaseDriverManager.getDriver("postgresql");
             case MARIADB:
-                return instance.getDriver("mariadb");
+                return databaseDriverManager.getDriver("mariadb");
             case MYSQL:
             default:
-                return instance.getDriver("mysql.8");
+                return databaseDriverManager.getDriver("mysql.8");
         }
     }
 

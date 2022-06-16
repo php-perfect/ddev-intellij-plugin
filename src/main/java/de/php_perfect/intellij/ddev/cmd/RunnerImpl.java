@@ -57,5 +57,6 @@ public final class RunnerImpl implements Runner, Disposable {
 
     @Override
     public void dispose() {
+        // Use service as parent disposable for running processes
     }
 }

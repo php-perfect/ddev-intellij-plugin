@@ -27,7 +27,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void testInitialize() {
+    void testInitialize() {
         String expectedWhich = "which";
         if (SystemInfo.isWindows) {
             expectedWhich = "where";
@@ -56,7 +56,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void testReinitialize() {
+    void testReinitialize() {
         final Project project = this.getProject();
 
         final MockDdevConfigLoader ddevConfigLoader = (MockDdevConfigLoader) DdevConfigLoader.getInstance(project);
@@ -75,7 +75,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void testUpdateDescription() {
+    void testUpdateDescription() {
         String expectedWhich = "which";
         if (SystemInfo.isWindows) {
             expectedWhich = "where";

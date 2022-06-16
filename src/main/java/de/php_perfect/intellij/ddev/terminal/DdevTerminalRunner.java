@@ -110,9 +110,8 @@ public final class DdevTerminalRunner extends AbstractTerminalRunner<PtyProcess>
     }
 
     private static class PtyProcessHandler extends ProcessHandler implements TaskExecutor {
-
-        private final PtyProcess myProcess;
-        private final ProcessWaitFor myWaitFor;
+        private final transient PtyProcess myProcess;
+        private final transient ProcessWaitFor myWaitFor;
 
         PtyProcessHandler(PtyProcess process, @NotNull String presentableName) {
             myProcess = process;

@@ -6,8 +6,8 @@ import de.php_perfect.intellij.ddev.cmd.Description;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public final class ConfigureServerListener implements DescriptionChangedListener {
     private final @NotNull Project project;
@@ -28,14 +28,15 @@ public final class ConfigureServerListener implements DescriptionChangedListener
             return;
         }
 
-        URL url;
+
+        URI uri;
         try {
-            url = new URL(description.getPrimaryUrl());
-        } catch (MalformedURLException ignored) {
+            uri = new URI(description.getPrimaryUrl());
+        } catch (URISyntaxException ignored) {
             return;
         }
 
-        ServerConfig serverConfig = new ServerConfig(localPath, "/var/www/html", url);
+        ServerConfig serverConfig = new ServerConfig(localPath, "/var/www/html", uri);
         ServerConfigManager.getInstance(this.project).configure(serverConfig);
     }
 }

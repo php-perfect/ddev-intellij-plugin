@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class DockerTest extends BasePlatformTestCase {
+final class DockerTest extends BasePlatformTestCase {
     @Override
     @BeforeEach
     protected void setUp() throws Exception {

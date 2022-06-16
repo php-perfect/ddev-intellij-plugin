@@ -16,5 +16,5 @@ abstract class DdevRunAction extends DdevAwareAction {
         this.run(project);
     }
 
-    abstract protected void run(@NotNull Project project);
+    protected abstract void run(@NotNull Project project);
 }

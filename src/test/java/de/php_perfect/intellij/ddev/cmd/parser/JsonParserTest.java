@@ -11,7 +11,7 @@ import java.nio.file.Path;
 
 final class JsonParserTest {
     @Test
-    public void testParseValidJson() throws JsonParserException {
+    void parseValidJson() throws JsonParserException {
         TestObject expected = new TestObject();
         expected.foo = "Bar";
 
@@ -21,28 +21,28 @@ final class JsonParserTest {
     }
 
     @Test
-    public void testParseInvalidJson() {
+    void parseInvalidJson() {
         String json = "{]";
 
         Assertions.assertThrows(JsonParserException.class, () -> new JsonParserImpl().parse(json, TestObject.class));
     }
 
     @Test
-    public void testParseValidButEmptyJson() {
+    void parseValidButEmptyJson() {
         String json = "{}";
 
         Assertions.assertThrows(JsonParserException.class, () -> new JsonParserImpl().parse(json, TestObject.class));
     }
 
     @Test
-    public void testParseValidJsonWithoutRawProperty() {
+    void parseValidJsonWithoutRawProperty() {
         String json = "{" + "    \"level\": \"info\"," + "    \"msg\": \"Abc\"," + "    \"time\": \"2022-02-05T14:11:53+01:00\"" + "}";
 
         Assertions.assertThrows(JsonParserException.class, () -> new JsonParserImpl().parse(json, TestObject.class));
     }
 
     @Test
-    public void parseStatusSuccessfully() throws JsonParserException, IOException {
+    void statusSuccessfully() throws JsonParserException, IOException {
         String json = Files.readString(Path.of("src/test/resources/ddev_describe.json"));
         Description actual = new JsonParserImpl().parse(json, Description.class);
 
@@ -50,7 +50,7 @@ final class JsonParserTest {
     }
 
     @Test
-    public void parseStatusWithDebugSuccessfully() throws JsonParserException, IOException {
+    void statusWithDebugSuccessfully() throws JsonParserException, IOException {
         String json = Files.readString(Path.of("src/test/resources/ddev_describe_w_debug.json"));
         Description actual = new JsonParserImpl().parse(json, Description.class);
 
@@ -59,7 +59,7 @@ final class JsonParserTest {
 
 
     @Test
-    public void parseVersionSuccessfully() throws JsonParserException, IOException {
+    void parseVersionSuccessfully() throws JsonParserException, IOException {
         String json = Files.readString(Path.of("src/test/resources/ddev_version.json"));
         Versions actual = new JsonParserImpl().parse(json, Versions.class);
 

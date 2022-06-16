@@ -2,6 +2,8 @@ package de.php_perfect.intellij.ddev.version;
 
 import org.eclipse.lsp4j.jsonrpc.validation.NonNull;
 
+import java.util.Arrays;
+
 public final class Version implements Comparable<Version> {
     @NonNull
     public final int[] numbers;
@@ -25,5 +27,18 @@ public final class Version implements Comparable<Version> {
             }
         }
         return 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Version version = (Version) o;
+        return Arrays.equals(numbers, version.numbers);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(numbers);
     }
 }

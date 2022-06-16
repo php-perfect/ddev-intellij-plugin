@@ -11,6 +11,8 @@ import org.jetbrains.plugins.terminal.TerminalNewPredefinedSessionAction;
 import org.jetbrains.plugins.terminal.TerminalToolWindowFactory;
 
 public final class TutorialListener implements ToolWindowManagerListener {
+
+    @Override
     public void toolWindowShown(final @NotNull ToolWindow toolWindow) {
         if (!TerminalToolWindowFactory.TOOL_WINDOW_ID.equals(toolWindow.getId())) {
             return;

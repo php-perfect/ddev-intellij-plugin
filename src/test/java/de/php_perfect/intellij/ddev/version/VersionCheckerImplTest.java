@@ -12,13 +12,13 @@ final class VersionCheckerImplTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void checkDdevVersion() {
+    void checkDdevVersion() {
         VersionCheckerImpl versionChecker = new VersionCheckerImpl(this.getProject());
         versionChecker.checkDdevVersion();
     }
 
     @Test
-    public void testCheckDdevVersion() {
+    void checkDdevVersionWithConfirmation() {
         VersionCheckerImpl versionChecker = new VersionCheckerImpl(this.getProject());
         versionChecker.checkDdevVersion(true);
     }

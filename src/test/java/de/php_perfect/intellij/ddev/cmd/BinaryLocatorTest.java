@@ -16,7 +16,7 @@ final class BinaryLocatorTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void findBinary() {
+    void findBinary() {
         String expectedWhich = "which";
         if (SystemInfo.isWindows) {
             expectedWhich = "where";
@@ -31,7 +31,7 @@ final class BinaryLocatorTest extends BasePlatformTestCase {
     }
 
     @Test
-    public void isNotInstalled() {
+    void isNotInstalled() {
         String expectedWhich = "which";
         if (SystemInfo.isWindows) {
             expectedWhich = "where";

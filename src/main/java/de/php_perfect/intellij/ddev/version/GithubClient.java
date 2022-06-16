@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 
 public final class GithubClient implements ReleaseClient {
-    private final static @NotNull String RELEASE_URL = "https://github.com/drud/ddev/releases/latest";
+    private static final @NotNull String RELEASE_URL = "https://github.com/drud/ddev/releases/latest";
 
     private static final Logger LOG = Logger.getInstance(GithubClient.class);
 

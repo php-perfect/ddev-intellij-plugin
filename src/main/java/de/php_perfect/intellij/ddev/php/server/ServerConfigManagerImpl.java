@@ -13,7 +13,7 @@ import java.util.List;
 public final class ServerConfigManagerImpl implements ServerConfigManager {
     private static final @NotNull Logger LOG = Logger.getInstance(ServerConfigManagerImpl.class);
 
-    private final static @NotNull String SERVER_NAME = "DDEV";
+    private static final @NotNull String SERVER_NAME = "DDEV";
 
     private final @NotNull Project project;
 
