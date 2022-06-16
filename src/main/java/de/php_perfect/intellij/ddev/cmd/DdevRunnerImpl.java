@@ -3,11 +3,12 @@ package de.php_perfect.intellij.ddev.cmd;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.configurations.PtyCommandLine;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.extensions.ExtensionPointName;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import de.php_perfect.intellij.ddev.DdevConfigArgumentProvider;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
-import de.php_perfect.intellij.ddev.php.PhpVersion;
 import de.php_perfect.intellij.ddev.state.DdevConfigLoader;
 import de.php_perfect.intellij.ddev.state.DdevStateManager;
 import de.php_perfect.intellij.ddev.state.State;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 public final class DdevRunnerImpl implements DdevRunner {
+    private static final ExtensionPointName<DdevConfigArgumentProvider> CONFIG_ARGUMENT_PROVIDER_EP = ExtensionPointName.create("de.php_perfect.intellij.ddev.ddevConfigArgumentProvider");
 
     @Override
     public void start(@NotNull Project project) {
@@ -88,13 +90,11 @@ public final class DdevRunnerImpl implements DdevRunner {
     }
 
     private @NotNull GeneralCommandLine buildConfigCommandLine(@NotNull Project project) {
-        GeneralCommandLine commandLine = this.createCommandLine("config", project)
+        final GeneralCommandLine commandLine = this.createCommandLine("config", project)
                 .withParameters("--auto");
 
-        String phpVersion = PhpVersion.getLanguageLevelIfAvailable(project);
-
-        if (phpVersion != null) {
-            commandLine.addParameters("--php-version", phpVersion);
+        for (final DdevConfigArgumentProvider ddevConfigArgumentProvider : CONFIG_ARGUMENT_PROVIDER_EP.getExtensionList()) {
+            commandLine.addParameters(ddevConfigArgumentProvider.getAdditionalArguments(project));
         }
 
         return commandLine;

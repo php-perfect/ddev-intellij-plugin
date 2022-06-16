@@ -40,8 +40,8 @@
     </projectListeners>
 
     <extensionPoints>
-        <extensionPoint name="phpVersionProvider" interface="de.php_perfect.intellij.ddev.PhpVersionProvider"
-                        dynamic="true"/>
+        <extensionPoint name="ddevConfigArgumentProvider"
+                        interface="de.php_perfect.intellij.ddev.DdevConfigArgumentProvider" dynamic="true"/>
     </extensionPoints>
 
     <extensions defaultExtensionNs="com.intellij">

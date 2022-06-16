@@ -14,7 +14,7 @@
     </extensions>
 
     <extensions defaultExtensionNs="de.php_perfect.intellij.ddev">
-        <phpVersionProvider implementation="de.php_perfect.intellij.ddev.php.LanguageLevelPhpVersionProvider"/>
+        <ddevConfigArgumentProvider implementation="de.php_perfect.intellij.ddev.php.PhpVersionArgumentProvider"/>
     </extensions>
 
     <projectListeners>
