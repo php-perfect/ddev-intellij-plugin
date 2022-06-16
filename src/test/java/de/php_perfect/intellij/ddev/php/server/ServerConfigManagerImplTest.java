@@ -1,7 +1,6 @@
 package de.php_perfect.intellij.ddev.php.server;
 
 import com.intellij.testFramework.fixtures.BasePlatformTestCase;
-import com.intellij.util.PathUtil;
 import com.jetbrains.php.config.servers.PhpServer;
 import com.jetbrains.php.config.servers.PhpServersWorkspaceStateComponent;
 import org.junit.Assert;
@@ -11,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 
 final class ServerConfigManagerImplTest extends BasePlatformTestCase {
 
@@ -25,7 +25,7 @@ final class ServerConfigManagerImplTest extends BasePlatformTestCase {
         final ServerConfigManager serverConfigManager = ServerConfigManager.getInstance(this.getProject());
 
         final ServerConfig serverConfig = new ServerConfig(
-                "C:\\Users\\test\\AppData\\Local\\Temp\\my-project",
+                Objects.requireNonNull(this.getProject().getBasePath()),
                 "/var/www/html",
                 new URL("https://test.ddev.site")
         );
@@ -52,7 +52,7 @@ final class ServerConfigManagerImplTest extends BasePlatformTestCase {
 
         var mapping = mappings.get(0);
 
-        Assert.assertEquals(serverConfig.getLocalPath(), PathUtil.toSystemDependentName(mapping.getLocalRoot()));
+        Assert.assertEquals(serverConfig.getLocalPath(), mapping.getLocalRoot());
         Assert.assertEquals(serverConfig.getRemotePath(), mapping.getRemoteRoot());
     }
 }
