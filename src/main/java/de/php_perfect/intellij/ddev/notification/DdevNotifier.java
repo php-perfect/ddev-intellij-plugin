@@ -18,7 +18,7 @@ public interface DdevNotifier {
 
     void notifyErrorReportSent(@NotNull String id);
 
-    void notifyDdevDetected(String binary);
+    void notifyDdevDetected(@NotNull String binary);
 
     void notifyDockerNotAvailable();
 

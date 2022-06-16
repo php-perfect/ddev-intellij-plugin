@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-public class DdevStatusBarWidgetFactoryImpl implements StatusBarWidgetFactory {
+public final class DdevStatusBarWidgetFactoryImpl implements StatusBarWidgetFactory {
     @Override
     public @NonNls @NotNull String getId() {
         return DdevStatusBarWidgetImpl.WIDGET_ID;

@@ -2,7 +2,7 @@ package de.php_perfect.intellij.ddev.version;
 
 import org.eclipse.lsp4j.jsonrpc.validation.NonNull;
 
-public class Version implements Comparable<Version> {
+public final class Version implements Comparable<Version> {
     @NonNull
     public final int[] numbers;
 

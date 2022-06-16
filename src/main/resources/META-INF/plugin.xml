@@ -33,9 +33,6 @@
                   topic="de.php_perfect.intellij.ddev.StateInitializedListener" activeInTestMode="false"/>
         <listener class="de.php_perfect.intellij.ddev.state.StartWatcherListener"
                   topic="de.php_perfect.intellij.ddev.StateInitializedListener" activeInTestMode="false"/>
-        <!-- <listener class="de.php_perfect.intellij.ddev.config.LoadSchemaListener"
-          topic="de.php_perfect.intellij.ddev.StateInitializedListener"/> -->
-
         <listener class="de.php_perfect.intellij.ddev.serviceActions.ServiceActionChangedListener"
                   topic="de.php_perfect.intellij.ddev.DescriptionChangedListener" activeInTestMode="false"/>
         <listener class="de.php_perfect.intellij.ddev.state.UnknownStateListener"
@@ -56,8 +53,6 @@
         <applicationService serviceImplementation="de.php_perfect.intellij.ddev.cmd.ProcessExecutorImpl"
                             serviceInterface="de.php_perfect.intellij.ddev.cmd.ProcessExecutor"
                             testServiceImplementation="de.php_perfect.intellij.ddev.cmd.MockProcessExecutor"/>
-        <applicationService serviceImplementation="de.php_perfect.intellij.ddev.config.SchemaProviderImpl"
-                            serviceInterface="de.php_perfect.intellij.ddev.config.SchemaProvider"/>
         <applicationService serviceImplementation="de.php_perfect.intellij.ddev.cmd.BinaryLocatorImpl"
                             serviceInterface="de.php_perfect.intellij.ddev.cmd.BinaryLocator"/>
         <applicationService serviceImplementation="de.php_perfect.intellij.ddev.cmd.DdevImpl"

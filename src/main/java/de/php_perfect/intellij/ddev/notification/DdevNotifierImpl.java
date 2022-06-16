@@ -15,7 +15,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
     public static final String NON_STICKY = "DdevIntegration.NonSticky";
     private final @NotNull Project project;
 
-    public DdevNotifierImpl(@NotNull Project project) {
+    public DdevNotifierImpl(final @NotNull Project project) {
         this.project = project;
     }
 
@@ -33,7 +33,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
     }
 
     @Override
-    public void notifyNewVersionAvailable(@NotNull String currentVersion, @NotNull String latestVersion) {
+    public void notifyNewVersionAvailable(final @NotNull String currentVersion, final @NotNull String latestVersion) {
         ApplicationManager.getApplication().invokeLater(() -> NotificationGroupManager.getInstance()
                 .getNotificationGroup(NON_STICKY)
                 .createNotification(
@@ -58,7 +58,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
     }
 
     @Override
-    public void notifyMissingPlugin(@NotNull final String pluginName) {
+    public void notifyMissingPlugin(final @NotNull String pluginName) {
         ApplicationManager.getApplication().invokeLater(() -> NotificationGroupManager.getInstance()
                 .getNotificationGroup(STICKY)
                 .createNotification(
@@ -71,7 +71,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
     }
 
     @Override
-    public void notifyPhpInterpreterUpdated(@NotNull String phpVersion) {
+    public void notifyPhpInterpreterUpdated(final @NotNull String phpVersion) {
         ApplicationManager.getApplication().invokeLater(() -> NotificationGroupManager.getInstance()
                 .getNotificationGroup(NON_STICKY)
                 .createNotification(
@@ -110,7 +110,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
     }
 
     @Override
-    public void notifyDdevDetected(String binary) {
+    public void notifyDdevDetected(final @NotNull String binary) {
         ApplicationManager.getApplication().invokeLater(() -> NotificationGroupManager.getInstance()
                 .getNotificationGroup(NON_STICKY)
                 .createNotification(

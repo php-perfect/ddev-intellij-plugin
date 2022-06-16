@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.intellij.util.ui.update.UiNotifyConnector.doWhenFirstShown;
 
-public class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
+public final class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
     private static final @NotNull String ACTION_GROUP = "DdevIntegration.Services";
     public static final @NotNull String WIDGET_ID = DdevStatusBarWidgetImpl.class.getName();
     private final @NotNull PopupState<JBPopup> popupState = PopupState.forPopup();
