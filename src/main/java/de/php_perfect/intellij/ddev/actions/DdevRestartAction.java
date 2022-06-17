@@ -17,11 +17,7 @@ public final class DdevRestartAction extends DdevRunAction {
     protected boolean isActive(@NotNull Project project) {
         final State state = DdevStateManager.getInstance(project).getState();
 
-        if (!state.isAvailable()) {
-            return false;
-        }
-
-        if (!state.isConfigured()) {
+        if (!state.isAvailable() || !state.isConfigured()) {
             return false;
         }
 
@@ -31,6 +27,6 @@ public final class DdevRestartAction extends DdevRunAction {
             return true;
         }
 
-        return description.getStatus() == Description.Status.RUNNING || description.getStatus() == null;
+        return description.getStatus() == Description.Status.RUNNING;
     }
 }
