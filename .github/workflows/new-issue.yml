@@ -1,3 +1,5 @@
+name: New Issue
+
 on:
   issues:
     types: [ opened ]
