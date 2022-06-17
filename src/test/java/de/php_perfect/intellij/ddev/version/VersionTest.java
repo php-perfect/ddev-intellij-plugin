@@ -2,25 +2,14 @@ package de.php_perfect.intellij.ddev.version;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 final class VersionTest {
-    @Test
-    void newInstance_withTwoDotRelease_isParsedCorrectly() {
-        final Version version = new Version("1.26.6");
-
-        Assertions.assertArrayEquals(new int[]{1, 26, 6}, version.numbers);
-    }
-
-    @Test
-    void newInstance_withTwoDotRelease_andVersionPrefix_isParsedCorrectly() {
-        final Version version = new Version("v1.26.6");
-
-        Assertions.assertArrayEquals(new int[]{1, 26, 6}, version.numbers);
-    }
-
-    @Test
-    void newInstance_withTwoDotReleaseAndPreReleaseName_isParsedCorrectly() {
-        final Version version = new Version("1.26.6-DEBUG");
+    @ParameterizedTest
+    @ValueSource(strings = {"1.26.6", "v1.26.6", "1.26.6-DEBUG"})
+    void versionsWithPrefixAndSuffixAreParsedCorrectly(String versionString) {
+        final Version version = new Version(versionString);
 
         Assertions.assertArrayEquals(new int[]{1, 26, 6}, version.numbers);
     }
