@@ -7,19 +7,11 @@ import com.intellij.openapi.project.DumbAwareAction;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import org.jetbrains.annotations.NotNull;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public final class ReportIssueAction extends DumbAwareAction {
-    private static final URL NEW_ISSUE_URL;
-
-    static {
-        try {
-            NEW_ISSUE_URL = new URL("https://github.com/php-perfect/ddev-intellij-plugin/issues/new?assignees=&labels=bug&template=bug_report.yml");
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    private static final String NEW_ISSUE_URL = "https://github.com/php-perfect/ddev-intellij-plugin/issues/new?assignees=&labels=bug&template=bug_report.yml";
 
     public ReportIssueAction() {
         super(DdevIntegrationBundle.messagePointer("action.DdevIntegration.ReportIssue.text"), DdevIntegrationBundle.messagePointer("action.DdevIntegration.ReportIssue.description"), AllIcons.Vcs.Vendors.Github);
@@ -27,6 +19,9 @@ public final class ReportIssueAction extends DumbAwareAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-        BrowserUtil.browse(NEW_ISSUE_URL);
+        try {
+            BrowserUtil.browse(new URI(NEW_ISSUE_URL));
+        } catch (URISyntaxException ignored) {
+        }
     }
 }
