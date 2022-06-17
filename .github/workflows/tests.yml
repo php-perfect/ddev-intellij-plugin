@@ -32,7 +32,7 @@ jobs:
           arguments: test --stacktrace --info
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
-      - name: Upload HTML test report
+      - name: Upload Test Report
         uses: actions/upload-artifact@v3
         with:
           name: test-report-${{ matrix.os }}
