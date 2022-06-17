@@ -5,6 +5,7 @@ import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionPlaces;
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
@@ -38,6 +39,7 @@ import java.util.concurrent.TimeUnit;
 import static com.intellij.util.ui.update.UiNotifyConnector.doWhenFirstShown;
 
 public final class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
+    private static final @NotNull Logger LOG = Logger.getInstance(DdevStatusBarWidgetImpl.class);
     private static final @NotNull String ACTION_GROUP = "DdevIntegration.Services";
     public static final @NotNull String WIDGET_ID = DdevStatusBarWidgetImpl.class.getName();
     private final @NotNull PopupState<JBPopup> popupState = PopupState.forPopup();
@@ -57,7 +59,11 @@ public final class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
 
     @Override
     public void install(@NotNull StatusBar statusBar) {
-        assert statusBar.getProject() == null || statusBar.getProject().equals(this.project) : "Cannot install widget from one project on status bar of another project";
+        if (statusBar.getProject() == null || statusBar.getProject().equals(this.project)) {
+            LOG.warn("Cannot install widget from one project on status bar of another project");
+            return;
+        }
+
         this.statusBar = statusBar;
         Disposer.register(this.statusBar, this);
         this.clickListener = new StatusBarWidgetWrapper.StatusBarWidgetClickListener(this.getClickConsumer());
