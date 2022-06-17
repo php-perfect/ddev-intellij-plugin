@@ -167,6 +167,7 @@ public final class DdevTerminalRunner extends AbstractTerminalRunner<PtyProcess>
         }
     }
 
+    @Override
     public boolean isTerminalSessionPersistent() {
         return false;
     }
