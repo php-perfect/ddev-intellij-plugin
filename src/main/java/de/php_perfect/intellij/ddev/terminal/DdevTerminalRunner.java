@@ -124,7 +124,7 @@ public final class DdevTerminalRunner extends AbstractTerminalRunner<PtyProcess>
                 @Override
                 public void startNotified(@NotNull ProcessEvent event) {
                     try {
-                        myWaitFor.setTerminationCallback(integer -> notifyProcessTerminated(integer));
+                        myWaitFor.setTerminationCallback(PtyProcessHandler.this::notifyProcessTerminated);
                     } finally {
                         removeProcessListener(this);
                     }
