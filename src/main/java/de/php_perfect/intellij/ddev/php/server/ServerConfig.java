@@ -3,7 +3,6 @@ package de.php_perfect.intellij.ddev.php.server;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URI;
-import java.net.URL;
 import java.util.Objects;
 
 public final class ServerConfig {
