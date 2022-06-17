@@ -8,6 +8,9 @@ import com.intellij.execution.wsl.WslPath;
 import org.jetbrains.annotations.NotNull;
 
 public class WslAware {
+    private WslAware() {
+    }
+
     public static <T extends GeneralCommandLine> T patchCommandLine(T commandLine) {
         return patchCommandLine(commandLine, false);
     }
