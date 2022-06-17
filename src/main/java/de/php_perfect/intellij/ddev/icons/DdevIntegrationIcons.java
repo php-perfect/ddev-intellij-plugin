@@ -8,4 +8,7 @@ import javax.swing.*;
 public final class DdevIntegrationIcons {
     public static final @NotNull Icon DdevLogoColor = IconManager.getInstance().getIcon("/icons/ddevLogoColor.svg", DdevIntegrationIcons.class);
     public static final @NotNull Icon DdevLogoMono = IconManager.getInstance().getIcon("/icons/ddevLogoGrey.svg", DdevIntegrationIcons.class);
+
+    private DdevIntegrationIcons() {
+    }
 }
