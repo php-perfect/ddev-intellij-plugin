@@ -14,6 +14,8 @@ public class SentrySdkInitializer {
     public static void init() {
         Sentry.init(options -> {
             options.setDsn(DSN);
+            options.setEnableUncaughtExceptionHandler(false);
+            options.setProfilingEnabled(false);
 
             options.setBeforeSend((event, hint) -> {
                 event.setServerName(null);
