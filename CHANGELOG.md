@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [1.0.0]
+
+### Added
+
+- Add deployment configuration for the ddev mount by @nico-loeber
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/57
+- Add option to disable version check in update notification
+
+### Changed
+
+- Refactor dynamic ddev config arguments for better extensibility
+- Update DdevNotifier and Tests for better maintainability
+- Bump sentry from 5.7.4 to 6.1.4 by @dependabot
+- Bump org.sonarqube from 3.3 to 3.4.0.2513 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/71
+- Remove dead code and do some tidy up
+
+### Fixed
+
+- Fix changelog format so the changelog is shown correctly in JetBrains Marketplace
+- Remove unsupported JVM option MaxPermSize
+- Do not record uncaught exceptions in sentry.io
+
+**Please note**: There is a known issue where [DDEV commands fail when the project is opened in PHPStorm](https://github.com/php-perfect/ddev-intellij-plugin/issues/80).
+
+**Full Changelog**: https://github.com/php-perfect/ddev-intellij-plugin/compare/1.0.0-beta1...v1.0.0
+
 ## [1.0.0-beta1]
 
 ### Added
