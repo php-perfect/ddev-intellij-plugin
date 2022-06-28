@@ -59,7 +59,7 @@ public final class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
 
     @Override
     public void install(@NotNull StatusBar statusBar) {
-        if (statusBar.getProject() == null || statusBar.getProject().equals(this.project)) {
+        if (statusBar.getProject() != null && !statusBar.getProject().equals(this.project)) {
             LOG.warn("Cannot install widget from one project on status bar of another project");
             return;
         }
