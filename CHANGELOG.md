@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [1.0.1]
+
+### Changed
+
+- Support for IntelliJ 2022.2 (No more support for 2022.1)
+- Increase ddev command timeout and add path to error message
+- Bump org.jetbrains.intellij from 1.6.0 to 1.7.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/84
+- Bump sentry from 6.1.4 to 6.3.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/87
+- Bump junitVersion from 5.8.2 to 5.9.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/89
+
+### Fixed
+
+- Add missing checkout step for sentry release job
+- Fix possible null pointer in Description::getServices
+
+**Full Changelog**: https://github.com/php-perfect/ddev-intellij-plugin/compare/1.0.0...v1.0.1
+
 ## [1.0.0]
 
 ### Added
