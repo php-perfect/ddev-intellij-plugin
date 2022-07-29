@@ -7,8 +7,8 @@ import com.intellij.openapi.wm.impl.InternalDecorator;
 import com.intellij.ui.ComponentUtil;
 import de.php_perfect.intellij.ddev.tutorial.GotItTutorial;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.plugins.terminal.TerminalNewPredefinedSessionAction;
 import org.jetbrains.plugins.terminal.TerminalToolWindowFactory;
+import org.jetbrains.plugins.terminal.action.TerminalNewPredefinedSessionAction;
 
 public final class TutorialListener implements ToolWindowManagerListener {
 

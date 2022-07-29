@@ -20,7 +20,7 @@
     ]]></description>
     <change-notes/>
 
-    <idea-version since-build="221.5080.210" until-build="221.*"/>
+    <idea-version since-build="222.3345.118" until-build="222.*"/>
     <depends>com.intellij.modules.platform</depends>
     <depends config-file="DdevIntegration-withTerminal.xml" optional="true">org.jetbrains.plugins.terminal</depends>
     <depends config-file="DdevIntegration-withPhp.xml" optional="true">com.jetbrains.php</depends>
