@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
 import java.util.Objects;
 
 public final class DdevImpl implements Ddev {
-    private static final int COMMAND_TIMEOUT = 5_000;
+    private static final int COMMAND_TIMEOUT = 8_000;
 
     public @NotNull Versions version(final @NotNull String binary, final @NotNull Project project) throws CommandFailedException {
         return execute(binary, "version", Versions.class, project);
@@ -30,7 +30,7 @@ public final class DdevImpl implements Ddev {
             processOutput = ProcessExecutor.getInstance().executeCommandLine(commandLine, COMMAND_TIMEOUT, false);
 
             if (processOutput.isTimeout()) {
-                throw new CommandFailedException("Command timed out after " + (COMMAND_TIMEOUT / 1000) + " seconds: " + commandLine.getCommandLineString());
+                throw new CommandFailedException("Command timed out after " + (COMMAND_TIMEOUT / 1000) + " seconds: " + commandLine.getCommandLineString() + " in " + commandLine.getWorkDirectory().getPath());
             }
 
             if (processOutput.getExitCode() != 0) {
