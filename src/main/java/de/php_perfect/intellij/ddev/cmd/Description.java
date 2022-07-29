@@ -32,7 +32,7 @@ public class Description {
     @SerializedName("mailhog_url")
     private final @Nullable String mailHogHttpUrl;
 
-    private final Map<String, Service> services;
+    private final @Nullable Map<String, Service> services;
 
     @SerializedName("dbinfo")
     private final @Nullable DatabaseInfo databaseInfo;
@@ -46,7 +46,7 @@ public class Description {
     }
 
     public Description(@Nullable String name, @Nullable String phpVersion, @Nullable Status status,
-                       @Nullable String mailHogHttpsUrl, @Nullable String mailHogHttpUrl, Map<String, Service> services,
+                       @Nullable String mailHogHttpsUrl, @Nullable String mailHogHttpUrl, @Nullable Map<String, Service> services,
                        @Nullable DatabaseInfo databaseInfo, @Nullable String primaryUrl) {
         this.name = name;
         this.phpVersion = phpVersion;
@@ -79,6 +79,10 @@ public class Description {
     }
 
     public @NotNull Map<String, Service> getServices() {
+        if (this.services == null) {
+            return new HashMap<>();
+        }
+
         var serviceMap = new HashMap<>(this.services);
 
         if (this.getMailHogHttpsUrl() != null || this.getMailHogHttpUrl() != null) {
