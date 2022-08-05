@@ -2,7 +2,7 @@ import org.jetbrains.intellij.tasks.ListProductsReleasesTask
 
 plugins {
     id("org.jetbrains.changelog") version "1.3.1"
-    id("org.jetbrains.intellij") version "1.7.0"
+    id("org.jetbrains.intellij") version "1.8.0"
     java
 
     id("org.sonarqube") version "3.4.0.2513"
@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.google.code.gson:gson:2.9.0")
+    implementation("com.google.code.gson:gson:2.9.1")
     implementation("io.sentry:sentry:6.3.0")
 
     val junitVersion = "5.9.0"
