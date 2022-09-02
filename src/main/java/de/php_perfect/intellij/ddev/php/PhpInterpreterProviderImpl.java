@@ -1,10 +1,12 @@
 package de.php_perfect.intellij.ddev.php;
 
+import com.intellij.docker.DockerCloudType;
 import com.intellij.docker.remote.DockerComposeCredentialsHolder;
 import com.intellij.docker.remote.DockerComposeCredentialsType;
 import com.intellij.docker.remote.DockerCredentialsEditor;
 import com.intellij.execution.configuration.EnvironmentVariablesData;
 import com.intellij.openapi.project.Project;
+import com.intellij.remoteServer.configuration.RemoteServersManager;
 import com.intellij.util.PathMappingSettings;
 import com.jetbrains.php.composer.ComposerDataService;
 import com.jetbrains.php.config.PhpProjectConfigurationFacade;
@@ -94,6 +96,8 @@ public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider 
         sdkData.setInterpreterId(interpreter.getId());
         sdkData.setHelpersPath(HELPERS_DIR);
 
+        this.ensureDockerRemoteServer();
+
         final DockerComposeCredentialsHolder credentials = DockerComposeCredentialsType.getInstance().createCredentials();
         credentials.setAccountName(DOCKER_NAME);
         credentials.setComposeFilePaths(List.of(interpreterConfig.getComposeFilePath()));
@@ -130,6 +134,15 @@ public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider 
 
         if (phpConfiguration.getInterpreterName() == null) {
             phpConfiguration.setInterpreterName(interpreter.getName());
+        }
+    }
+
+    private void ensureDockerRemoteServer() {
+        final var type = DockerCloudType.getInstance();
+        final var remoteServerManager = RemoteServersManager.getInstance();
+
+        if (remoteServerManager.findByName(DOCKER_NAME, type) == null) {
+            remoteServerManager.addServer(remoteServerManager.createServer(type, DOCKER_NAME));
         }
     }
 }
