@@ -12,6 +12,8 @@ import org.jetbrains.annotations.Nullable;
 
 public final class DataSourceProviderImpl implements DataSourceProvider {
 
+    public static final String DSN_HOST = "127.0.0.1";
+
     public @Nullable LocalDataSource buildDdevDataSource(@NotNull DatabaseInfo databaseInfo) {
         final DatabaseInfo.Type databaseType = databaseInfo.getType();
         if (databaseType == null) {
@@ -67,13 +69,29 @@ public final class DataSourceProviderImpl implements DataSourceProvider {
     }
 
     private @NotNull String getDsnByDatabaseType(@NotNull DatabaseInfo databaseInfo) {
-        String dsnType = "mysql";
-        String host = "127.0.0.1";
+        return String.format(
+                "jdbc:%s://%s:%d/%s?user=%s&password=%s",
+                getDsnType(databaseInfo.getType()),
+                DSN_HOST,
+                databaseInfo.getPublishedPort(),
+                databaseInfo.getName(),
+                databaseInfo.getUsername(),
+                databaseInfo.getPassword()
+        );
+    }
 
-        if (databaseInfo.getType() == DatabaseInfo.Type.POSTGRESQL) {
-            dsnType = "postgresql";
+    private static @NotNull String getDsnType(@Nullable DatabaseInfo.Type databaseType) {
+        if (databaseType == null) {
+            return "mysql";
         }
 
-        return String.format("jdbc:%s://%s:%d/%s?user=%s&password=%s", dsnType, host, databaseInfo.getPublishedPort(), databaseInfo.getName(), databaseInfo.getUsername(), databaseInfo.getPassword());
+        switch (databaseType) {
+            case POSTGRESQL:
+                return "postgresql";
+            case MARIADB:
+                return "mariadb";
+            default:
+                return "mysql";
+        }
     }
 }
