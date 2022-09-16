@@ -27,6 +27,18 @@ final class DataSourceProviderTest extends BasePlatformTestCase {
     }
 
     @Test
+    void mariaDb() {
+        DatabaseInfo databaseInfo = new DatabaseInfo(DatabaseInfo.Type.MARIADB, "10.4", 533, "", "some-internal-host", "some-user", "some-password", 12345);
+
+        DataSourceProviderImpl dataSourceProvider = new DataSourceProviderImpl();
+
+        LocalDataSource dataSource = dataSourceProvider.buildDdevDataSource(databaseInfo);
+        Assertions.assertInstanceOf(LocalDataSource.class, dataSource);
+        Assertions.assertNotNull(dataSource);
+        Assertions.assertEquals("jdbc:mariadb://127.0.0.1:12345/?user=some-user&password=some-password", dataSource.getUrl());
+    }
+
+    @Test
     void postgreSql() {
         DatabaseInfo databaseInfo = new DatabaseInfo(DatabaseInfo.Type.POSTGRESQL, "8.0", 533, "", "some-internal-host", "some-user", "some-password", 12345);
 
