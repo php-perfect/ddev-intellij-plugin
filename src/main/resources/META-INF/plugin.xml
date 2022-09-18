@@ -95,6 +95,9 @@
                                 implementation="de.php_perfect.intellij.ddev.statusBar.DdevStatusBarWidgetFactoryImpl"/>
 
         <statistics.gotItTooltipAllowlist prefix="ddev.features"/>
+        <toolWindow factoryClass="de.php_perfect.intellij.ddev.commandsToolWindow.DdevCommandsToolWindowFactory"
+                    id="Ddev" anchor="right"
+                    icon="de.php_perfect.intellij.ddev.icons.DdevIntegrationIcons.DdevLogoMono"/>
     </extensions>
 
     <extensions defaultExtensionNs="JavaScript.JsonSchema">
