@@ -4,6 +4,38 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [1.0.3]
+
+### Fixed
+
+* Fix mariadb specific dsn type by @nico-loeber in https://github.com/php-perfect/ddev-intellij-plugin/pull/107
+* Create docker remote server if it does not exist by @nico-loeber
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/102
+* Re-enable test coverage report by @SpraxDev in https://github.com/php-perfect/ddev-intellij-plugin/pull/88
+
+### Dependency Updates
+
+* Bump gson from 2.9.0 to 2.9.1 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/90
+* Bump org.jetbrains.intellij from 1.7.0 to 1.8.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/93
+* Bump sentry from 6.3.0 to 6.3.1 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/91
+* Bump org.jetbrains.intellij from 1.8.0 to 1.8.1 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/99
+* Bump sentry from 6.3.1 to 6.4.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/96
+* Bump mockito-core from 4.6.1 to 4.7.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/94
+* Bump sentry from 6.4.0 to 6.4.1 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/101
+* Bump org.jetbrains.intellij from 1.8.1 to 1.9.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/103
+* Bump mockito-core from 4.7.0 to 4.8.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/105
+* Bump sentry from 6.4.1 to 6.4.3 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/111
+* Bump junitVersion from 5.9.0 to 5.9.1 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/109
+* Bump sentry from 6.4.3 to 6.5.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/112
+* Bump mockito-core from 4.8.0 to 4.8.1 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/116
+
+**Full Changelog**: https://github.com/php-perfect/ddev-intellij-plugin/compare/1.0.1...v1.0.2
+
+## [1.0.2]
+
 ## [1.0.1]
 
 ### Changed
@@ -45,7 +77,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Remove unsupported JVM option MaxPermSize
 - Do not record uncaught exceptions in sentry.io
 
-**Please note**: There is a known issue where [DDEV commands fail when the project is opened in PHPStorm](https://github.com/php-perfect/ddev-intellij-plugin/issues/80).
+**Please note**: There is a known issue
+where [DDEV commands fail when the project is opened in PHPStorm](https://github.com/php-perfect/ddev-intellij-plugin/issues/80)
+.
 
 **Full Changelog**: https://github.com/php-perfect/ddev-intellij-plugin/compare/1.0.0-beta1...v1.0.0
 
