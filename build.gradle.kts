@@ -25,6 +25,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-params:$junitVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.9.1")
     testImplementation("org.mockito:mockito-core:4.9.0")
     testImplementation("org.assertj:assertj-core:3.23.1")
 }
