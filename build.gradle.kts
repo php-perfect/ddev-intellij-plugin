@@ -39,15 +39,15 @@ java {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     type.set("IU")
-    version.set("IU-222.3739.54") // https://www.jetbrains.com/de-de/idea/download/other.html
+    version.set("IU-223.7571.182") // https://www.jetbrains.com/de-de/idea/download/other.html
     plugins.add("com.intellij.database") // bundled
     plugins.add("org.jetbrains.plugins.terminal") // bundled
     plugins.add("com.jetbrains.plugins.webDeployment") // bundled
     plugins.add("org.jetbrains.plugins.remote-run") // bundled
     plugins.add("Docker") // bundled
-    plugins.add("com.jetbrains.php:222.3739.61") // https://plugins.jetbrains.com/plugin/6610-php/versions
-    plugins.add("org.jetbrains.plugins.phpstorm-remote-interpreter:222.3739.24") // https://plugins.jetbrains.com/plugin/7511-php-remote-interpreter/versions
-    plugins.add("org.jetbrains.plugins.phpstorm-docker:222.3739.24") // https://plugins.jetbrains.com/plugin/8595-php-docker/versions
+    plugins.add("com.jetbrains.php:223.7571.182") // https://plugins.jetbrains.com/plugin/6610-php/versions
+    plugins.add("org.jetbrains.plugins.phpstorm-remote-interpreter:223.7571.117") // https://plugins.jetbrains.com/plugin/7511-php-remote-interpreter/versions
+    plugins.add("org.jetbrains.plugins.phpstorm-docker:223.7571.117") // https://plugins.jetbrains.com/plugin/8595-php-docker/versions
 }
 
 tasks {
