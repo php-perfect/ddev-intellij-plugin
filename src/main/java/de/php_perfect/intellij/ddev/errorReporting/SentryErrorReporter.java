@@ -80,7 +80,7 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
         }
 
         event.setThrowable(ideaLoggingEvent.getThrowable());
-        if (ideaLoggingEvent instanceof IdeaReportingEvent && ideaLoggingEvent.getData() instanceof AbstractMessage) {
+        if (ideaLoggingEvent instanceof IdeaReportingEvent) {
             event.setThrowable(((AbstractMessage) ideaLoggingEvent.getData()).getThrowable());
         }
 
