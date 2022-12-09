@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [1.0.4]
+
+### Fixed
+
+* Configure DataSource TreePattern to index all schemas by @nico-loeber in https://github.com/php-perfect/ddev-intellij-plugin/pull/135
+* Fix failing unit tests by adding `junit-platform-launcher` as dependency by @SpraxDev in https://github.com/php-perfect/ddev-intellij-plugin/pull/131
+* GitHub Actions: Upload test reports even when tests fail by @SpraxDev in https://github.com/php-perfect/ddev-intellij-plugin/pull/132
+
+### Dependency Updates
+
+* Bump sentry from 6.5.0 to 6.6.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/118
+* Bump sentry from 6.6.0 to 6.9.1 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/130
+* Bump mockito-core from 4.8.1 to 4.9.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/125
+* Bump org.sonarqube from 3.4.0.2513 to 3.5.0.2730 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/119
+* Bump gson from 2.9.1 to 2.10 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/117
+* Bump org.jetbrains.changelog from 1.3.1 to 2.0.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/120
+* Bump org.jetbrains.intellij from 1.10.0 to 1.10.1 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/134
+* Bump sentry from 6.9.1 to 6.9.2 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/133
+
+**Full Changelog**: https://github.com/php-perfect/ddev-intellij-plugin/compare/1.0.3...v1.0.4
+
 ## [1.0.3]
 
 ### Fixed
