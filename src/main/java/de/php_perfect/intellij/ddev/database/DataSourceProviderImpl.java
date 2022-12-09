@@ -1,14 +1,18 @@
 package de.php_perfect.intellij.ddev.database;
 
-import com.intellij.database.dataSource.*;
+import com.intellij.database.Dbms;
+import com.intellij.database.dataSource.DatabaseDriver;
+import com.intellij.database.dataSource.DatabaseDriverManager;
+import com.intellij.database.dataSource.LocalDataSource;
+import com.intellij.database.dataSource.SchemaControl;
 import com.intellij.database.introspection.DBIntrospectionOptions;
-import com.intellij.database.model.ObjectKind;
-import com.intellij.database.model.ObjectName;
 import com.intellij.database.util.TreePattern;
 import com.intellij.database.util.TreePatternUtils;
 import de.php_perfect.intellij.ddev.cmd.DatabaseInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import static com.intellij.database.introspection.DBIntrospectionConsts.ALL_NAMESPACES;
 
 public final class DataSourceProviderImpl implements DataSourceProvider {
 
@@ -32,13 +36,9 @@ public final class DataSourceProviderImpl implements DataSourceProvider {
         dataSource.setCheckOutdated(true);
         dataSource.setSourceLoading(DBIntrospectionOptions.SourceLoading.USER_AND_SYSTEM_SOURCES);
 
-        final TreePattern treePattern = new TreePattern(TreePatternUtils.create(ObjectName.NULL, ObjectKind.SCHEMA));
+        final Dbms dbms = Dbms.forConnection(dataSource);
+        final TreePattern treePattern = TreePatternUtils.importPattern(dbms, ALL_NAMESPACES);
         dataSource.setIntrospectionScope(treePattern);
-        dataSource.getSchemaMapping().setIntrospectionScope(treePattern);
-
-        final DataSourceSchemaMapping dataSourceSchemaMapping = new DataSourceSchemaMapping();
-        dataSource.setIntrospectionScope(treePattern);
-        dataSource.setSchemaMapping(dataSourceSchemaMapping);
 
         return dataSource;
     }
