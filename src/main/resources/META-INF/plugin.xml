@@ -2,7 +2,7 @@
     <id>de.php_perfect.intellij.ddev</id>
     <name>DDEV Integration</name>
     <version>1.0.0</version>
-    <vendor email="nico.loeber94@gmail.com" url="https://github.com/php-perfect">PHP-Perfect</vendor>
+    <vendor email="nico@php-perfect.de" url="https://github.com/php-perfect">PHP-Perfect</vendor>
     <category>Deployment</category>
     <description><![CDATA[
     <p>Allows you to use all common <a href="https://github.com/drud/ddev">DDEV</a> features directly from your IDE.</p>
