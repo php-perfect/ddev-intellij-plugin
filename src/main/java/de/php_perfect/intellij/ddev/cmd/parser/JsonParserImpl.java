@@ -19,8 +19,8 @@ public final class JsonParserImpl implements JsonParser {
                 final String line = scanner.nextLine();
                 final LogLine<T> logLine = parseJson(line, typeOfT);
 
-                if (logLine != null && logLine.getRaw() != null) {
-                    return logLine.getRaw();
+                if (logLine != null && logLine.raw() != null) {
+                    return logLine.raw();
                 }
             }
         }
