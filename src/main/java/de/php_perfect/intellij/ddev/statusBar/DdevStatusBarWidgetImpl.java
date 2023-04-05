@@ -15,10 +15,9 @@ import com.intellij.openapi.util.NlsContexts;
 import com.intellij.openapi.wm.CustomStatusBarWidget;
 import com.intellij.openapi.wm.StatusBar;
 import com.intellij.openapi.wm.impl.status.TextPanel;
-import com.intellij.openapi.wm.impl.status.widget.StatusBarWidgetWrapper;
+import com.intellij.ui.ClickListener;
 import com.intellij.ui.awt.RelativePoint;
 import com.intellij.ui.popup.PopupState;
-import com.intellij.util.Consumer;
 import com.intellij.util.concurrency.EdtExecutorService;
 import com.intellij.util.messages.MessageBus;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
@@ -46,7 +45,7 @@ public final class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
     private final @NotNull Project project;
     private @Nullable StatusBar statusBar;
     private @Nullable TextPanel.WithIconAndArrows component;
-    private @Nullable StatusBarWidgetWrapper.StatusBarWidgetClickListener clickListener = null;
+    private @Nullable ClickListener clickListener = null;
 
     public DdevStatusBarWidgetImpl(@NotNull Project project) {
         this.project = project;
@@ -65,8 +64,14 @@ public final class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
         }
 
         this.statusBar = statusBar;
-        Disposer.register(this.statusBar, this);
-        this.clickListener = new StatusBarWidgetWrapper.StatusBarWidgetClickListener(this.getClickConsumer());
+        this.clickListener = new ClickListener() {
+            @Override
+            public boolean onClick(@NotNull MouseEvent event, int clickCount) {
+                showPopup(event);
+                return true;
+            }
+        };
+
         registerUpdateListener();
     }
 
@@ -98,10 +103,6 @@ public final class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
         }
     }
 
-    private Consumer<MouseEvent> getClickConsumer() {
-        return this::showPopup;
-    }
-
     private void showPopup(@NotNull MouseEvent e) {
         if (popupState.isRecentlyHidden()) {
             return;
@@ -113,8 +114,8 @@ public final class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
         Dimension dimension = popup.getContent().getPreferredSize();
         Point at = new Point(0, -dimension.height);
         popupState.prepareToShow(popup);
-
         popup.show(new RelativePoint(e.getComponent(), at));
+        Disposer.register(this, popup);
     }
 
     private ListPopup createPopup(DataContext context) {
@@ -168,23 +169,14 @@ public final class DdevStatusBarWidgetImpl implements CustomStatusBarWidget {
             return DdevIntegrationBundle.message("status.Undefined");
         }
 
-        switch (status) {
-            case RUNNING:
-                return DdevIntegrationBundle.message("status.Running");
-            case STARTING:
-                return DdevIntegrationBundle.message("status.Starting");
-            case STOPPED:
-                return DdevIntegrationBundle.message("status.Stopped");
-            case DIR_MISSING:
-                return DdevIntegrationBundle.message("status.DirMissing");
-            case CONFIG_MISSING:
-                return DdevIntegrationBundle.message("status.ConfigMissing");
-            case PAUSED:
-                return DdevIntegrationBundle.message("status.Paused");
-            case UNHEALTHY:
-                return DdevIntegrationBundle.message("status.Unhealthy");
-            default:
-                return DdevIntegrationBundle.message("status.Undefined");
-        }
+        return switch (status) {
+            case RUNNING -> DdevIntegrationBundle.message("status.Running");
+            case STARTING -> DdevIntegrationBundle.message("status.Starting");
+            case STOPPED -> DdevIntegrationBundle.message("status.Stopped");
+            case DIR_MISSING -> DdevIntegrationBundle.message("status.DirMissing");
+            case CONFIG_MISSING -> DdevIntegrationBundle.message("status.ConfigMissing");
+            case PAUSED -> DdevIntegrationBundle.message("status.Paused");
+            case UNHEALTHY -> DdevIntegrationBundle.message("status.Unhealthy");
+        };
     }
 }

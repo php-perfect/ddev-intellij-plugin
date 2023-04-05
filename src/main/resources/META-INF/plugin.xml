@@ -20,7 +20,7 @@
     ]]></description>
     <change-notes/>
 
-    <idea-version since-build="223.7571.182" until-build="223.*"/>
+    <idea-version since-build="231.8109.2" until-build="231.*"/>
     <depends>com.intellij.modules.platform</depends>
     <depends config-file="DdevIntegration-withTerminal.xml" optional="true">org.jetbrains.plugins.terminal</depends>
     <depends config-file="DdevIntegration-withPhp.xml" optional="true">com.jetbrains.php</depends>
@@ -91,8 +91,9 @@
 
         <postStartupActivity implementation="de.php_perfect.intellij.ddev.InitPluginActivity"/>
 
-        <statusBarWidgetFactory order="before readOnlyWidget"
-                                implementation="de.php_perfect.intellij.ddev.statusBar.DdevStatusBarWidgetFactoryImpl"/>
+        <statusBarWidgetFactory order="before light.edit.large.file.encoding.widget"
+                                implementation="de.php_perfect.intellij.ddev.statusBar.DdevStatusBarWidgetFactoryImpl"
+                                id="de.php_perfect.ddev.statusBar"/>
 
         <statistics.gotItTooltipAllowlist prefix="ddev.features"/>
     </extensions>
