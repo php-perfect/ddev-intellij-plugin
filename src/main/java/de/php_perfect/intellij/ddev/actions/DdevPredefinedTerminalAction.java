@@ -1,5 +1,6 @@
 package de.php_perfect.intellij.ddev.actions;
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.cmd.Description;
@@ -8,7 +9,7 @@ import de.php_perfect.intellij.ddev.state.State;
 import de.php_perfect.intellij.ddev.terminal.DdevTerminalRunner;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.plugins.terminal.TerminalTabState;
-import org.jetbrains.plugins.terminal.TerminalView;
+import org.jetbrains.plugins.terminal.TerminalToolWindowManager;
 
 public final class DdevPredefinedTerminalAction extends DdevAwareAction {
     @Override
@@ -23,7 +24,7 @@ public final class DdevPredefinedTerminalAction extends DdevAwareAction {
         TerminalTabState tabState = new TerminalTabState();
         tabState.myTabName = "DDEV Web Container";
 
-        TerminalView.getInstance(project).createNewSession(runner, tabState);
+        TerminalToolWindowManager.getInstance(project).createNewSession(runner, tabState);
     }
 
     @Override
@@ -41,5 +42,10 @@ public final class DdevPredefinedTerminalAction extends DdevAwareAction {
         }
 
         return description.getStatus() == Description.Status.RUNNING;
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 }

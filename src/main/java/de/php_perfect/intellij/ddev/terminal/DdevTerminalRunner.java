@@ -8,9 +8,9 @@ import com.intellij.execution.process.ProcessHandler;
 import com.intellij.execution.process.ProcessWaitFor;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.terminal.JBTerminalWidget;
+import com.intellij.openapi.util.NlsContexts;
+import com.intellij.terminal.pty.PtyProcessTtyConnector;
 import com.intellij.util.concurrency.AppExecutorUtil;
-import com.jediterm.pty.PtyProcessTtyConnector;
 import com.jediterm.terminal.TtyConnector;
 import com.pty4j.PtyProcess;
 import com.pty4j.unix.UnixPtyProcess;
@@ -20,10 +20,9 @@ import de.php_perfect.intellij.ddev.state.State;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.plugins.terminal.AbstractTerminalRunner;
-import org.jetbrains.plugins.terminal.TerminalProcessOptions;
+import org.jetbrains.plugins.terminal.ShellStartupOptions;
 import org.jetbrains.plugins.terminal.TerminalProjectOptionsProvider;
 
-import java.awt.*;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -40,7 +39,7 @@ public final class DdevTerminalRunner extends AbstractTerminalRunner<PtyProcess>
     }
 
     @Override
-    public @NotNull PtyProcess createProcess(@NotNull TerminalProcessOptions options, @Nullable JBTerminalWidget widget) throws ExecutionException {
+    public @NotNull PtyProcess createProcess(@NotNull ShellStartupOptions startupOptions) throws ExecutionException {
         State ddevState = DdevStateManager.getInstance(this.myProject).getState();
 
         if (!ddevState.isAvailable()) {
@@ -67,9 +66,8 @@ public final class DdevTerminalRunner extends AbstractTerminalRunner<PtyProcess>
     }
 
     @Override
-    protected @NotNull TtyConnector createTtyConnector(@NotNull PtyProcess process) {
+    public @NotNull TtyConnector createTtyConnector(@NotNull PtyProcess process) {
         return new PtyProcessTtyConnector(process, StandardCharsets.UTF_8) {
-
             @Override
             public void close() {
                 if (process instanceof UnixPtyProcess) {
@@ -84,25 +82,12 @@ public final class DdevTerminalRunner extends AbstractTerminalRunner<PtyProcess>
                     process.destroy();
                 }
             }
-
-            @Override
-            public void resize(@NotNull Dimension termWinSize) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("resize to " + termWinSize);
-                }
-                super.resize(termWinSize);
-            }
         };
     }
 
     @Override
-    public String runningTargetName() {
-        return "DDEV web container";
-    }
-
-    @Override
-    protected String getTerminalConnectionName(PtyProcess process) {
-        return "DDEV web container";
+    public @NlsContexts.TabTitle String getDefaultTabTitle() {
+        return "DDEV Web Container";
     }
 
     private @NotNull String getShellPath() {
