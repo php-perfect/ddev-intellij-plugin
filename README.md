@@ -2,7 +2,7 @@
     <img alt="The DDEV Integration Logo" height="128" src="./src/main/resources/META-INF/pluginIcon.svg" title="DDEV Integration Logo" width="128"/>
 </p>
 
-[![Build](https://img.shields.io/github/workflow/status/php-perfect/ddev-intellij-plugin/Java%20CI%20with%20Gradle/main "Build")](https://github.com/php-perfect/ddev-intellij-plugin/actions/workflows/gradle.yml)
+[![Build](https://img.shields.io/github/actions/workflow/status/php-perfect/ddev-intellij-plugin/build.yml?branch=main "Build")](https://github.com/php-perfect/ddev-intellij-plugin/actions/workflows/build.yml)
 [![Version](https://img.shields.io/jetbrains/plugin/v/18813)](https://plugins.jetbrains.com/plugin/18813-ddev-integration)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/18813)](https://plugins.jetbrains.com/plugin/18813-ddev-integration)
 [![Rating](https://img.shields.io/jetbrains/plugin/r/rating/18813)](https://plugins.jetbrains.com/plugin/18813-ddev-integration/reviews)
