@@ -1,6 +1,7 @@
 package de.php_perfect.intellij.ddev.actions;
 
 import com.intellij.openapi.actionSystem.ActionGroup;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.DumbAware;
@@ -44,5 +45,10 @@ public final class ServicesActionGroup extends ActionGroup implements DumbAware 
         }
 
         return description.getStatus() == Description.Status.RUNNING;
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 }
