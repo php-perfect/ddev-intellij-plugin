@@ -6,6 +6,7 @@ import com.intellij.docker.remote.DockerComposeCredentialsType;
 import com.intellij.docker.remote.DockerCredentialsEditor;
 import com.intellij.execution.configuration.EnvironmentVariablesData;
 import com.intellij.openapi.project.Project;
+import com.intellij.remote.RemoteMappingsManager;
 import com.intellij.remoteServer.configuration.RemoteServersManager;
 import com.intellij.util.PathMappingSettings;
 import com.jetbrains.php.composer.ComposerDataService;
@@ -51,8 +52,18 @@ public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider 
         this.loadPhpInfo(interpreter);
         this.setDefaultIfNotSet(interpreter);
         this.updateComposerInterpreterIfNotSet(interpreter);
+        this.updateRemoteMapping(interpreter);
 
         DdevNotifier.getInstance(project).notifyPhpInterpreterUpdated(interpreterConfig.getPhpVersion());
+    }
+
+    private void updateRemoteMapping(PhpInterpreter interpreter) {
+        final var pathMapping = new PathMappingSettings.PathMapping(project.getBasePath(), "/var/www/html");
+        final var mappings = new RemoteMappingsManager.Mappings();
+        mappings.setServerId("php", interpreter.getId());
+        mappings.setSettings(List.of(pathMapping));
+
+        RemoteMappingsManager.getInstance(project).setForServer(mappings);
     }
 
     private void updateComposerInterpreterIfNotSet(final PhpInterpreter interpreter) {
