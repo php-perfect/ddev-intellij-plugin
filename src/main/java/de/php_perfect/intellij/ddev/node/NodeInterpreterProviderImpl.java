@@ -26,7 +26,7 @@ public class NodeInterpreterProviderImpl implements NodeInterpreterProvider {
     public void configureNodeInterpreter(@NotNull NodeInterpreterConfig nodeInterpreterConfig) {
         final NodeRemoteInterpreters nodeRemoteInterpreters = NodeRemoteInterpreters.getInstance();
 
-        for (NodeJSRemoteSdkAdditionalData ignored : nodeRemoteInterpreters.getInterpreters()) {
+        if (!nodeRemoteInterpreters.getInterpreters().isEmpty()) {
             return;
         }
 
