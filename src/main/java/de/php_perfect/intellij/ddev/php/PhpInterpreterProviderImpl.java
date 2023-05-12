@@ -1,13 +1,9 @@
 package de.php_perfect.intellij.ddev.php;
 
-import com.intellij.docker.DockerCloudType;
 import com.intellij.docker.remote.DockerComposeCredentialsHolder;
 import com.intellij.docker.remote.DockerComposeCredentialsType;
-import com.intellij.docker.remote.DockerCredentialsEditor;
-import com.intellij.execution.configuration.EnvironmentVariablesData;
 import com.intellij.openapi.project.Project;
 import com.intellij.remote.RemoteMappingsManager;
-import com.intellij.remoteServer.configuration.RemoteServersManager;
 import com.intellij.util.PathMappingSettings;
 import com.jetbrains.php.composer.ComposerDataService;
 import com.jetbrains.php.config.PhpProjectConfigurationFacade;
@@ -21,19 +17,16 @@ import com.jetbrains.php.remote.docker.compose.PhpDockerComposeStartCommand;
 import com.jetbrains.php.remote.docker.compose.PhpDockerComposeTypeData;
 import com.jetbrains.php.remote.interpreter.PhpRemoteSdkAdditionalData;
 import com.jetbrains.php.run.remote.PhpRemoteInterpreterManager;
+import de.php_perfect.intellij.ddev.dockerCompose.DockerComposeCredentialProvider;
 import de.php_perfect.intellij.ddev.notification.DdevNotifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider {
     private static final String NAME = "DDEV";
     private static final String HELPERS_DIR = "/opt/.phpstorm_helpers";
-    private static final String DOCKER_NAME = "Docker";
-    private static final String SERVICE_NAME = "web";
-    private static final String COMPOSE_PROJECT_NAME_ENV = "COMPOSE_PROJECT_NAME";
 
     private final @NotNull Project project;
 
@@ -42,7 +35,7 @@ public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider 
     }
 
     public void registerInterpreter(@NotNull DdevInterpreterConfig interpreterConfig) {
-        final PhpInterpreter interpreter = getDdevPhpInterpreter();
+        final PhpInterpreter interpreter = this.getDdevPhpInterpreter();
 
         if (!this.needsUpdate(interpreter, interpreterConfig)) {
             return;
@@ -54,7 +47,7 @@ public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider 
         this.updateComposerInterpreterIfNotSet(interpreter);
         this.updateRemoteMapping(interpreter);
 
-        DdevNotifier.getInstance(project).notifyPhpInterpreterUpdated(interpreterConfig.getPhpVersion());
+        DdevNotifier.getInstance(project).notifyPhpInterpreterUpdated(interpreterConfig.phpVersion());
     }
 
     private void updateRemoteMapping(PhpInterpreter interpreter) {
@@ -99,29 +92,25 @@ public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider 
     }
 
     private boolean needsUpdate(@NotNull PhpInterpreter existingInterpreter, @NotNull DdevInterpreterConfig interpreterConfig) {
-        return !(Objects.equals(existingInterpreter.getPathToPhpExecutable(), interpreterConfig.getPhpVersion()));
+        return !(Objects.equals(existingInterpreter.getPathToPhpExecutable(), interpreterConfig.phpVersion()));
     }
 
     private void updateInterpreter(@NotNull PhpInterpreter interpreter, @NotNull DdevInterpreterConfig interpreterConfig) {
-        final PhpRemoteSdkAdditionalData sdkData = new PhpRemoteSdkAdditionalData(interpreterConfig.getPhpVersion());
+        final DockerComposeCredentialsHolder credentials = DockerComposeCredentialProvider.getInstance().getDdevDockerComposeCredentials(List.of(interpreterConfig.composeFilePath()), interpreterConfig.name());
+        final PhpRemoteSdkAdditionalData sdkData = this.buildSdkAdditionalData(interpreter, interpreterConfig, credentials);
+        interpreter.setPhpSdkAdditionalData(sdkData);
+        interpreter.setHomePath(sdkData.getSdkId());
+    }
+
+    private @NotNull PhpRemoteSdkAdditionalData buildSdkAdditionalData(@NotNull PhpInterpreter interpreter, @NotNull DdevInterpreterConfig interpreterConfig, DockerComposeCredentialsHolder credentials) {
+        final PhpRemoteSdkAdditionalData sdkData = new PhpRemoteSdkAdditionalData(interpreterConfig.phpVersion());
         sdkData.setInterpreterId(interpreter.getId());
         sdkData.setHelpersPath(HELPERS_DIR);
-
-        this.ensureDockerRemoteServer();
-
-        final DockerComposeCredentialsHolder credentials = DockerComposeCredentialsType.getInstance().createCredentials();
-        credentials.setAccountName(DOCKER_NAME);
-        credentials.setComposeFilePaths(List.of(interpreterConfig.getComposeFilePath()));
-        credentials.setComposeServiceName(SERVICE_NAME);
-        credentials.setRemoteProjectPath(DockerCredentialsEditor.DEFAULT_DOCKER_PROJECT_PATH);
-        credentials.setEnvs(EnvironmentVariablesData.create(Map.of(COMPOSE_PROJECT_NAME_ENV, "ddev-" + interpreterConfig.getName()), true));
-
         sdkData.setTypeData(new PhpDockerComposeTypeData(PhpDockerComposeStartCommand.EXEC));
         sdkData.setCredentials(DockerComposeCredentialsType.getInstance().getCredentialsKey(), credentials);
         sdkData.setPathMappings(this.loadPathMappings(sdkData));
 
-        interpreter.setPhpSdkAdditionalData(sdkData);
-        interpreter.setHomePath(sdkData.getSdkId());
+        return sdkData;
     }
 
     private PathMappingSettings loadPathMappings(PhpRemoteSdkAdditionalData sdkData) {
@@ -145,15 +134,6 @@ public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider 
 
         if (phpConfiguration.getInterpreterName() == null) {
             phpConfiguration.setInterpreterName(interpreter.getName());
-        }
-    }
-
-    private void ensureDockerRemoteServer() {
-        final var type = DockerCloudType.getInstance();
-        final var remoteServerManager = RemoteServersManager.getInstance();
-
-        if (remoteServerManager.findByName(DOCKER_NAME, type) == null) {
-            remoteServerManager.addServer(remoteServerManager.createServer(type, DOCKER_NAME));
         }
     }
 }
