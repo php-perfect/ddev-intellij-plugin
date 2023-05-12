@@ -9,7 +9,7 @@ import de.php_perfect.intellij.ddev.settings.DdevSettingsState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class AutoConfigureNodeInterpreterListener implements DescriptionChangedListener {
+public final class AutoConfigureNodeInterpreterListener implements DescriptionChangedListener {
 
     private final @NotNull Project project;
 

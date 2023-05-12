@@ -10,7 +10,7 @@ import com.intellij.remoteServer.configuration.RemoteServersManager;
 import java.util.List;
 import java.util.Map;
 
-public class DockerComposeCredentialProviderImpl implements DockerComposeCredentialProvider {
+public final class DockerComposeCredentialProviderImpl implements DockerComposeCredentialProvider {
     private static final String DOCKER_NAME = "Docker";
     private static final String SERVICE_NAME = "web";
     private static final String COMPOSE_PROJECT_NAME_ENV = "COMPOSE_PROJECT_NAME";

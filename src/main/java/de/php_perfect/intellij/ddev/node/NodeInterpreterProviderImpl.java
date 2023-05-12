@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class NodeInterpreterProviderImpl implements NodeInterpreterProvider {
+public final class NodeInterpreterProviderImpl implements NodeInterpreterProvider {
     public static final @NotNull String NODEJS_HELPERS_PATH = ".webstorm_nodejs_helpers";
     private final @NotNull Project project;
 
