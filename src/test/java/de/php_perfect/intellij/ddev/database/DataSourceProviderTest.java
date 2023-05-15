@@ -3,6 +3,7 @@ package de.php_perfect.intellij.ddev.database;
 import com.intellij.database.dataSource.LocalDataSource;
 import com.intellij.testFramework.fixtures.BasePlatformTestCase;
 import de.php_perfect.intellij.ddev.cmd.DatabaseInfo;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,12 @@ final class DataSourceProviderTest extends BasePlatformTestCase {
     @BeforeEach
     protected void setUp() throws Exception {
         super.setUp();
+    }
+
+    @Override
+    @AfterEach
+    protected void tearDown() throws Exception {
+        super.tearDown();
     }
 
     @Test

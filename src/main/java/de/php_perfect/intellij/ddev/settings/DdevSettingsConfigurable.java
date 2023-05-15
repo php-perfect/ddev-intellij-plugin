@@ -54,6 +54,7 @@ public final class DdevSettingsConfigurable implements Configurable {
         modified |= this.ddevSettingsComponent.getWatchDdevCheckboxStatus() != settings.watchDdev;
         modified |= this.ddevSettingsComponent.getAutoConfigureDataSource() != settings.autoConfigureDataSource;
         modified |= this.ddevSettingsComponent.getAutoConfigurePhpInterpreter() != settings.autoConfigurePhpInterpreter;
+        modified |= this.ddevSettingsComponent.getAutoConfigureNodeJsInterpreter() != settings.autoConfigureNodeJsInterpreter;
 
         return modified;
     }
@@ -72,6 +73,7 @@ public final class DdevSettingsConfigurable implements Configurable {
         settings.watchDdev = this.ddevSettingsComponent.getWatchDdevCheckboxStatus();
         settings.autoConfigureDataSource = this.ddevSettingsComponent.getAutoConfigureDataSource();
         settings.autoConfigurePhpInterpreter = this.ddevSettingsComponent.getAutoConfigurePhpInterpreter();
+        settings.autoConfigureNodeJsInterpreter = this.ddevSettingsComponent.getAutoConfigureNodeJsInterpreter();
 
         StateWatcher.getInstance(this.project).stopWatching();
         ApplicationManager.getApplication().executeOnPooledThread(() -> DdevStateManager.getInstance(this.project).reinitialize());
@@ -102,6 +104,7 @@ public final class DdevSettingsConfigurable implements Configurable {
         this.ddevSettingsComponent.setWatchDdevCheckboxStatus(settings.watchDdev);
         this.ddevSettingsComponent.setAutoConfigureDataSource(settings.autoConfigureDataSource);
         this.ddevSettingsComponent.setAutoConfigurePhpInterpreter(settings.autoConfigurePhpInterpreter);
+        this.ddevSettingsComponent.setAutoConfigureNodeJsInterpreter(settings.autoConfigureNodeJsInterpreter);
     }
 
     @Override

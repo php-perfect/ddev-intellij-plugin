@@ -5,6 +5,7 @@ import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import de.php_perfect.intellij.ddev.cmd.Description;
+import de.php_perfect.intellij.ddev.dockerCompose.DdevComposeFileLoader;
 import de.php_perfect.intellij.ddev.notification.DdevNotifier;
 import de.php_perfect.intellij.ddev.settings.DdevSettingsState;
 import org.jetbrains.annotations.NotNull;

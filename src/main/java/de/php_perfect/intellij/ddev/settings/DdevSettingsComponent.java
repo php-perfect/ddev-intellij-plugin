@@ -21,6 +21,7 @@ public final class DdevSettingsComponent {
     private final @NotNull JBCheckBox watchDdevCheckbox = new JBCheckBox(DdevIntegrationBundle.message("settings.watchDdev"));
     private final @NotNull JBCheckBox autoConfigureDataSource = new JBCheckBox(DdevIntegrationBundle.message("settings.automaticConfiguration.autoConfigureDataSource"));
     private final @NotNull JBCheckBox autoConfigurePhpInterpreter = new JBCheckBox(DdevIntegrationBundle.message("settings.automaticConfiguration.phpInterpreter"));
+    private final @NotNull JBCheckBox autoConfigureNodeJsInterpreter = new JBCheckBox(DdevIntegrationBundle.message("settings.automaticConfiguration.nodeJsInterpreter"));
     private final @NotNull TextFieldWithBrowseButton ddevBinary = new TextFieldWithBrowseButton();
 
     public DdevSettingsComponent(Project project) {
@@ -33,6 +34,7 @@ public final class DdevSettingsComponent {
         final GridBagConstraints gc = new GridBagConstraints(0, GridBagConstraints.RELATIVE, 1, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, JBUI.emptyInsets(), 0, 0);
         panel.add(this.autoConfigureDataSource, gc);
         panel.add(this.autoConfigurePhpInterpreter, gc);
+        panel.add(this.autoConfigureNodeJsInterpreter, gc);
 
         this.ddevBinary.addBrowseFolderListener(DdevIntegrationBundle.message("settings.chooseBinary.title"), "", project, new FileChooserDescriptor(true, false, false, false, false, false));
 
@@ -79,6 +81,14 @@ public final class DdevSettingsComponent {
 
     public boolean getAutoConfigurePhpInterpreter() {
         return this.autoConfigurePhpInterpreter.isSelected();
+    }
+
+    public void setAutoConfigureNodeJsInterpreter(boolean newStatus) {
+        this.autoConfigureNodeJsInterpreter.setSelected(newStatus);
+    }
+
+    public boolean getAutoConfigureNodeJsInterpreter() {
+        return this.autoConfigureNodeJsInterpreter.isSelected();
     }
 
     public void setWatchDdevCheckboxStatus(boolean newStatus) {

@@ -14,6 +14,7 @@ public final class DdevSettingsState implements PersistentStateComponent<DdevSet
     public boolean watchDdev = true;
     public boolean autoConfigureDataSource = true;
     public boolean autoConfigurePhpInterpreter = true;
+    public boolean autoConfigureNodeJsInterpreter = true;
 
     public static @NotNull DdevSettingsState getInstance(Project project) {
         return project.getService(DdevSettingsState.class);
