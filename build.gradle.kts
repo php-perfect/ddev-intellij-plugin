@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
-    implementation("io.sentry:sentry:6.18.1")
+    implementation("io.sentry:sentry:6.19.0")
 
     val junitVersion = "5.9.3"
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
