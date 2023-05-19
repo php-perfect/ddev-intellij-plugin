@@ -45,7 +45,8 @@
         "php",
         "shopware6",
         "typo3",
-        "wordpress"
+        "wordpress",
+        "craftcms"
       ]
     },
     "docroot": {
