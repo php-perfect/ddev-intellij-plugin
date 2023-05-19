@@ -21,6 +21,10 @@ public final class DdevDataSourceManagerImpl implements DdevDataSourceManager {
         ApplicationManager.getApplication().invokeLater(() -> {
             for (LocalDataSource currentLocalDataSource : localDataSourceManager.getDataSources()) {
                 if (currentLocalDataSource.getName().equals(dataSource.getName())) {
+                    if (currentLocalDataSource.equalConfiguration(dataSource)) {
+                        return;
+                    }
+
                     localDataSourceManager.removeDataSource(currentLocalDataSource);
                 }
             }
