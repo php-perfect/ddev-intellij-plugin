@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
+- Support mutagen enabled projects by placing a project specific interpreter path mapping
 - Do not replace unchanged data source configuration by @nico-loeber
   in https://github.com/php-perfect/ddev-intellij-plugin/pull/180
 
