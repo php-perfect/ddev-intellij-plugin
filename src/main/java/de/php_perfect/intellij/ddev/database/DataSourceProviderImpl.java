@@ -16,7 +16,7 @@ import static com.intellij.database.introspection.DBIntrospectionConsts.ALL_NAME
 
 public final class DataSourceProviderImpl implements DataSourceProvider {
 
-    public static final String DSN_HOST = "127.0.0.1";
+    public static final @NotNull String DSN_HOST = "127.0.0.1";
 
     public @Nullable LocalDataSource buildDdevDataSource(@NotNull DatabaseInfo databaseInfo) {
         final DatabaseInfo.Type databaseType = databaseInfo.getType();
@@ -57,15 +57,11 @@ public final class DataSourceProviderImpl implements DataSourceProvider {
     private @NotNull DatabaseDriver getDriverByDatabaseType(@NotNull DatabaseInfo.Type databaseType) {
         DatabaseDriverManager databaseDriverManager = DatabaseDriverManager.getInstance();
 
-        switch (databaseType) {
-            case POSTGRESQL:
-                return databaseDriverManager.getDriver("postgresql");
-            case MARIADB:
-                return databaseDriverManager.getDriver("mariadb");
-            case MYSQL:
-            default:
-                return databaseDriverManager.getDriver("mysql.8");
-        }
+        return switch (databaseType) {
+            case POSTGRESQL -> databaseDriverManager.getDriver("postgresql");
+            case MARIADB -> databaseDriverManager.getDriver("mariadb");
+            default -> databaseDriverManager.getDriver("mysql.8");
+        };
     }
 
     private @NotNull String getDsnByDatabaseType(@NotNull DatabaseInfo databaseInfo) {
@@ -85,13 +81,10 @@ public final class DataSourceProviderImpl implements DataSourceProvider {
             return "mysql";
         }
 
-        switch (databaseType) {
-            case POSTGRESQL:
-                return "postgresql";
-            case MARIADB:
-                return "mariadb";
-            default:
-                return "mysql";
-        }
+        return switch (databaseType) {
+            case POSTGRESQL -> "postgresql";
+            case MARIADB -> "mariadb";
+            default -> "mysql";
+        };
     }
 }
