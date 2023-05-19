@@ -26,6 +26,7 @@ interface.
 - Check for DDEV Updates
 - Assistance and Completion for the DDEV Configuration
 - Auto Configure PHP Remote Interpreter<sup>1</sup>
+- Auto Configure NodeJS Remote Interpreter<sup>1</sup>
 - Auto Configure Data Source<sup>1</sup>
 - Integrated DDEV Terminal<sup>1</sup>
 - And much more coming soon!
