@@ -17,7 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Do not replace unchanged data source configuration by @nico-loeber
   in https://github.com/php-perfect/ddev-intellij-plugin/pull/180
 
-## Dependency Updates
+### Dependency Updates
 
 - Bump junitVersion from 5.9.2 to 5.9.3 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/173
 - Bump org.mockito:mockito-core from 5.2.0 to 5.3.1 by @dependabot
