@@ -2,7 +2,7 @@ import org.jetbrains.changelog.Changelog
 import org.jetbrains.intellij.tasks.ListProductsReleasesTask
 
 plugins {
-    id("org.jetbrains.changelog") version "2.0.0"
+    id("org.jetbrains.changelog") version "2.1.0"
     id("org.jetbrains.intellij") version "1.13.3"
     java
 
