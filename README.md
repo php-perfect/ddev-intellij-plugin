@@ -11,14 +11,14 @@
 
 # DDEV Integration for IntelliJ
 
-This plugin integrates [DDEV](https://github.com/drud/ddev) with IntelliJ based IDEs such as PHPStorm or WebStorm.
+This plugin integrates [DDEV](https://github.com/ddev/ddev) with IntelliJ based IDEs such as PHPStorm or WebStorm.
 
-[DDEV](https://github.com/drud/ddev) is an open source tool that makes it simple to get local PHP development
+[DDEV](https://github.com/ddev/ddev) is an open source tool that makes it simple to get local PHP development
 environments up and running in minutes.
 
 ## Features
 
-The plugin allows you to operate all common [DDEV](https://github.com/drud/ddev) features from your IDE's graphical user
+The plugin allows you to operate all common [DDEV](https://github.com/ddev/ddev) features from your IDE's graphical user
 interface.
 
 - Run DDEV Actions
@@ -50,6 +50,6 @@ Please refer to the [Contributing Guidelines](./CONTRIBUTING.md).
 
 ## Supported by
 
-[<img alt="DDEV" height="100" src="https://avatars.githubusercontent.com/u/8115114?s=100" title="DDEV" width="100"/>](https://github.com/drud)
+[<img alt="DDEV" height="100" src="https://avatars.githubusercontent.com/u/595986?s=100&v=4" title="DDEV" width="100"/>](https://github.com/ddev)
 [<img alt="JetBrains" height="100" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" title="JetBrains" width="100"/>](https://jb.gg/OpenSourceSupport)
 [<img alt="sentry.io" height="100" src="assets/sentry-glyph-dark-100x100.png" title="sentry.io" width="100"/>](https://sentry.io/welcome/)

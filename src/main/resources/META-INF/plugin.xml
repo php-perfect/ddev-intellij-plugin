@@ -5,7 +5,7 @@
     <vendor email="nico@php-perfect.de" url="https://github.com/php-perfect">PHP-Perfect</vendor>
     <category>Deployment</category>
     <description><![CDATA[
-    <p>Allows you to use all common <a href="https://github.com/drud/ddev">DDEV</a> features directly from your IDE.</p>
+    <p>Allows you to use all common <a href="https://github.com/ddev/ddev">DDEV</a> features directly from your IDE.</p>
     <p>Features:</p>
     <ul>
         <li>Run DDEV Actions</li>
