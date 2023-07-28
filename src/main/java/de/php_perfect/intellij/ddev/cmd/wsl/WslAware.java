@@ -32,8 +32,7 @@ public class WslAware {
     @NotNull
     private static <T extends GeneralCommandLine> T applyWslPatch(T generalCommandLine, WSLDistribution distribution, boolean loginShell) throws ExecutionException {
         WSLCommandLineOptions options = new WSLCommandLineOptions()
-                .setExecuteCommandInLoginShell(loginShell)
-                .setShellPath(distribution.getShellPath());
+                .setExecuteCommandInLoginShell(loginShell);
 
         return distribution.patchCommandLine(generalCommandLine, null, options);
     }
