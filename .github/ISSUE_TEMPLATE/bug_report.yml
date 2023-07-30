@@ -15,7 +15,7 @@ body:
     attributes:
       label: Are you sure that this bug is related to this DDEV Integration Plugin?
       description: |
-        Please make sure that your problem is not related to [DDEV](https://github.com/drud/ddev). 
+        Please make sure that your problem is not related to [DDEV](https://github.com/ddev/ddev). 
         An error message in your IDE is a clear indication that there is a bug in this DDEV integration plugin.
       options:
         - label: I am sure
