@@ -23,7 +23,7 @@ public final class DockerComposeCredentialProviderImpl implements DockerComposeC
         credentials.setComposeFilePaths(composeFilePaths);
         credentials.setComposeServiceName(SERVICE_NAME);
         credentials.setRemoteProjectPath(DockerCredentialsEditor.DEFAULT_DOCKER_PROJECT_PATH);
-        credentials.setEnvs(EnvironmentVariablesData.create(Map.of(COMPOSE_PROJECT_NAME_ENV, "ddev-" + projectName), false));
+        credentials.setEnvs(EnvironmentVariablesData.create(Map.of(COMPOSE_PROJECT_NAME_ENV, "ddev-" + projectName), true));
 
         return credentials;
     }

@@ -11,9 +11,9 @@ submit a [pull request](https://github.com/php-perfect/ddev-intellij-plugin/pull
 ## Issues
 
 In case you encounter any issues, please make sure they are related to this integration plugin and
-not [DDEV](https://github.com/drud/ddev) itself.
+not [DDEV](https://github.com/ddev/ddev) itself.
 
-DDEV related issues can be reported [here](https://github.com/drud/ddev/issues).
+DDEV related issues can be reported [here](https://github.com/ddev/ddev/issues).
 
 For plugin related issues please [open an issue](https://github.com/php-perfect/ddev-intellij-plugin/issues/new) in this
 repository with at least the following information:

@@ -17,6 +17,8 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.Consumer;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
+import de.php_perfect.intellij.ddev.cmd.CommandFailedException;
+import de.php_perfect.intellij.ddev.cmd.Ddev;
 import de.php_perfect.intellij.ddev.cmd.Versions;
 import de.php_perfect.intellij.ddev.notification.DdevNotifier;
 import de.php_perfect.intellij.ddev.state.DdevStateManager;
@@ -105,7 +107,17 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
             return null;
         }
 
-        return DdevStateManager.getInstance(project).getState().getVersions();
+        final String binary = DdevStateManager.getInstance(project).getState().getDdevBinary();
+
+        if (binary == null) {
+            return null;
+        }
+
+        try {
+            return Ddev.getInstance().detailedVersions(binary, project);
+        } catch (CommandFailedException e) {
+            return null;
+        }
     }
 
     private @Nullable WSLDistribution getWslDistribution(@Nullable Project project) {

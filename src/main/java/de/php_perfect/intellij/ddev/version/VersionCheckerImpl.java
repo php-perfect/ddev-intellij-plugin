@@ -4,7 +4,6 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
-import de.php_perfect.intellij.ddev.cmd.Versions;
 import de.php_perfect.intellij.ddev.notification.DdevNotifier;
 import de.php_perfect.intellij.ddev.settings.DdevSettingsState;
 import de.php_perfect.intellij.ddev.state.DdevStateManager;
@@ -27,16 +26,16 @@ public final class VersionCheckerImpl implements VersionChecker {
 
     @Override
     public void checkDdevVersion(boolean confirmNewestVersion) {
-        var settings = DdevSettingsState.getInstance(this.project);
+        final DdevSettingsState settings = DdevSettingsState.getInstance(this.project);
 
         if (!settings.checkForUpdates) {
             return;
         }
 
-        State state = DdevStateManager.getInstance(this.project).getState();
-        String currentVersion = this.getCurrentVersion(state);
+        final State state = DdevStateManager.getInstance(this.project).getState();
+        final Version currentVersion = this.getCurrentVersion(state);
 
-        if (currentVersion == null || currentVersion.equals("")) {
+        if (currentVersion == null) {
             if (state.isConfigured()) {
                 DdevNotifier.getInstance(project).notifyInstallDdev();
             }
@@ -53,10 +52,10 @@ public final class VersionCheckerImpl implements VersionChecker {
                     return;
                 }
 
-                final String latestVersion = latestRelease.getTagName();
+                final Version latestVersion = new Version(latestRelease.getTagName());
 
                 if (VersionCompare.needsUpdate(currentVersion, latestVersion)) {
-                    DdevNotifier.getInstance(project).notifyNewVersionAvailable(currentVersion, latestVersion);
+                    DdevNotifier.getInstance(project).notifyNewVersionAvailable(currentVersion.toString(), latestVersion.toString());
                 } else if (confirmNewestVersion) {
                     DdevNotifier.getInstance(project).notifyAlreadyLatestVersion();
                 }
@@ -64,17 +63,11 @@ public final class VersionCheckerImpl implements VersionChecker {
         });
     }
 
-    private @Nullable String getCurrentVersion(State state) {
+    private @Nullable Version getCurrentVersion(State state) {
         if (!state.isAvailable()) {
             return null;
         }
 
-        Versions versions = state.getVersions();
-
-        if (versions == null) {
-            return null;
-        }
-
-        return versions.getDdevVersion();
+        return state.getDdevVersion();
     }
 }

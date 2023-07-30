@@ -1,7 +1,7 @@
 package de.php_perfect.intellij.ddev.state;
 
 import de.php_perfect.intellij.ddev.cmd.Description;
-import de.php_perfect.intellij.ddev.cmd.Versions;
+import de.php_perfect.intellij.ddev.version.Version;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 final class StateImpl implements State {
-    private @Nullable Versions versions = null;
+    private @Nullable Version version = null;
 
     private @Nullable Description description = null;
 
@@ -21,12 +21,12 @@ final class StateImpl implements State {
 
     @Override
     public boolean isBinaryConfigured() {
-        return this.ddevBinary != null && !this.ddevBinary.equals("");
+        return this.ddevBinary != null && !this.ddevBinary.isEmpty();
     }
 
     @Override
     public boolean isAvailable() {
-        return this.versions != null;
+        return this.version != null;
     }
 
     @Override
@@ -47,22 +47,22 @@ final class StateImpl implements State {
         this.configured = configured;
     }
 
-    @Override
-    public @Nullable Versions getVersions() {
-        this.readWriteLock.readLock().lock();
+    public void setDdevVersion(@Nullable Version ddevVersion) {
+        this.readWriteLock.writeLock().lock();
         try {
-            return this.versions;
+            this.version = ddevVersion;
         } finally {
-            this.readWriteLock.readLock().unlock();
+            this.readWriteLock.writeLock().unlock();
         }
     }
 
-    public void setVersions(@Nullable Versions versions) {
-        this.readWriteLock.writeLock().lock();
+    @Override
+    public @Nullable Version getDdevVersion() {
+        this.readWriteLock.readLock().lock();
         try {
-            this.versions = versions;
+            return this.version;
         } finally {
-            this.readWriteLock.writeLock().unlock();
+            this.readWriteLock.readLock().unlock();
         }
     }
 
@@ -85,38 +85,38 @@ final class StateImpl implements State {
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof StateImpl)) return false;
-        StateImpl state = (StateImpl) o;
-        return configured == state.configured && Objects.equals(versions, state.versions) && Objects.equals(description, state.description) && Objects.equals(ddevBinary, state.ddevBinary);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(versions, description, ddevBinary, configured);
-    }
-
-    @Override
-    public String toString() {
-        return "StateImpl{" +
-                "versions=" + versions +
-                ", description=" + description +
-                ", ddevBinary='" + ddevBinary + '\'' +
-                ", configured=" + configured +
-                '}';
-    }
-
     public void reset() {
         this.readWriteLock.writeLock().lock();
         try {
-            this.versions = null;
+            this.version = null;
             this.description = null;
             this.ddevBinary = null;
             this.configured = false;
         } finally {
             this.readWriteLock.writeLock().unlock();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StateImpl state = (StateImpl) o;
+        return isConfigured() == state.isConfigured() && Objects.equals(version, state.version) && Objects.equals(getDescription(), state.getDescription()) && Objects.equals(getDdevBinary(), state.getDdevBinary());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(version, getDescription(), getDdevBinary(), isConfigured());
+    }
+
+    @Override
+    public String toString() {
+        return "StateImpl{" +
+                "version=" + version +
+                ", description=" + description +
+                ", ddevBinary='" + ddevBinary + "'" +
+                ", configured=" + configured +
+                '}';
     }
 }
