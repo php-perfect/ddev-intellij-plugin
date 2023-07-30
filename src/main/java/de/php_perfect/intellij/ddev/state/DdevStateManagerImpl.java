@@ -114,7 +114,7 @@ public final class DdevStateManagerImpl implements DdevStateManager {
     private void checkIsInstalled(boolean autodetect) {
         DdevSettingsState configurable = DdevSettingsState.getInstance(this.project);
 
-        if (autodetect && configurable.ddevBinary.equals("")) {
+        if (autodetect && configurable.ddevBinary.isEmpty()) {
             String detectedDdevBinary = BinaryLocator.getInstance().findInPath(this.project);
 
             if (detectedDdevBinary != null) {
@@ -128,16 +128,16 @@ public final class DdevStateManagerImpl implements DdevStateManager {
 
     private void checkVersion() {
         if (!this.state.isBinaryConfigured()) {
-            this.state.setVersions(null);
+            this.state.setDdevVersion(null);
             this.state.setDescription(null);
             return;
         }
 
         try {
-            this.state.setVersions(Ddev.getInstance().version(Objects.requireNonNull(this.state.getDdevBinary()), this.project));
+            this.state.setDdevVersion(Ddev.getInstance().version(Objects.requireNonNull(this.state.getDdevBinary()), this.project));
         } catch (CommandFailedException exception) {
             LOG.error(exception);
-            this.state.setVersions(null);
+            this.state.setDdevVersion(null);
         }
     }
 
