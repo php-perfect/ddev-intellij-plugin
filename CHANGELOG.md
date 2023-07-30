@@ -4,6 +4,47 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [1.1.1]
+
+### Changed
+
+- Update the plugin for compatibility to IntelliJ 2023.2 by @nico-loeber
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/216
+- Update the plugin for compatibility to ddev 1.22 by @nico-loeber
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/215
+- Update ddev version check for better performance by @nico-loeber
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/210
+- Replace drud namespace by ddev by @nico-loeber in https://github.com/php-perfect/ddev-intellij-plugin/pull/217
+
+### Fixed
+
+- Fix Docker.exe not found error by @nico-loeber with kind support of @bitExpert
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/214
+
+### Dependency Updates
+
+- Bump org.sonarqube from 4.0.0.2929 to 4.2.0.3129 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/186
+- Bump io.sentry:sentry from 6.19.0 to 6.21.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/185
+- Bump org.jetbrains.changelog from 2.0.0 to 2.1.2 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/201
+- Bump org.jetbrains.intellij from 1.13.3 to 1.15.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/199
+- Bump org.mockito:mockito-core from 5.3.1 to 5.4.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/195
+- Bump io.sentry:sentry from 6.21.0 to 6.26.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/208
+- Bump org.sonarqube from 4.2.0.3129 to 4.3.0.3225 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/205
+- Bump org.junit.platform:junit-platform-launcher from 1.9.3 to 1.10.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/213
+- Bump junitVersion from 5.9.3 to 5.10.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/212
+- Bump io.sentry:sentry from 6.26.0 to 6.27.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/211
+
+**Full Changelog**: https://github.com/php-perfect/ddev-intellij-plugin/compare/1.1.0...1.1.1
+
 ## [1.1.0]
 
 ### Added
