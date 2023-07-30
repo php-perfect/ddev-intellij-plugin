@@ -104,16 +104,11 @@ public final class ServiceActionManagerImpl implements ServiceActionManager, Dis
     }
 
     private @NotNull String buildActionText(String key, String fullName) {
-        switch (key) {
-            case "dba":
-                return DdevIntegrationBundle.message("action.services.open.dba");
-            case "web":
-                return DdevIntegrationBundle.message("action.services.open.web");
-            case "mailhog":
-                return DdevIntegrationBundle.message("action.services.open.mailHog");
-            default:
-                return DdevIntegrationBundle.message("action.services.open.any", fullName);
-        }
+        return switch (key) {
+            case "web" -> DdevIntegrationBundle.message("action.services.open.web");
+            case "mailhog" -> DdevIntegrationBundle.message("action.services.open.mailHog");
+            default -> DdevIntegrationBundle.message("action.services.open.any", fullName);
+        };
     }
 
     @Override

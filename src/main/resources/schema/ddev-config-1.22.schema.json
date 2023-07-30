@@ -22,6 +22,10 @@
       }
     }
   },
+  "required": [
+    "name"
+  ],
+  "additionalProperties": false,
   "properties": {
     "name": {
       "description": "Provide the name of the project to configure (normally the same as the last part of directory name)",
@@ -66,7 +70,8 @@
         "7.3",
         "7.4",
         "8.0",
-        "8.1"
+        "8.1",
+        "8.2"
       ]
     },
     "webserver_type": {
@@ -207,7 +212,8 @@
       "type": "array",
       "items": {
         "type": "string"
-      }
+      },
+      "uniqueItems": true
     },
     "fail_on_hook_fail": {
       "description": "Decide whether 'ddev start' should be interrupted by a failing hook",
@@ -227,21 +233,6 @@
     "host_db_port": {
       "description": "The db container's localhost-bound port",
       "example": "59002",
-      "type": "string"
-    },
-    "phpmyadmin_port": {
-      "description": "Router port to be used for PHPMyAdmin (dba) container access",
-      "example": "8036",
-      "type": "string"
-    },
-    "phpmyadmin_https_port": {
-      "description": "Router port to be used for PHPMyAdmin (dba) container access (https)",
-      "example": "8037",
-      "type": "string"
-    },
-    "host_phpmyadmin_port": {
-      "description": "The dba (PHPMyAdmin) container's localhost-bound port, if exposed via bind-all-interfaces",
-      "example": "8036",
       "type": "string"
     },
     "mailhog_port": {
