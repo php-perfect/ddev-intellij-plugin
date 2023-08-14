@@ -29,7 +29,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
                         NotificationType.INFORMATION
                 )
                 .addAction(new InstallationInstructionsAction())
-                .notify(this.project), ModalityState.NON_MODAL);
+                .notify(this.project), ModalityState.nonModal());
     }
 
     @Override
@@ -43,7 +43,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
                 )
                 .addAction(new InstallationInstructionsAction())
                 .addAction(new DisableCheckForUpdatesAction())
-                .notify(this.project), ModalityState.NON_MODAL);
+                .notify(this.project), ModalityState.nonModal());
     }
 
     @Override
@@ -54,7 +54,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
                         DdevIntegrationBundle.message("notification.AlreadyLatestVersion.text"),
                         NotificationType.INFORMATION
                 )
-                .notify(this.project), ModalityState.NON_MODAL);
+                .notify(this.project), ModalityState.nonModal());
     }
 
     @Override
@@ -67,7 +67,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
                         NotificationType.WARNING
                 )
                 .addAction(new ManagePluginsAction())
-                .notify(this.project), ModalityState.NON_MODAL);
+                .notify(this.project), ModalityState.nonModal());
     }
 
     @Override
@@ -79,7 +79,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
                         DdevIntegrationBundle.message("notification.InterpreterUpdated.text", phpVersion),
                         NotificationType.INFORMATION
                 )
-                .notify(this.project), ModalityState.NON_MODAL);
+                .notify(this.project), ModalityState.nonModal());
     }
 
     @Override
@@ -93,7 +93,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
                 )
                 .addAction(ActionManager.getInstance().getAction("DdevIntegration.SyncState"))
                 .addAction(new ReportIssueAction())
-                .notify(this.project), ModalityState.NON_MODAL);
+                .notify(this.project), ModalityState.nonModal());
     }
 
     @Override
@@ -106,7 +106,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
                         NotificationType.INFORMATION
                 )
                 .addAction(new ReportIssueAction())
-                .notify(this.project), ModalityState.NON_MODAL);
+                .notify(this.project), ModalityState.nonModal());
     }
 
     @Override
@@ -119,7 +119,7 @@ public final class DdevNotifierImpl implements DdevNotifier {
                         NotificationType.INFORMATION
                 )
                 .addAction(new ChangeSettingsAction())
-                .notify(this.project), ModalityState.NON_MODAL);
+                .notify(this.project), ModalityState.nonModal());
     }
 
     @Override
@@ -132,6 +132,6 @@ public final class DdevNotifierImpl implements DdevNotifier {
                         NotificationType.WARNING
                 )
                 .addAction(new ReloadPluginAction())
-                .notify(this.project), ModalityState.NON_MODAL);
+                .notify(this.project), ModalityState.nonModal());
     }
 }

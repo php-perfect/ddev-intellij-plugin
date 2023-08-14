@@ -1,14 +1,18 @@
 package de.php_perfect.intellij.ddev.version;
 
-import org.eclipse.lsp4j.jsonrpc.validation.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
 public final class Version implements Comparable<Version> {
-    @NonNull
-    public final int[] numbers;
 
-    public Version(@NonNull String version) {
+    public final int @NotNull [] numbers;
+
+
+    public final @NotNull String string;
+
+    public Version(@NotNull String version) {
+        this.string = version;
         final String[] split = version.replaceAll("^v", "").split("-")[0].split("\\.");
         numbers = new int[split.length];
         for (int i = 0; i < split.length; i++) {
@@ -17,7 +21,7 @@ public final class Version implements Comparable<Version> {
     }
 
     @Override
-    public int compareTo(@NonNull Version another) {
+    public int compareTo(@NotNull Version another) {
         final int maxLength = Math.max(numbers.length, another.numbers.length);
         for (int i = 0; i < maxLength; i++) {
             final int left = i < numbers.length ? numbers[i] : 0;
@@ -40,5 +44,10 @@ public final class Version implements Comparable<Version> {
     @Override
     public int hashCode() {
         return Arrays.hashCode(numbers);
+    }
+
+    @Override
+    public String toString() {
+        return this.string;
     }
 }
