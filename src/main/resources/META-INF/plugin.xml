@@ -103,6 +103,8 @@
                                 id="de.php_perfect.ddev.statusBar"/>
 
         <statistics.gotItTooltipAllowlist prefix="ddev.features"/>
+
+        <terminal.shellCommandHandler implementation="de.php_perfect.intellij.ddev.cmd.DdevShellCommandHandlerImpl"/>
     </extensions>
 
     <extensions defaultExtensionNs="JavaScript.JsonSchema">
