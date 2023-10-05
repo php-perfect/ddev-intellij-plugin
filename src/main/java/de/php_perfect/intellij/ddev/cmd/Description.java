@@ -32,6 +32,11 @@ public class Description {
     @SerializedName("mailhog_url")
     private final @Nullable String mailHogHttpUrl;
 
+    private final @Nullable String mailpitHttpsUrl;
+
+    private final @Nullable String mailpitHttpUrl;
+
+
     private final @Nullable Map<String, Service> services;
 
     @SerializedName("dbinfo")
@@ -40,19 +45,18 @@ public class Description {
     @SerializedName("primary_url")
     private final @Nullable String primaryUrl;
 
-    public Description(@Nullable String name, @Nullable String phpVersion, @Nullable Status status,
-                       @Nullable String mailHogHttpsUrl, @Nullable String mailHogHttpUrl, @Nullable DatabaseInfo databaseInfo, @Nullable String primaryUrl) {
-        this(name, phpVersion, status, mailHogHttpsUrl, mailHogHttpUrl, new HashMap<>(), databaseInfo, primaryUrl);
+    public Description(@Nullable String name, @Nullable String phpVersion, @Nullable Status status, @Nullable String mailHogHttpsUrl, @Nullable String mailHogHttpUrl, @Nullable String mailpitHttpsUrl, @Nullable String mailpitHttpUrl, @Nullable DatabaseInfo databaseInfo, @Nullable String primaryUrl) {
+        this(name, phpVersion, status, mailHogHttpsUrl, mailHogHttpUrl, mailpitHttpsUrl, mailpitHttpUrl, new HashMap<>(), databaseInfo, primaryUrl);
     }
 
-    public Description(@Nullable String name, @Nullable String phpVersion, @Nullable Status status,
-                       @Nullable String mailHogHttpsUrl, @Nullable String mailHogHttpUrl, @Nullable Map<String, Service> services,
-                       @Nullable DatabaseInfo databaseInfo, @Nullable String primaryUrl) {
+    public Description(@Nullable String name, @Nullable String phpVersion, @Nullable Status status, @Nullable String mailHogHttpsUrl, @Nullable String mailHogHttpUrl, @Nullable String mailpitHttpsUrl, @Nullable String mailpitHttpUrl, @Nullable Map<String, Service> services, @Nullable DatabaseInfo databaseInfo, @Nullable String primaryUrl) {
         this.name = name;
         this.phpVersion = phpVersion;
         this.status = status;
         this.mailHogHttpsUrl = mailHogHttpsUrl;
         this.mailHogHttpUrl = mailHogHttpUrl;
+        this.mailpitHttpsUrl = mailpitHttpsUrl;
+        this.mailpitHttpUrl = mailpitHttpUrl;
         this.services = services;
         this.databaseInfo = databaseInfo;
         this.primaryUrl = primaryUrl;
@@ -78,6 +82,14 @@ public class Description {
         return this.mailHogHttpUrl;
     }
 
+    public @Nullable String getMailpitHttpsUrl() {
+        return mailpitHttpsUrl;
+    }
+
+    public @Nullable String getMailpitHttpUrl() {
+        return mailpitHttpUrl;
+    }
+
     public @NotNull Map<String, Service> getServices() {
         if (this.services == null) {
             return new HashMap<>();
@@ -86,7 +98,11 @@ public class Description {
         var serviceMap = new HashMap<>(this.services);
 
         if (this.getMailHogHttpsUrl() != null || this.getMailHogHttpUrl() != null) {
-            serviceMap.put("mailhog", new Service("ddev-config-test-mailhog", this.getMailHogHttpsUrl(), this.getMailHogHttpUrl()));
+            serviceMap.put("mailhog", new Service("ddev-" + this.getName() + "-mailhog", this.getMailHogHttpsUrl(), this.getMailHogHttpUrl()));
+        }
+
+        if (this.getMailpitHttpsUrl() != null || this.getMailpitHttpUrl() != null) {
+            serviceMap.put("mailpit", new Service("ddev-" + this.getName() + "-mailpit", this.getMailpitHttpsUrl(), this.getMailpitHttpsUrl()));
         }
 
         return serviceMap;
@@ -102,24 +118,15 @@ public class Description {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Description that = (Description) o;
-        return Objects.equals(getName(), that.getName()) && Objects.equals(getPhpVersion(), that.getPhpVersion())
-                && getStatus() == that.getStatus() && Objects.equals(getMailHogHttpsUrl(), that.getMailHogHttpsUrl())
-                && Objects.equals(getMailHogHttpUrl(), that.getMailHogHttpUrl()) && Objects.equals(getServices(),
-                that.getServices()) && Objects.equals(getDatabaseInfo(), that.getDatabaseInfo())
-                && Objects.equals(getPrimaryUrl(), that.getPrimaryUrl());
+        return Objects.equals(getName(), that.getName()) && Objects.equals(getPhpVersion(), that.getPhpVersion()) && getStatus() == that.getStatus() && Objects.equals(getMailHogHttpsUrl(), that.getMailHogHttpsUrl()) && Objects.equals(getMailHogHttpUrl(), that.getMailHogHttpUrl()) && Objects.equals(getMailpitHttpsUrl(), that.getMailpitHttpsUrl()) && Objects.equals(getMailpitHttpUrl(), that.getMailpitHttpUrl()) && Objects.equals(getServices(), that.getServices()) && Objects.equals(getDatabaseInfo(), that.getDatabaseInfo()) && Objects.equals(getPrimaryUrl(), that.getPrimaryUrl());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getPhpVersion(), getStatus(), getMailHogHttpsUrl(), getMailHogHttpUrl(),
-                getServices(), getDatabaseInfo(), getPrimaryUrl());
+        return Objects.hash(getName(), getPhpVersion(), getStatus(), getMailHogHttpsUrl(), getMailHogHttpUrl(), getMailpitHttpsUrl(), getMailpitHttpUrl(), getServices(), getDatabaseInfo(), getPrimaryUrl());
     }
 
     @Override
@@ -130,9 +137,11 @@ public class Description {
                 ", status=" + status +
                 ", mailHogHttpsUrl='" + mailHogHttpsUrl + '\'' +
                 ", mailHogHttpUrl='" + mailHogHttpUrl + '\'' +
+                ", mailpitHttpsUrl='" + mailpitHttpsUrl + '\'' +
+                ", mailpitHttpUrl='" + mailpitHttpUrl + '\'' +
                 ", services=" + services +
                 ", databaseInfo=" + databaseInfo +
-                ", primaryUrl=" + primaryUrl +
+                ", primaryUrl='" + primaryUrl + '\'' +
                 '}';
     }
 }

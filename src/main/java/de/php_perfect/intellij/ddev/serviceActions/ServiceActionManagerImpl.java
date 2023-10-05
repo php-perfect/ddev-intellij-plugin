@@ -107,6 +107,7 @@ public final class ServiceActionManagerImpl implements ServiceActionManager, Dis
         return switch (key) {
             case "web" -> DdevIntegrationBundle.message("action.services.open.web");
             case "mailhog" -> DdevIntegrationBundle.message("action.services.open.mailHog");
+            case "mailpit" -> DdevIntegrationBundle.message("action.services.open.mailpit");
             default -> DdevIntegrationBundle.message("action.services.open.any", fullName);
         };
     }
