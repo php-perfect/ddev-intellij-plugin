@@ -63,7 +63,7 @@ public final class DdevSettingsConfigurable implements Configurable {
     public void apply() throws ConfigurationException {
         String newBinary = this.ddevSettingsComponent.getDdevBinary();
 
-        if (!newBinary.equals("")) {
+        if (!newBinary.isEmpty()) {
             verifyBinary(newBinary);
         }
 
