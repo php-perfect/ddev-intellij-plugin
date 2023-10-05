@@ -38,6 +38,23 @@ final class ServiceActionManagerImplTest {
         ));
     }
 
+    @Test
+    @DisplayName("should update actions from given description")
+    void testUpdateActionsByMailpitDescription() {
+        var serviceActionManager = new ServiceActionManagerImpl(
+                new HashMap<>(Map.of(
+                        "existingAction",
+                        anAction("Open existing action", "https://www.existing.com", "existing action")
+                )));
+
+        serviceActionManager.updateActionsByDescription(aMailpitDescription("test", Status.RUNNING));
+
+        assertThat(serviceActionManager.getServiceActions()).isEqualTo(array(
+                aMailhogAction(),
+                anAction("Open test", "https://www.test.com", "Open test service in your browser")
+        ));
+    }
+
     private AnAction anAction(String displayText, String url, String description) {
         try {
             return new OpenServiceAction(new URL(url), displayText, description, AllIcons.General.Web);
@@ -48,7 +65,12 @@ final class ServiceActionManagerImplTest {
 
     private AnAction aMailhogAction() {
         return anAction("Open Mailhog", "https://www.test.com",
-                "Open ddev-config-test-mailhog service in your browser");
+                "Open Mailhog service in your browser");
+    }
+
+    private AnAction aMailpitAction() {
+        return anAction("Open Mailpit", "https://www.test.com",
+                "Open Mailpit service in your browser");
     }
 
     private Description aDescription(String name, Description.Status status) {
@@ -58,6 +80,16 @@ final class ServiceActionManagerImplTest {
         var httpUrl = String.format("http://www.%s.com", name);
         var httpsUrl = String.format("https://www.%s.com", name);
 
-        return new Description(name, "7.4", status, httpsUrl, httpUrl, Map.of(name, new Service(name, httpsUrl, httpUrl)), dataBaseInfo, null);
+        return new Description(name, "7.4", status, httpsUrl, httpUrl, null, null, Map.of(name, new Service(name, httpsUrl, httpUrl)), dataBaseInfo, null);
+    }
+
+    private Description aMailpitDescription(String name, Description.Status status) {
+        var dataBaseInfo = new DatabaseInfo(Type.MYSQL, "5.7", 2133, "db", "localhost",
+                "root", "root", 2133);
+
+        var httpUrl = String.format("http://www.%s.com", name);
+        var httpsUrl = String.format("https://www.%s.com", name);
+
+        return new Description(name, "7.4", status, null, null, httpsUrl, httpUrl, Map.of(name, new Service(name, httpsUrl, httpUrl)), dataBaseInfo, null);
     }
 }

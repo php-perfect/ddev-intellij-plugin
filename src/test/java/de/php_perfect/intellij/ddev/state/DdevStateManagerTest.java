@@ -50,7 +50,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
         expectedState.setDdevBinary("/foo/bar/bin/ddev");
         expectedState.setConfigured(true);
         expectedState.setDdevVersion(new Version("v1.19.0"));
-        expectedState.setDescription(new Description("acol", "8.1", Description.Status.STOPPED, null, null, new HashMap<>(), null, "https://acol.ddev.site"));
+        expectedState.setDescription(new Description("acol", "8.1", Description.Status.STOPPED, null, null, null, null, new HashMap<>(), null, "https://acol.ddev.site"));
 
         Assertions.assertEquals(expectedState, ddevStateManager.getState());
     }
@@ -98,7 +98,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
         expectedState.setDdevBinary("/foo/bar/bin/ddev");
         expectedState.setConfigured(true);
         expectedState.setDdevVersion(new Version("v1.19.0"));
-        expectedState.setDescription(new Description("acol", "8.1", Description.Status.STOPPED, null, null, new HashMap<>(), null, "https://acol.ddev.site"));
+        expectedState.setDescription(new Description("acol", "8.1", Description.Status.STOPPED, null, null, null, null, new HashMap<>(), null, "https://acol.ddev.site"));
 
         Assertions.assertEquals(expectedState, ddevStateManager.getState());
 
@@ -106,7 +106,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
 
         ddevStateManager.updateDescription();
 
-        expectedState.setDescription(new Description("acol", "7.4", Description.Status.STOPPED, null, null, new HashMap<>(), null, "https://acol.ddev.site"));
+        expectedState.setDescription(new Description("acol", "7.4", Description.Status.STOPPED, null, null, null, null, new HashMap<>(), null, "https://acol.ddev.site"));
 
         Assertions.assertEquals(expectedState, ddevStateManager.getState());
     }
