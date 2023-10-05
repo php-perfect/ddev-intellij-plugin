@@ -45,7 +45,7 @@ public final class RunnerImpl implements Runner, Disposable {
             } catch (ExecutionException exception) {
                 LOG.warn("An error occurred running " + commandLine.getCommandLineString(), exception);
             }
-        }, ModalityState.NON_MODAL);
+        }, ModalityState.nonModal());
     }
 
     private @NotNull ProcessHandler createProcessHandler(GeneralCommandLine commandLine) throws ExecutionException {
