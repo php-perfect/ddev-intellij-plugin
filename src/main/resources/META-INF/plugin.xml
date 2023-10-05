@@ -21,7 +21,7 @@
     ]]></description>
     <change-notes/>
 
-    <idea-version since-build="232.8660.185" until-build="232.*"/>
+    <idea-version since-build="232.8660.185" until-build="233.*"/>
     <depends>com.intellij.modules.platform</depends>
     <depends config-file="DdevIntegration-withTerminal.xml" optional="true">org.jetbrains.plugins.terminal</depends>
     <depends config-file="DdevIntegration-withDatabase.xml" optional="true">com.intellij.database</depends>
