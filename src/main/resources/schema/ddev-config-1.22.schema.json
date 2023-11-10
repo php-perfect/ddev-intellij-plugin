@@ -194,7 +194,7 @@
     },
     "upload_dirs": {
       "description": "Sets multiple project upload directories, the first is taken as the destination directory of the import-files command",
-      "type": "array"
+      "type": "array",
       "items": {
         "type": "string"
       }
