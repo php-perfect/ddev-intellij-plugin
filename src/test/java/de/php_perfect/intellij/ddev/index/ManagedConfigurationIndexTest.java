@@ -6,10 +6,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ManagedConfigurationIndexTest extends BasePlatformTestCase {
-    private static class SomeConfiguration {
+    private static class SomeConfiguration implements IndexableConfiguration {
+        @Override
+        public int hashCode() {
+            return 1;
+        }
     }
 
-    private static class SomeOtherConfiguration {
+    private static class SomeOtherConfiguration implements IndexableConfiguration {
+        @Override
+        public int hashCode() {
+            return 2;
+        }
     }
 
     @Override
@@ -25,6 +33,15 @@ public class ManagedConfigurationIndexTest extends BasePlatformTestCase {
 
         assertTrue(managedConfigurationIndex.isManaged("as73asvb324", SomeConfiguration.class));
         assertFalse(managedConfigurationIndex.isManaged("fooBar", SomeConfiguration.class));
+    }
+
+    @Test
+    void getFromIndex() {
+        final ManagedConfigurationIndex managedConfigurationIndex = ManagedConfigurationIndex.getInstance(this.getProject());
+        managedConfigurationIndex.set("as73asvb324", SomeConfiguration.class, 123);
+
+        assertSame("as73asvb324", managedConfigurationIndex.get(SomeConfiguration.class).id());
+        assertSame(null, managedConfigurationIndex.get(SomeOtherConfiguration.class));
     }
 
     @Test
@@ -50,6 +67,18 @@ public class ManagedConfigurationIndexTest extends BasePlatformTestCase {
     }
 
     @Test
+    void purgeIndex() {
+        final String key = "as73asvb324";
+        final ManagedConfigurationIndex managedConfigurationIndex = ManagedConfigurationIndex.getInstance(this.getProject());
+
+        managedConfigurationIndex.set(key, SomeConfiguration.class, 123);
+        assertTrue(managedConfigurationIndex.isManaged(key, SomeConfiguration.class));
+
+        managedConfigurationIndex.purge();
+        assertFalse(managedConfigurationIndex.isManaged(key, SomeConfiguration.class));
+    }
+
+    @Test
     void isUpToDate() {
         final String key = "as73asvb324";
         final ManagedConfigurationIndex managedConfigurationIndex = ManagedConfigurationIndex.getInstance(this.getProject());
@@ -69,9 +98,7 @@ public class ManagedConfigurationIndexTest extends BasePlatformTestCase {
     @Override
     @AfterEach
     protected void tearDown() throws Exception {
-        final ManagedConfigurationIndex managedConfigurationIndex = ManagedConfigurationIndex.getInstance(this.getProject());
-        managedConfigurationIndex.remove(SomeConfiguration.class);
-        managedConfigurationIndex.remove(SomeOtherConfiguration.class);
+        ManagedConfigurationIndex.getInstance(this.getProject()).purge();
 
         super.tearDown();
     }

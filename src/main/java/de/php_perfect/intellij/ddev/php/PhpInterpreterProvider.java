@@ -4,9 +4,9 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 
 public interface PhpInterpreterProvider {
-    void registerInterpreter(@NotNull DdevInterpreterConfig interpreterConfig);
+    void registerInterpreter(final @NotNull DdevInterpreterConfig interpreterConfig);
 
-    static PhpInterpreterProvider getInstance(@NotNull Project project) {
+    static PhpInterpreterProvider getInstance(final @NotNull Project project) {
         return project.getService(PhpInterpreterProvider.class);
     }
 }

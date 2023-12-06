@@ -4,9 +4,9 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 
 public interface NodeInterpreterProvider {
-    void configureNodeInterpreter(@NotNull NodeInterpreterConfig nodeInterpreterConfig);
+    void configureNodeInterpreter(final @NotNull NodeInterpreterConfig nodeInterpreterConfig);
 
-    static NodeInterpreterProvider getInstance(@NotNull Project project) {
+    static NodeInterpreterProvider getInstance(final @NotNull Project project) {
         return project.getService(NodeInterpreterProvider.class);
     }
 }

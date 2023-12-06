@@ -58,7 +58,7 @@ final class ServerConfigManagerImplTest extends BasePlatformTestCase {
 
         var mapping = mappings.get(0);
 
-        Assert.assertEquals(serverConfig.getLocalPath(), mapping.getLocalRoot());
-        Assert.assertEquals(serverConfig.getRemotePath(), mapping.getRemoteRoot());
+        Assert.assertEquals(serverConfig.localPath(), mapping.getLocalRoot());
+        Assert.assertEquals(serverConfig.remotePathPath(), mapping.getRemoteRoot());
     }
 }
