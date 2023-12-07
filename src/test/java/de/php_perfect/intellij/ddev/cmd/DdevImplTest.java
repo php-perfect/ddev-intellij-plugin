@@ -33,7 +33,7 @@ final class DdevImplTest extends BasePlatformTestCase {
         final ProcessOutput processOutput = new ProcessOutput("ddev version v1.22.0", "", 0, false, false);
 
         final MockProcessExecutor mockProcessExecutor = (MockProcessExecutor) ApplicationManager.getApplication().getService(ProcessExecutor.class);
-        mockProcessExecutor.addProcessOutput("ddev --version --json-output", processOutput);
+        mockProcessExecutor.addProcessOutput("ddev --version", processOutput);
 
         Assertions.assertEquals(expected, new DdevImpl().version("ddev", getProject()));
     }

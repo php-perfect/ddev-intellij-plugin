@@ -40,7 +40,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
         mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", new ProcessOutput("/foo/bar/bin/ddev", "", 0, false, false));
 
         ddevConfigLoader.setExists(true);
-        this.prepareCommand("/foo/bar/bin/ddev --version --json-output", "ddev version v1.19.0");
+        this.prepareCommand("/foo/bar/bin/ddev --version", "ddev version v1.19.0");
         this.prepareCommandWithOutputFromFile("/foo/bar/bin/ddev describe --json-output", "src/test/resources/ddev_describe.json");
 
         DdevStateManager ddevStateManager = DdevStateManager.getInstance(project);
@@ -88,7 +88,7 @@ final class DdevStateManagerTest extends BasePlatformTestCase {
         mockProcessExecutor.addProcessOutput(expectedWhich + " ddev", new ProcessOutput("/foo/bar/bin/ddev", "", 0, false, false));
 
         ddevConfigLoader.setExists(true);
-        this.prepareCommand("/foo/bar/bin/ddev --version --json-output", "ddev version v1.19.0");
+        this.prepareCommand("/foo/bar/bin/ddev --version", "ddev version v1.19.0");
         this.prepareCommandWithOutputFromFile("/foo/bar/bin/ddev describe --json-output", "src/test/resources/ddev_describe.json");
 
         DdevStateManager ddevStateManager = DdevStateManager.getInstance(this.getProject());

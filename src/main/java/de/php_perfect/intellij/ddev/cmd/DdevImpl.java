@@ -7,10 +7,11 @@ import com.intellij.openapi.project.Project;
 import de.php_perfect.intellij.ddev.cmd.parser.JsonParser;
 import de.php_perfect.intellij.ddev.cmd.parser.JsonParserException;
 import de.php_perfect.intellij.ddev.version.Version;
+import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Type;
-import java.util.Objects;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,7 +40,7 @@ public final class DdevImpl implements Ddev {
     }
 
     private @NotNull String executePlain(final @NotNull String binary, final @NotNull String action, final @NotNull Project project) throws CommandFailedException {
-        final GeneralCommandLine commandLine = createDdevCommandLine(binary, action, project);
+        final GeneralCommandLine commandLine = createDdevCommandLine(binary, action, project, false);
 
         try {
             final ProcessOutput processOutput = ProcessExecutor.getInstance().executeCommandLine(commandLine, COMMAND_TIMEOUT, false);
@@ -82,7 +83,19 @@ public final class DdevImpl implements Ddev {
     }
 
     private @NotNull GeneralCommandLine createDdevCommandLine(final @NotNull String binary, final @NotNull String action, final @NotNull Project project) {
-        return new GeneralCommandLine(Objects.requireNonNull(binary), action, "--json-output")
+        return this.createDdevCommandLine(binary, action, project, true);
+    }
+
+    private @NotNull GeneralCommandLine createDdevCommandLine(final @NotNull String binary, final @NotNull String action, final @NotNull Project project, boolean json) {
+        final ArrayList<String> arguments = Lists.newArrayList();
+        arguments.add(binary);
+        arguments.add(action);
+
+        if (json) {
+            arguments.add("--json-output");
+        }
+
+        return new GeneralCommandLine(arguments)
                 .withWorkDirectory(project.getBasePath())
                 .withEnvironment("DDEV_NONINTERACTIVE", "true");
     }
