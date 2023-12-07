@@ -47,7 +47,7 @@ public final class DdevDataSourceManagerImpl implements DdevDataSourceManager {
         }
 
         if (localDataSource == null) {
-            localDataSource = new LocalDataSource();
+            localDataSource = localDataSourceManager.createEmpty();
             dataSources.add(localDataSource);
         }
 
