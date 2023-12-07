@@ -29,19 +29,18 @@ final class ServerConfigManagerImplTest extends BasePlatformTestCase {
 
     @Test
     void configure() throws URISyntaxException {
-        final ServerConfigManager serverConfigManager = ServerConfigManager.getInstance(this.getProject());
-
         final ServerConfig serverConfig = new ServerConfig(
                 Objects.requireNonNull(this.getProject().getBasePath()),
                 "/var/www/html",
                 new URI("https://test.ddev.site")
         );
 
+        final ServerConfigManager serverConfigManager = ServerConfigManager.getInstance(this.getProject());
         serverConfigManager.configure(serverConfig);
         // Check server gets replaced
         serverConfigManager.configure(serverConfig);
 
-        assertServerConfigMatches(serverConfig);
+        this.assertServerConfigMatches(serverConfig);
     }
 
     private void assertServerConfigMatches(ServerConfig serverConfig) {
@@ -50,7 +49,7 @@ final class ServerConfigManagerImplTest extends BasePlatformTestCase {
         Assert.assertEquals(1, servers.size());
 
         final PhpServer server = servers.get(0);
-        Assert.assertEquals("DDEV", server.getName());
+        Assert.assertEquals("test.ddev.site", server.getName());
         Assert.assertEquals("test.ddev.site", server.getHost());
 
         var mappings = server.getMappings();
@@ -59,7 +58,7 @@ final class ServerConfigManagerImplTest extends BasePlatformTestCase {
 
         var mapping = mappings.get(0);
 
-        Assert.assertEquals(serverConfig.getLocalPath(), mapping.getLocalRoot());
-        Assert.assertEquals(serverConfig.getRemotePath(), mapping.getRemoteRoot());
+        Assert.assertEquals(serverConfig.localPath(), mapping.getLocalRoot());
+        Assert.assertEquals(serverConfig.remotePathPath(), mapping.getRemoteRoot());
     }
 }

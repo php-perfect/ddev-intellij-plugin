@@ -2,6 +2,7 @@ package de.php_perfect.intellij.ddev.php;
 
 import com.intellij.docker.remote.DockerComposeCredentialsHolder;
 import com.intellij.docker.remote.DockerComposeCredentialsType;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.remote.RemoteMappingsManager;
 import com.intellij.util.PathMappingSettings;
@@ -17,7 +18,10 @@ import com.jetbrains.php.remote.docker.compose.PhpDockerComposeStartCommand;
 import com.jetbrains.php.remote.docker.compose.PhpDockerComposeTypeData;
 import com.jetbrains.php.remote.interpreter.PhpRemoteSdkAdditionalData;
 import com.jetbrains.php.run.remote.PhpRemoteInterpreterManager;
+import de.php_perfect.intellij.ddev.dockerCompose.DockerComposeConfig;
 import de.php_perfect.intellij.ddev.dockerCompose.DockerComposeCredentialProvider;
+import de.php_perfect.intellij.ddev.index.IndexEntry;
+import de.php_perfect.intellij.ddev.index.ManagedConfigurationIndex;
 import de.php_perfect.intellij.ddev.notification.DdevNotifier;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,20 +29,40 @@ import java.util.List;
 import java.util.Objects;
 
 public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider {
-    private static final String NAME = "DDEV";
+    private static final String LEGACY_INTERPRETER_NAME = "DDEV";
     private static final String HELPERS_DIR = "/opt/.phpstorm_helpers";
-
+    private static final @NotNull Logger LOG = Logger.getInstance(PhpInterpreterProviderImpl.class);
     private final @NotNull Project project;
 
-    public PhpInterpreterProviderImpl(@NotNull Project project) {
+    public PhpInterpreterProviderImpl(final @NotNull Project project) {
         this.project = project;
     }
 
-    public void registerInterpreter(@NotNull DdevInterpreterConfig interpreterConfig) {
-        final PhpInterpreter interpreter = this.getDdevPhpInterpreter();
+    public void registerInterpreter(final @NotNull DdevInterpreterConfig interpreterConfig) {
+        final int hash = interpreterConfig.hashCode();
+        final String name = interpreterConfig.name();
+        final PhpInterpretersManagerImpl interpretersManager = PhpInterpretersManagerImpl.getInstance(this.project);
+        final ManagedConfigurationIndex managedConfigurationIndex = ManagedConfigurationIndex.getInstance(this.project);
+        final IndexEntry indexEntry = managedConfigurationIndex.get(DdevInterpreterConfig.class);
 
-        if (!this.needsUpdate(interpreter, interpreterConfig)) {
+        PhpInterpreter interpreter = null;
+        if (indexEntry != null && (interpreter = interpretersManager.findInterpreterById(indexEntry.id())) != null && indexEntry.hashEquals(hash)) {
+            LOG.debug(String.format("PHP interpreter configuration %s is up to date", name));
             return;
+        }
+
+        LOG.debug(String.format("Updating PHP interpreter configuration %s", name));
+
+        if (interpreter == null) {
+            interpreter = interpretersManager.findInterpreter(LEGACY_INTERPRETER_NAME);
+        }
+
+        if (interpreter == null) {
+            interpreter = new PhpInterpreter();
+            interpreter.setIsProjectLevel(true);
+            List<PhpInterpreter> interpreters = interpretersManager.getInterpreters();
+            interpreters.add(interpreter);
+            interpretersManager.setInterpreters(interpreters);
         }
 
         this.updateInterpreter(interpreter, interpreterConfig);
@@ -47,10 +71,11 @@ public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider 
         this.updateComposerInterpreterIfNotSet(interpreter);
         this.updateRemoteMapping(interpreter);
 
+        managedConfigurationIndex.set(interpreter.getId(), DdevInterpreterConfig.class, hash);
         DdevNotifier.getInstance(project).notifyPhpInterpreterUpdated(interpreterConfig.phpVersion());
     }
 
-    private void updateRemoteMapping(PhpInterpreter interpreter) {
+    private void updateRemoteMapping(@NotNull PhpInterpreter interpreter) {
         final var pathMapping = new PathMappingSettings.PathMapping(project.getBasePath(), "/var/www/html");
         final var mappings = new RemoteMappingsManager.Mappings();
         mappings.setServerId("php", interpreter.getId());
@@ -59,7 +84,7 @@ public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider 
         RemoteMappingsManager.getInstance(project).setForServer(mappings);
     }
 
-    private void updateComposerInterpreterIfNotSet(final PhpInterpreter interpreter) {
+    private void updateComposerInterpreterIfNotSet(@NotNull final PhpInterpreter interpreter) {
         final ComposerDataService composerSettings = ComposerDataService.getInstance(project);
 
         if (!Objects.equals(composerSettings.getComposerExecution().getInterpreterId(), interpreter.getId())) {
@@ -67,37 +92,10 @@ public final class PhpInterpreterProviderImpl implements PhpInterpreterProvider 
         }
     }
 
-    private @NotNull PhpInterpreter getDdevPhpInterpreter() {
-        final PhpInterpretersManagerImpl interpretersManager = PhpInterpretersManagerImpl.getInstance(this.project);
-
-        PhpInterpreter interpreter = interpretersManager.findInterpreter(NAME);
-
-        if (interpreter == null) {
-            interpreter = createInterpreter();
-
-            List<PhpInterpreter> interpreters = interpretersManager.getInterpreters();
-            interpreters.add(interpreter);
-            interpretersManager.setInterpreters(interpreters);
-        }
-
-        return interpreter;
-    }
-
-    private @NotNull PhpInterpreter createInterpreter() {
-        final PhpInterpreter interpreter = new PhpInterpreter();
-        interpreter.setName(NAME);
-        interpreter.setIsProjectLevel(true);
-
-        return interpreter;
-    }
-
-    private boolean needsUpdate(@NotNull PhpInterpreter existingInterpreter, @NotNull DdevInterpreterConfig interpreterConfig) {
-        return !(Objects.equals(existingInterpreter.getPathToPhpExecutable(), interpreterConfig.phpVersion()));
-    }
-
     private void updateInterpreter(@NotNull PhpInterpreter interpreter, @NotNull DdevInterpreterConfig interpreterConfig) {
-        final DockerComposeCredentialsHolder credentials = DockerComposeCredentialProvider.getInstance().getDdevDockerComposeCredentials(List.of(interpreterConfig.composeFilePath()), interpreterConfig.name());
+        final DockerComposeCredentialsHolder credentials = DockerComposeCredentialProvider.getInstance().getDdevDockerComposeCredentials(new DockerComposeConfig(List.of(interpreterConfig.composeFilePath()), interpreterConfig.name()));
         final PhpRemoteSdkAdditionalData sdkData = this.buildSdkAdditionalData(interpreter, interpreterConfig, credentials);
+        interpreter.setName(interpreterConfig.name());
         interpreter.setPhpSdkAdditionalData(sdkData);
         interpreter.setHomePath(sdkData.getSdkId());
     }

@@ -5,11 +5,13 @@ import com.intellij.docker.remote.DockerComposeCredentialsType;
 import com.intellij.execution.ExecutionException;
 import com.intellij.javascript.nodejs.interpreter.NodeJsInterpreterManager;
 import com.intellij.javascript.nodejs.interpreter.NodeJsInterpreterRef;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.PathMappingSettings;
 import com.jetbrains.nodejs.remote.NodeJSRemoteInterpreterManager;
 import com.jetbrains.nodejs.remote.NodeJSRemoteSdkAdditionalData;
 import com.jetbrains.nodejs.remote.NodeRemoteInterpreters;
+import de.php_perfect.intellij.ddev.dockerCompose.DockerComposeConfig;
 import de.php_perfect.intellij.ddev.dockerCompose.DockerComposeCredentialProvider;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,20 +19,23 @@ import java.util.List;
 
 public final class NodeInterpreterProviderImpl implements NodeInterpreterProvider {
     public static final @NotNull String NODEJS_HELPERS_PATH = ".webstorm_nodejs_helpers";
+    private static final @NotNull Logger LOG = Logger.getInstance(NodeInterpreterProviderImpl.class);
     private final @NotNull Project project;
 
-    public NodeInterpreterProviderImpl(@NotNull Project project) {
+    public NodeInterpreterProviderImpl(final @NotNull Project project) {
         this.project = project;
     }
 
-    public void configureNodeInterpreter(@NotNull NodeInterpreterConfig nodeInterpreterConfig) {
+    public void configureNodeInterpreter(final @NotNull NodeInterpreterConfig nodeInterpreterConfig) {
         final NodeRemoteInterpreters nodeRemoteInterpreters = NodeRemoteInterpreters.getInstance();
 
         if (!nodeRemoteInterpreters.getInterpreters().isEmpty()) {
             return;
         }
 
-        final DockerComposeCredentialsHolder credentials = DockerComposeCredentialProvider.getInstance().getDdevDockerComposeCredentials(List.of(nodeInterpreterConfig.composeFilePath()), nodeInterpreterConfig.name());
+        LOG.debug("Creating nodejs interpreter");
+
+        final DockerComposeCredentialsHolder credentials = DockerComposeCredentialProvider.getInstance().getDdevDockerComposeCredentials(new DockerComposeConfig(List.of(nodeInterpreterConfig.composeFilePath()), nodeInterpreterConfig.name()));
         final NodeJSRemoteSdkAdditionalData sdkData = this.buildNodeJSRemoteSdkAdditionalData(credentials, nodeInterpreterConfig.binaryPath());
         nodeRemoteInterpreters.add(sdkData);
 

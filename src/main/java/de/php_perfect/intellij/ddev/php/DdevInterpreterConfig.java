@@ -1,10 +1,12 @@
 package de.php_perfect.intellij.ddev.php;
 
+import de.php_perfect.intellij.ddev.index.IndexableConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-record DdevInterpreterConfig(@NotNull String name, @NotNull String phpVersion, @NotNull String composeFilePath) {
+public record DdevInterpreterConfig(@NotNull String name, @NotNull String phpVersion,
+                                    @NotNull String composeFilePath) implements IndexableConfiguration {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

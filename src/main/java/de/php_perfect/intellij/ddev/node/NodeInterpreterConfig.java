@@ -1,10 +1,12 @@
 package de.php_perfect.intellij.ddev.node;
 
+import de.php_perfect.intellij.ddev.index.IndexableConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public record NodeInterpreterConfig(@NotNull String name, @NotNull String composeFilePath, @NotNull String binaryPath) {
+public record NodeInterpreterConfig(@NotNull String name, @NotNull String composeFilePath,
+                                    @NotNull String binaryPath) implements IndexableConfiguration {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

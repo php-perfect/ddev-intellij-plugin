@@ -2,7 +2,6 @@ package de.php_perfect.intellij.ddev.database;
 
 import com.intellij.database.dataSource.LocalDataSource;
 import com.intellij.testFramework.fixtures.BasePlatformTestCase;
-import de.php_perfect.intellij.ddev.cmd.DatabaseInfo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,37 +22,53 @@ final class DataSourceProviderTest extends BasePlatformTestCase {
 
     @Test
     void mySql() {
-        DatabaseInfo databaseInfo = new DatabaseInfo(DatabaseInfo.Type.MYSQL, "8.0", 533, "", "some-internal-host", "some-user", "some-password", 12345);
+        final DataSourceConfig dataSourceConfig = new DataSourceConfig("DDEV", "Some Description", DataSourceConfig.Type.MYSQL, "8.0", "127.0.0.1", 12345, "db", "some-user", "some-password");
 
-        DataSourceProviderImpl dataSourceProvider = new DataSourceProviderImpl();
+        final LocalDataSource dataSource = new LocalDataSource();
+        new DataSourceProviderImpl().updateDataSource(dataSource, dataSourceConfig);
 
-        LocalDataSource dataSource = dataSourceProvider.buildDdevDataSource(databaseInfo);
         Assertions.assertInstanceOf(LocalDataSource.class, dataSource);
         Assertions.assertNotNull(dataSource);
-        Assertions.assertEquals("jdbc:mysql://127.0.0.1:12345/?user=some-user&password=some-password", dataSource.getUrl());
+        Assertions.assertNotNull(dataSource.getDatabaseDriver());
+        Assertions.assertEquals("mysql.8", dataSource.getDatabaseDriver().getId());
+        Assertions.assertEquals("jdbc:mysql://127.0.0.1:12345/db?user=some-user&password=some-password", dataSource.getUrl());
+    }
+
+    @Test
+    void mySql56() {
+        final DataSourceConfig dataSourceConfig = new DataSourceConfig("DDEV", "Some Description", DataSourceConfig.Type.MYSQL, "5.6", "127.0.0.1", 12345, "db", "some-user", "some-password");
+
+        final LocalDataSource dataSource = new LocalDataSource();
+        new DataSourceProviderImpl().updateDataSource(dataSource, dataSourceConfig);
+
+        Assertions.assertInstanceOf(LocalDataSource.class, dataSource);
+        Assertions.assertNotNull(dataSource);
+        Assertions.assertNotNull(dataSource.getDatabaseDriver());
+        Assertions.assertEquals("mysql", dataSource.getDatabaseDriver().getId());
+        Assertions.assertEquals("jdbc:mysql://127.0.0.1:12345/db?user=some-user&password=some-password", dataSource.getUrl());
     }
 
     @Test
     void mariaDb() {
-        DatabaseInfo databaseInfo = new DatabaseInfo(DatabaseInfo.Type.MARIADB, "10.4", 533, "", "some-internal-host", "some-user", "some-password", 12345);
+        final DataSourceConfig dataSourceConfig = new DataSourceConfig("DDEV", "Some Description", DataSourceConfig.Type.MARIADB, "10.4", "127.0.0.1", 12345, "db", "some-user", "some-password");
 
-        DataSourceProviderImpl dataSourceProvider = new DataSourceProviderImpl();
+        final LocalDataSource dataSource = new LocalDataSource();
+        new DataSourceProviderImpl().updateDataSource(dataSource, dataSourceConfig);
 
-        LocalDataSource dataSource = dataSourceProvider.buildDdevDataSource(databaseInfo);
         Assertions.assertInstanceOf(LocalDataSource.class, dataSource);
         Assertions.assertNotNull(dataSource);
-        Assertions.assertEquals("jdbc:mariadb://127.0.0.1:12345/?user=some-user&password=some-password", dataSource.getUrl());
+        Assertions.assertEquals("jdbc:mariadb://127.0.0.1:12345/db?user=some-user&password=some-password", dataSource.getUrl());
     }
 
     @Test
     void postgreSql() {
-        DatabaseInfo databaseInfo = new DatabaseInfo(DatabaseInfo.Type.POSTGRESQL, "8.0", 533, "", "some-internal-host", "some-user", "some-password", 12345);
+        final DataSourceConfig dataSourceConfig = new DataSourceConfig("DDEV", "Some Description", DataSourceConfig.Type.POSTGRESQL, "15.5", "127.0.0.1", 12345, "db", "some-user", "some-password");
 
-        DataSourceProviderImpl dataSourceProvider = new DataSourceProviderImpl();
+        final LocalDataSource dataSource = new LocalDataSource();
+        new DataSourceProviderImpl().updateDataSource(dataSource, dataSourceConfig);
 
-        LocalDataSource dataSource = dataSourceProvider.buildDdevDataSource(databaseInfo);
         Assertions.assertInstanceOf(LocalDataSource.class, dataSource);
         Assertions.assertNotNull(dataSource);
-        Assertions.assertEquals("jdbc:postgresql://127.0.0.1:12345/?user=some-user&password=some-password", dataSource.getUrl());
+        Assertions.assertEquals("jdbc:postgresql://127.0.0.1:12345/db?user=some-user&password=some-password", dataSource.getUrl());
     }
 }
