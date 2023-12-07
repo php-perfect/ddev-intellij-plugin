@@ -11,7 +11,6 @@
         <li>Run DDEV Actions</li>
         <li>Quick access DDEV Services</li>
         <li>Check for DDEV Updates</li>
-        <li>Assistance and Completion for the DDEV Configuration</li>
         <li>Auto Configure PHP Remote Interpreter</li>
         <li>Auto Configure Node.js Remote Interpreter</li>
         <li>Auto Configure Data Source</li>
@@ -105,10 +104,6 @@
         <statistics.gotItTooltipAllowlist prefix="ddev.features"/>
 
         <terminal.shellCommandHandler implementation="de.php_perfect.intellij.ddev.cmd.DdevShellCommandHandlerImpl"/>
-    </extensions>
-
-    <extensions defaultExtensionNs="JavaScript.JsonSchema">
-        <ProviderFactory implementation="de.php_perfect.intellij.ddev.config.ConfigJsonSchemaProviderFactory"/>
     </extensions>
 
     <actions resource-bundle="messages.DdevIntegrationBundle">
