@@ -7,9 +7,11 @@ import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import de.php_perfect.intellij.ddev.settings.DdevSettingsConfigurable;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
+
 public final class ChangeSettingsAction extends DumbAwareAction {
     public ChangeSettingsAction() {
-        super(DdevIntegrationBundle.messagePointer("action.DdevIntegration.ChangeSettings.text"), DdevIntegrationBundle.messagePointer("action.DdevIntegration.ChangeSettings.description"), null);
+        super(DdevIntegrationBundle.messagePointer("action.DdevIntegration.ChangeSettings.text"), DdevIntegrationBundle.messagePointer("action.DdevIntegration.ChangeSettings.description"), (Icon) null);
     }
 
     @Override
