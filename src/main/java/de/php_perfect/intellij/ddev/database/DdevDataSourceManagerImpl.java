@@ -11,7 +11,7 @@ import de.php_perfect.intellij.ddev.index.ManagedConfigurationIndex;
 import org.jetbrains.annotations.NotNull;
 
 public final class DdevDataSourceManagerImpl implements DdevDataSourceManager {
-    private final static @NotNull String LEGACY_DATA_SOURCE_NAME = "DDEV";
+    private static final @NotNull String LEGACY_DATA_SOURCE_NAME = "DDEV";
     private static final @NotNull Logger LOG = Logger.getInstance(DdevDataSourceManagerImpl.class);
     private final @NotNull Project project;
 

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ManagedConfigurationIndexTest extends BasePlatformTestCase {
+class ManagedConfigurationIndexTest extends BasePlatformTestCase {
     private static class SomeConfiguration implements IndexableConfiguration {
         @Override
         public int hashCode() {

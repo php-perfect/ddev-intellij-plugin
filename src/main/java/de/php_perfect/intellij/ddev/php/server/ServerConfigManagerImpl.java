@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 public final class ServerConfigManagerImpl implements ServerConfigManager {
-    private final static @NotNull String LEGACY_SERVER_NAME = "DDEV";
+    private static final @NotNull String LEGACY_SERVER_NAME = "DDEV";
     private static final @NotNull Logger LOG = Logger.getInstance(ServerConfigManagerImpl.class);
 
     private final @NotNull Project project;

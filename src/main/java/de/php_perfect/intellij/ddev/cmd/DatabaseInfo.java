@@ -17,57 +17,6 @@ public record DatabaseInfo(
         @SerializedName("postgres") POSTGRESQL,
     }
 
-    public DatabaseInfo(@Nullable Type type, @Nullable String version, int port, @Nullable String name, @Nullable String host, @Nullable String username, @Nullable String password, int publishedPort) {
-        this.type = type;
-        this.version = version;
-        this.port = port;
-        this.name = name;
-        this.host = host;
-        this.username = username;
-        this.password = password;
-        this.publishedPort = publishedPort;
-    }
-
-    @Override
-    public @Nullable Type type() {
-        return this.type;
-    }
-
-    @Override
-    public @Nullable String version() {
-        return this.version;
-    }
-
-    @Override
-    public int port() {
-        return this.port;
-    }
-
-    @Override
-    public @Nullable String name() {
-        return this.name;
-    }
-
-    @Override
-    public @Nullable String host() {
-        return this.host;
-    }
-
-    @Override
-    public @Nullable String username() {
-        return this.username;
-    }
-
-    @Override
-    public @Nullable String password() {
-        return this.password;
-    }
-
-    @Override
-    public int publishedPort() {
-        return this.publishedPort;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
