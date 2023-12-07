@@ -13,21 +13,25 @@ jobs:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v4
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v4
         if: ${{ env.SONAR_TOKEN != null }}
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
-      - name: Make gradlew executable
+      # Validate wrapper
+      - name: Gradle Wrapper Validation
         if: ${{ env.SONAR_TOKEN != null }}
-        run: chmod +x gradlew
+        uses: gradle/wrapper-validation-action@v1.1.0
 
-      - name: Set up JDK 17
+      # Set up Java environment for the next steps
+      - name: Setup Java
         if: ${{ env.SONAR_TOKEN != null }}
         uses: actions/setup-java@v4
         with:
+          distribution: zulu
           java-version: 17
-          distribution: temurin
 
       # SonarCloud Cache
       - name: 'Cache: SonarCloud'

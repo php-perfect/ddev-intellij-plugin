@@ -15,16 +15,20 @@ jobs:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
 
     steps:
-      - uses: actions/checkout@v4
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v4
 
-      - name: Make gradlew executable
-        run: chmod +x gradlew
+      # Validate wrapper
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1.1.0
 
-      - name: Set up JDK 17
+      # Set up Java environment for the next steps
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
+          distribution: zulu
           java-version: 17
-          distribution: temurin
 
       - name: Run tests
         uses: gradle/gradle-build-action@v2

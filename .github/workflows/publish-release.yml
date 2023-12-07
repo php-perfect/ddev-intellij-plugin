@@ -2,26 +2,29 @@ name: Publish Release
 
 on:
   release:
-    types: [ published ]
+    types: [prereleased, released]
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      # Check out current repository
+      - name: Fetch Sources
         uses: actions/checkout@v4
 
       - name: Extract Tag Name
         uses: olegtarasov/get-tag@v2.1
 
-      - name: Make Gradlew Executable
-        run: chmod +x gradlew
+      # Validate wrapper
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1.1.0
 
-      - name: Set up JDK 17
+      # Set up Java environment for the next steps
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
+          distribution: zulu
           java-version: 17
-          distribution: 'temurin'
 
       - name: Extract Channel from Version
         uses: actions-ecosystem/action-regex-match@v2
