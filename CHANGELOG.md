@@ -4,6 +4,63 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [1.2.0]
+
+### Changed
+
+- Add silverstripe, plural upload_dirs by @Firesphere in https://github.com/php-perfect/ddev-intellij-plugin/pull/221
+- Fix display issue of the ddev version in the update notification by @nico-loeber
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/222
+- Bump io.sentry:sentry from 6.27.0 to 6.28.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/219
+- Add highlighting for ddev commands that can be executed in ui by @nico-loeber
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/223
+- refactor(settings): Use isEmpty instead of equals("") by @pan93412
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/238
+- refactor(cmd): Call nonModal() instead of NON_MODAL constant by @pan93412
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/239
+- refactor(icons): Use the ClassLoader overload of getIcon by @pan93412
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/241
+- Add support for mailpit service by @nico-loeber in https://github.com/php-perfect/ddev-intellij-plugin/pull/243
+- Remove schema for ddev config by @nico-loeber in https://github.com/php-perfect/ddev-intellij-plugin/pull/269
+- Add index for generated configurations by @nico-loeber in https://github.com/php-perfect/ddev-intellij-plugin/pull/260
+- Add support of EAP build (233.*) by @pan93412 in https://github.com/php-perfect/ddev-intellij-plugin/pull/242
+- Add support for IntelliJ 2023.3 Update by @nico-loeber in https://github.com/php-perfect/ddev-intellij-plugin/pull/270
+
+### Dependency Updates
+
+- Bump org.mockito:mockito-core from 5.4.0 to 5.5.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/224
+- Bump actions/checkout from 3 to 4 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/230
+- Bump org.jetbrains.changelog from 2.1.2 to 2.2.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/225
+- Bump io.sentry:sentry from 6.28.0 to 6.30.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/236
+- Bump org.sonarqube from 4.3.0.3225 to 4.4.1.3373 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/237
+- Bump org.mockito:mockito-core from 5.5.0 to 5.7.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/252
+- Bump junitVersion from 5.10.0 to 5.10.1 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/254
+- Bump org.jetbrains.intellij from 1.15.0 to 1.16.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/246
+- Bump org.junit.platform:junit-platform-launcher from 1.10.0 to 1.10.1 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/253
+- Bump io.sentry:sentry from 6.30.0 to 6.33.1 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/255
+- Bump org.mockito:mockito-core from 5.7.0 to 5.8.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/265
+- Bump org.jetbrains.intellij from 1.16.0 to 1.16.1 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/266
+- Bump actions/setup-java from 3 to 4 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/267
+- Bump actions/upload-artifact from 3 to 4 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/271
+- Bump org.assertj:assertj-core from 3.24.2 to 3.25.1 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/275
+- Bump io.sentry:sentry from 6.33.1 to 7.1.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/272
+
+**Full Changelog**: https://github.com/php-perfect/ddev-intellij-plugin/compare/1.1.1...1.2.0
+
 ## [1.1.1]
 
 ### Changed
