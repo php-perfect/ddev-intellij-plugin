@@ -56,7 +56,7 @@ public final class DataSourceProviderImpl implements DataSourceProvider {
             case POSTGRESQL -> databaseDriverManager.getDriver("postgresql");
             case MARIADB -> databaseDriverManager.getDriver("mariadb");
             case MYSQL ->
-                    new ComparableVersion(version).compareTo(new ComparableVersion("8.0")) < 0 ? databaseDriverManager.getDriver("mysql") : databaseDriverManager.getDriver("mysql.8");
+                    new ComparableVersion(version).compareTo(new ComparableVersion("5.2")) < 0 ? databaseDriverManager.getDriver("mysql") : databaseDriverManager.getDriver("mysql.8");
         };
     }
 
