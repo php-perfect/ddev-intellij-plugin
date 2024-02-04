@@ -48,6 +48,19 @@ final class DataSourceProviderTest extends BasePlatformTestCase {
         Assertions.assertEquals("jdbc:mysql://127.0.0.1:12345/db?user=some-user&password=some-password", dataSource.getUrl());
     }
 
+    void mySql51() {
+        final DataSourceConfig dataSourceConfig = new DataSourceConfig("DDEV", "Some Description", DataSourceConfig.Type.MYSQL, "5.1", "127.0.0.1", 12345, "db", "some-user", "some-password");
+
+        final LocalDataSource dataSource = new LocalDataSource();
+        new DataSourceProviderImpl().updateDataSource(dataSource, dataSourceConfig);
+
+        Assertions.assertInstanceOf(LocalDataSource.class, dataSource);
+        Assertions.assertNotNull(dataSource);
+        Assertions.assertNotNull(dataSource.getDatabaseDriver());
+        Assertions.assertEquals("mysql", dataSource.getDatabaseDriver().getId());
+        Assertions.assertEquals("jdbc:mysql://127.0.0.1:12345/db?user=some-user&password=some-password", dataSource.getUrl());
+    }
+
     @Test
     void mariaDb() {
         final DataSourceConfig dataSourceConfig = new DataSourceConfig("DDEV", "Some Description", DataSourceConfig.Type.MARIADB, "10.4", "127.0.0.1", 12345, "db", "some-user", "some-password");
