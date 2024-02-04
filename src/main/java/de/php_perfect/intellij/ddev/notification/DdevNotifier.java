@@ -20,7 +20,7 @@ public interface DdevNotifier {
 
     void notifyDdevDetected(@NotNull String binary);
 
-    void notifyDockerNotAvailable();
+    void notifyDockerNotAvailable(final @NotNull String context);
 
     static DdevNotifier getInstance(@NotNull Project project) {
         return project.getService(DdevNotifier.class);

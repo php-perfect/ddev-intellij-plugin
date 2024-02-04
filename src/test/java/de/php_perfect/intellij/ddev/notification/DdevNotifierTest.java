@@ -154,7 +154,7 @@ final class DdevNotifierTest extends BasePlatformTestCase {
         Notification[] notifications = notificationManager.getNotificationsOfType(Notification.class, project);
         assertEmpty(notifications);
 
-        new DdevNotifierImpl(project).notifyDockerNotAvailable();
+        new DdevNotifierImpl(project).notifyDockerNotAvailable("default");
 
         this.waitForEventQueue();
 

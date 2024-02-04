@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [1.2.1]
 
+### Changed
+
+- Show context in error message when docker backend is not running
+
 ### Fixed
 
 - Fix mysql driver selection by @mwaltonen in https://github.com/php-perfect/ddev-intellij-plugin/pull/283
