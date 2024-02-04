@@ -44,7 +44,7 @@ final class DataSourceProviderTest extends BasePlatformTestCase {
         Assertions.assertInstanceOf(LocalDataSource.class, dataSource);
         Assertions.assertNotNull(dataSource);
         Assertions.assertNotNull(dataSource.getDatabaseDriver());
-        Assertions.assertEquals("mysql", dataSource.getDatabaseDriver().getId());
+        Assertions.assertEquals("mysql.8", dataSource.getDatabaseDriver().getId());
         Assertions.assertEquals("jdbc:mysql://127.0.0.1:12345/db?user=some-user&password=some-password", dataSource.getUrl());
     }
 
