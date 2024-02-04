@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [1.2.1]
+
+### Fixed
+
+- Fix mysql driver selection by @mwaltonen in https://github.com/php-perfect/ddev-intellij-plugin/pull/283
+- fix(ci): Correct regex of version tags by @pan93412 in https://github.com/php-perfect/ddev-intellij-plugin/pull/244
+
+### Dependency Updates
+
+- Bump org.jetbrains.intellij from 1.16.1 to 1.17.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/279
+- Bump actions/cache from 3 to 4 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/280
+- Bump org.assertj:assertj-core from 3.25.1 to 3.25.2 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/282
+- Bump gradle/gradle-build-action from 2 to 3 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/285
+- Bump peter-evans/create-or-update-project-card from 2 to 3 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/286
+- Bump org.mockito:mockito-core from 5.8.0 to 5.10.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/281
+- Bump io.sentry:sentry from 7.1.0 to 7.3.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/287
+- Bump the github_actions group across 1 directories with 1 update by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/289
+
+**Full Changelog**: https://github.com/php-perfect/ddev-intellij-plugin/compare/1.2.0...1.2.1
+
 ## [1.2.0]
 
 ### Changed
