@@ -29,7 +29,7 @@ jobs:
           java-version: 17
 
       - name: Verify Plugin
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: runPluginVerifier --stacktrace --info
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}

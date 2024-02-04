@@ -34,7 +34,7 @@ jobs:
           regex: '(eap|beta|alpha)\d*$'
 
       - name: Publish to JetBrains Marketplace
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: publishPlugin
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
