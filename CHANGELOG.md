@@ -4,6 +4,42 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [1.2.2]
+
+### Known issues
+
+- Errors like `There is no ProgressIndicator or Job in this thread, the current job is not cancellable.` will appear in
+  the error log
+- Plugin verifier task fails due to insufficient disk space on the GitHub runner
+
+### Changed
+
+- Update version support 241 by @Aneida in https://github.com/php-perfect/ddev-intellij-plugin/pull/308
+
+### Dependency Updates
+
+- Bump org.jetbrains.intellij from 1.17.0 to 1.17.3 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/306
+- Bump org.assertj:assertj-core from 3.25.2 to 3.25.3 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/292
+- Bump gradle/wrapper-validation-action from 1.1.0 to 2.1.2 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/305
+- Bump softprops/action-gh-release from 1 to 2 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/302
+- Bump org.junit.platform:junit-platform-launcher from 1.10.1 to 1.10.2 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/290
+- Bump junitVersion from 5.10.1 to 5.10.2 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/291
+- Bump io.sentry:sentry from 7.3.0 to 7.7.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/309
+- Bump io.sentry:sentry from 7.7.0 to 7.8.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/310
+
+### New Contributors
+
+- @Aneida made their first contribution in https://github.com/php-perfect/ddev-intellij-plugin/pull/308
+
+**Full Changelog**: https://github.com/php-perfect/ddev-intellij-plugin/compare/1.2.1...1.2.2
+
 ## [1.2.1]
 
 ### Changed
@@ -17,14 +53,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Dependency Updates
 
-- Bump org.jetbrains.intellij from 1.16.1 to 1.17.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/279
+- Bump org.jetbrains.intellij from 1.16.1 to 1.17.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/279
 - Bump actions/cache from 3 to 4 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/280
-- Bump org.assertj:assertj-core from 3.25.1 to 3.25.2 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/282
-- Bump gradle/gradle-build-action from 2 to 3 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/285
-- Bump peter-evans/create-or-update-project-card from 2 to 3 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/286
-- Bump org.mockito:mockito-core from 5.8.0 to 5.10.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/281
-- Bump io.sentry:sentry from 7.1.0 to 7.3.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/287
-- Bump the github_actions group across 1 directories with 1 update by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/289
+- Bump org.assertj:assertj-core from 3.25.1 to 3.25.2 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/282
+- Bump gradle/gradle-build-action from 2 to 3 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/285
+- Bump peter-evans/create-or-update-project-card from 2 to 3 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/286
+- Bump org.mockito:mockito-core from 5.8.0 to 5.10.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/281
+- Bump io.sentry:sentry from 7.1.0 to 7.3.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/287
+- Bump the github_actions group across 1 directories with 1 update by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/289
 
 **Full Changelog**: https://github.com/php-perfect/ddev-intellij-plugin/compare/1.2.0...1.2.1
 
