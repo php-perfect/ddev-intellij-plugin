@@ -48,5 +48,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-report-${{ matrix.os }}
-          path: build/reports/pluginVerifier/*/report.html
-          if-no-files-found: error
+          path: build/reports/pluginVerifier
