@@ -4,10 +4,10 @@ import org.jetbrains.intellij.tasks.ListProductsReleasesTask
 plugins {
     id("org.jetbrains.changelog") version "2.2.0"
     id("org.jetbrains.intellij") version "1.17.3"
-    java
+    id("java")
 
     id("org.sonarqube") version "4.4.1.3373"
-    jacoco
+    id("jacoco")
 }
 
 group = "de.php_perfect.intellij.ddev"
@@ -40,7 +40,7 @@ java {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     type.set("IU")
-    version.set("IU-241.14494.240") // https://www.jetbrains.com/de-de/idea/download/other.html
+    version.set("2024.1") // https://www.jetbrains.com/de-de/idea/download/other.html
     plugins.add("com.intellij.database") // bundled
     plugins.add("org.jetbrains.plugins.terminal") // bundled
     plugins.add("com.jetbrains.plugins.webDeployment") // bundled
