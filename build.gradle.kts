@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.google.code.gson:gson:2.11.0")
     implementation("io.sentry:sentry:7.9.0")
 
     val junitVersion = "5.10.2"
@@ -34,7 +34,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-params:$junitVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.2")
     testImplementation("org.mockito:mockito-core:5.12.0")
-    testImplementation("org.assertj:assertj-core:3.25.3")
+    testImplementation("org.assertj:assertj-core:3.26.0")
 
     intellijPlatform {
         phpstorm(properties("platformVersion"))
