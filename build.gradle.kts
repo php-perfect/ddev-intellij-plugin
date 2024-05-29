@@ -1,7 +1,6 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
-import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
 
 fun properties(key: String) = providers.gradleProperty(key)
 fun environment(key: String) = providers.environmentVariable(key)
@@ -10,13 +9,12 @@ plugins {
     id("org.jetbrains.changelog") version "2.2.0"
     id("org.jetbrains.intellij.platform.migration") version "2.0.0-beta4"
     id("java")
-
     id("org.sonarqube") version "5.0.0.4638"
     id("jacoco")
 }
 
 group = properties("pluginGroup").get()
-version = System.getenv("GIT_TAG_NAME") ?: "0.0.1-dev"
+version = environment("GIT_TAG_NAME").orElse("0.0.1-dev")
 
 repositories {
     mavenCentral()
@@ -40,7 +38,7 @@ dependencies {
 
     intellijPlatform {
         phpstorm(properties("platformVersion"))
-        pluginVerifier()
+        pluginVerifier("1.307")
         zipSigner()
         instrumentationTools()
         testFramework(TestFrameworkType.Platform.JUnit4)
@@ -76,6 +74,8 @@ java {
 }
 
 intellijPlatform {
+    autoReload.set(true)
+
     pluginConfiguration {
         name = properties("pluginName")
         changeNotes.set(provider {
@@ -86,8 +86,8 @@ intellijPlatform {
 
     publishing {
         token.set(environment("JETBRAINS_TOKEN"))
-        if (System.getenv("PUBLISH_CHANNEL") != null && System.getenv("PUBLISH_CHANNEL") != "") {
-            channels.set(listOf(System.getenv("PUBLISH_CHANNEL")))
+        if (environment("PUBLISH_CHANNEL").orNull != null) {
+            channels.set(listOf(environment("PUBLISH_CHANNEL").get()))
         }
     }
 
@@ -99,13 +99,17 @@ intellijPlatform {
 
     verifyPlugin {
         ignoredProblemsFile = file("ignoredProblems.txt")
-        failureLevel.set(VerifyPluginTask.FailureLevel.NONE)
         ides {
-            ide(IntelliJPlatformType.PhpStorm, "2024.1")
-            ide(IntelliJPlatformType.WebStorm, "2024.1")
-            ide(IntelliJPlatformType.DataGrip, "2024.1")
-            ide(IntelliJPlatformType.IntellijIdeaUltimate, "2024.1")
+            ide(IntelliJPlatformType.PhpStorm, properties("platformVersion").get())
+            ide(IntelliJPlatformType.WebStorm, properties("platformVersion").get())
+            ide(IntelliJPlatformType.DataGrip, properties("platformVersion").get())
+            ide(IntelliJPlatformType.IntellijIdeaUltimate, properties("platformVersion").get())
         }
+    }
+
+    changelog {
+        groups.empty()
+        repositoryUrl = properties("pluginRepositoryUrl")
     }
 }
 
