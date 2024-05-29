@@ -79,7 +79,7 @@ intellijPlatform {
     pluginConfiguration {
         name = properties("pluginName")
         changeNotes.set(provider {
-            changelog.getOrNull(version.toString())
+            changelog.getOrNull(version.get())
                 ?.let { changelog.renderItem(it, Changelog.OutputType.HTML) }
         })
     }
