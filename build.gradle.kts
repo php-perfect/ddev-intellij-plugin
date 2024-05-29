@@ -13,8 +13,9 @@ plugins {
     id("jacoco")
 }
 
+val pluginVersion = environment("GIT_TAG_NAME").orElse("0.0.1-dev").get()
 group = properties("pluginGroup").get()
-version = environment("GIT_TAG_NAME").orElse("0.0.1-dev")
+version = pluginVersion
 
 repositories {
     mavenCentral()
@@ -79,7 +80,7 @@ intellijPlatform {
     pluginConfiguration {
         name = properties("pluginName")
         changeNotes.set(provider {
-            changelog.getOrNull(version.get())
+            changelog.getOrNull(pluginVersion)
                 ?.let { changelog.renderItem(it, Changelog.OutputType.HTML) }
         })
     }
