@@ -4,6 +4,40 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [1.2.3]
+
+### Changed
+
+- Fix Plugin verifier task by @Cheoooon in https://github.com/php-perfect/ddev-intellij-plugin/pull/317
+- Upgrade Intellij gradle plugin v2 by @nico-loeber in https://github.com/php-perfect/ddev-intellij-plugin/pull/324
+- Downgrade plugin verifier by @Cheoooon and @nico-loeber
+
+### Dependency Updates
+
+- Bump org.sonarqube from 4.4.1.3373 to 5.0.0.4638 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/314
+- Bump gradle/wrapper-validation-action from 2.1.2 to 3.3.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/316
+- Bump org.mockito:mockito-core from 5.10.0 to 5.11.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/315
+- Project name in env variable must be in lowercase by @SchmidtWebmedia
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/323
+- Bump io.sentry:sentry from 7.8.0 to 7.9.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/319
+- Bump org.mockito:mockito-core from 5.11.0 to 5.12.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/320
+- Bump com.google.code.gson:gson from 2.10.1 to 2.11.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/321
+- Bump org.assertj:assertj-core from 3.25.3 to 3.26.0 by @dependabot
+  in https://github.com/php-perfect/ddev-intellij-plugin/pull/322
+
+### New Contributors
+
+- @Cheoooon made their first contribution in https://github.com/php-perfect/ddev-intellij-plugin/pull/317
+- @SchmidtWebmedia made their first contribution in https://github.com/php-perfect/ddev-intellij-plugin/pull/323
+
+**Full Changelog**: https://github.com/php-perfect/ddev-intellij-plugin/compare/1.2.2...1.2.3
+
 ## [1.2.2]
 
 ### Known issues
