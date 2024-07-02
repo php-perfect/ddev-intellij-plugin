@@ -7,7 +7,7 @@ fun environment(key: String) = providers.environmentVariable(key)
 
 plugins {
     id("org.jetbrains.changelog") version "2.2.0"
-    id("org.jetbrains.intellij.platform") version "2.0.0-beta4"
+    id("org.jetbrains.intellij.platform") version "2.0.0-beta8"
     id("java")
     id("org.sonarqube") version "5.0.0.4638"
     id("jacoco")
