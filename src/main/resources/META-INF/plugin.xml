@@ -101,7 +101,7 @@
 
         <statusBarWidgetFactory order="before light.edit.large.file.encoding.widget"
                                 implementation="de.php_perfect.intellij.ddev.statusBar.DdevStatusBarWidgetFactoryImpl"
-                                id="de.php_perfect.ddev.statusBar"/>
+                                id="DdevStatusBarWidget"/>
 
         <statistics.gotItTooltipAllowlist prefix="ddev.features"/>
 
