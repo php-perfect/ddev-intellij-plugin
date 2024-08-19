@@ -40,7 +40,7 @@ dependencies {
 
     intellijPlatform {
         phpstorm(properties("platformVersion"))
-        pluginVerifier("1.373")
+        pluginVerifier("1.307")
         zipSigner()
         instrumentationTools()
         testFramework(TestFrameworkType.Platform)
