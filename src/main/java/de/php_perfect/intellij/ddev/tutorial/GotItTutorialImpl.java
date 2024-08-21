@@ -9,7 +9,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public final class GotItTutorialImpl implements GotItTutorial {
     private static final @NotNull Logger LOG = Logger.getInstance(GotItTutorialImpl.class);
@@ -22,9 +23,9 @@ public final class GotItTutorialImpl implements GotItTutorial {
             new GotItTooltip(ID_PREFIX + "status", DdevIntegrationBundle.message("tutorial.status.text"), disposable)
                     .withHeader(DdevIntegrationBundle.message("tutorial.status.title"))
                     .withIcon(DdevIntegrationIcons.DdevLogoColor)
-                    .withBrowserLink(DdevIntegrationBundle.message("tutorial.status.link"), new URL("https://github.com/php-perfect/ddev-intellij-plugin/wiki/Features#quick-access-to-ddev-services"))
+                    .withBrowserLink(DdevIntegrationBundle.message("tutorial.status.link"), new URI("https://github.com/php-perfect/ddev-intellij-plugin/wiki/Features#quick-access-to-ddev-services").toURL())
                     .show(component, GotItTooltip.TOP_MIDDLE);
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException | URISyntaxException e) {
             LOG.error(e);
         }
     }
@@ -35,9 +36,9 @@ public final class GotItTutorialImpl implements GotItTutorial {
             new GotItTooltip(ID_PREFIX + "terminal", DdevIntegrationBundle.message("tutorial.terminal.text"), disposable)
                     .withHeader(DdevIntegrationBundle.message("tutorial.terminal.title"))
                     .withIcon(DdevIntegrationIcons.DdevLogoColor)
-                    .withBrowserLink(DdevIntegrationBundle.message("tutorial.terminal.link"), new URL("https://github.com/php-perfect/ddev-intellij-plugin/wiki/Features#integrated-ddev-terminal"))
+                    .withBrowserLink(DdevIntegrationBundle.message("tutorial.terminal.link"), new URI("https://github.com/php-perfect/ddev-intellij-plugin/wiki/Features#integrated-ddev-terminal").toURL())
                     .show(component, GotItTooltip.BOTTOM_MIDDLE);
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException | URISyntaxException e) {
             LOG.error(e);
         }
     }
