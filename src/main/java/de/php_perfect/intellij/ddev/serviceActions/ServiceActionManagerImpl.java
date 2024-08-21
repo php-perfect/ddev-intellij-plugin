@@ -14,7 +14,9 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.TestOnly;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
+import java.net.URISyntaxException;
 import java.util.AbstractMap;
 import java.util.Map;
 import java.util.Optional;
@@ -68,7 +70,7 @@ public final class ServiceActionManagerImpl implements ServiceActionManager, Dis
         URL url;
         try {
             url = extractServiceUrl(serviceNameToActionEntry.getValue());
-        } catch (MalformedURLException exception) {
+        } catch (MalformedURLException | URISyntaxException exception) {
             LOGGER.log(Level.WARNING,
                     String.format("Skipping open action for service %s because of its invalid URL", fullName), exception);
             return Optional.empty();
@@ -84,14 +86,14 @@ public final class ServiceActionManagerImpl implements ServiceActionManager, Dis
         return Optional.of(new AbstractMap.SimpleImmutableEntry<>(actionId, action));
     }
 
-    private @Nullable URL extractServiceUrl(Service service) throws MalformedURLException {
+    private @Nullable URL extractServiceUrl(Service service) throws MalformedURLException, URISyntaxException {
         String address = service.getHttpsUrl();
         if (address == null) {
             address = service.getHttpUrl();
         }
 
         if (address != null) {
-            return new URL(address);
+            return new URI(address).toURL();
         }
 
         return null;
