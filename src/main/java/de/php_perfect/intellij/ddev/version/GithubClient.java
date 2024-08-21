@@ -19,7 +19,7 @@ public final class GithubClient implements ReleaseClient {
 
     @Override
     public @Nullable LatestRelease loadCurrentVersion(@NotNull ProgressIndicator indicator) {
-        final RequestBuilder requestBuilder = HttpRequests.request(RELEASE_URL).accept("application/json").redirectLimit(1);
+        final RequestBuilder requestBuilder = HttpRequests.request(RELEASE_URL).accept("application/json").redirectLimit(2);
         indicator.checkCanceled();
 
         try {
