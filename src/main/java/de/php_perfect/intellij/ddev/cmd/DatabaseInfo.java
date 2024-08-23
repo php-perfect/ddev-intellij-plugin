@@ -20,8 +20,16 @@ public record DatabaseInfo(
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DatabaseInfo that)) return false;
-        return port == that.port && publishedPort == that.publishedPort && type == that.type && Objects.equals(version, that.version) && Objects.equals(name, that.name) && Objects.equals(host, that.host) && Objects.equals(username, that.username) && Objects.equals(password, that.password);
+        if (!(o instanceof DatabaseInfo(
+                Type type1, String version1, int port1, String name1, String host1, String username1, String password1,
+                int publishedPort1
+        ))) return false;
+        return port == port1 && publishedPort == publishedPort1 && Objects.equals(name, name1) && Objects.equals(host, host1) && Objects.equals(version, version1) && Objects.equals(username, username1) && Objects.equals(password, password1) && type == type1;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, version, port, name, host, username, password, publishedPort);
     }
 
     @Override
