@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [1.2.4]
+
+### Changed
+- Update build for 2024.2 support by @AkibaAT in https://github.com/php-perfect/ddev-intellij-plugin/pull/350
+- Change autoconfiguration of node.js binary path to node by @AkibaAT in https://github.com/php-perfect/ddev-intellij-plugin/pull/358
+
+### Fixed
+- Fix deprecated functionality in workflow by @Cheoooon in https://github.com/php-perfect/ddev-intellij-plugin/pull/325
+- Fix redirect limit in update check by @AkibaAT in https://github.com/php-perfect/ddev-intellij-plugin/pull/351
+- Fix visibility change in statusbar by @AkibaAT in https://github.com/php-perfect/ddev-intellij-plugin/pull/352
+- Prevent ProgressIndicator warnings by using an EmptyProgressIndicator by @AkibaAT in https://github.com/php-perfect/ddev-intellij-plugin/pull/359
+
+### Dependency Updates
+- Bump junitVersion from 5.10.2 to 5.10.3 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/332
+- Bump gradle/actions from 3 to 4 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/345
+- Bump io.sentry:sentry from 7.9.0 to 7.14.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/348
+- Bump org.junit.platform:junit-platform-launcher from 1.10.2 to 1.11.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/349
+- Bump org.sonarqube from 5.0.0.4638 to 5.1.0.4882 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/336
+- Bump org.jetbrains.changelog from 2.2.0 to 2.2.1 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/355
+- Bump junitVersion from 5.10.2 to 5.11.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/356
+- Bump org.assertj:assertj-core from 3.26.0 to 3.26.3 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/354
+
+### New Contributors
+- @AkibaAT made their first contribution in https://github.com/php-perfect/ddev-intellij-plugin/pull/350
+
+**Full Changelog**: https://github.com/php-perfect/ddev-intellij-plugin/compare/1.2.3...1.2.4
+
 ## [1.2.3]
 
 ### Changed
