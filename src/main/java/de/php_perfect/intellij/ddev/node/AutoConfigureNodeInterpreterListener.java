@@ -33,7 +33,7 @@ public final class AutoConfigureNodeInterpreterListener implements DescriptionCh
             return;
         }
 
-        final NodeInterpreterConfig nodeInterpreterConfig = new NodeInterpreterConfig(description.getName(), composeFile.getPath(), "/usr/bin/node");
+        final NodeInterpreterConfig nodeInterpreterConfig = new NodeInterpreterConfig(description.getName(), composeFile.getPath(), "node");
         NodeInterpreterProvider.getInstance(this.project).configureNodeInterpreter(nodeInterpreterConfig);
     }
 }
