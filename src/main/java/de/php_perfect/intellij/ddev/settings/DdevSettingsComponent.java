@@ -36,7 +36,12 @@ public final class DdevSettingsComponent {
         panel.add(this.autoConfigurePhpInterpreter, gc);
         panel.add(this.autoConfigureNodeJsInterpreter, gc);
 
-        this.ddevBinary.addBrowseFolderListener(DdevIntegrationBundle.message("settings.chooseBinary.title"), "", project, new FileChooserDescriptor(true, false, false, false, false, false));
+        this.ddevBinary.addBrowseFolderListener(
+                project,
+                new FileChooserDescriptor(true, false, false, false, false, false)
+                        .withTitle(DdevIntegrationBundle.message("settings.chooseBinary.title"))
+                        .withDescription("")
+        );
 
         this.jPanel = FormBuilder.createFormBuilder()
                 .addLabeledComponent(new JBLabel(DdevIntegrationBundle.message("settings.ddevBinary")), this.ddevBinary, 1, false)

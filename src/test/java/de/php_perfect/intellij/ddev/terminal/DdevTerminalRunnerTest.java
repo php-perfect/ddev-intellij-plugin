@@ -35,7 +35,7 @@ final class DdevTerminalRunnerTest extends BasePlatformTestCase {
         field.set(state, null);
 
         final Map<String, String> envVariables = Map.of();
-        final ShellStartupOptions.Builder builder = new ShellStartupOptions.Builder(project.getBasePath(), null, null, null, null, null, envVariables);
+        final ShellStartupOptions.Builder builder = new ShellStartupOptions.Builder(project.getBasePath(), null, null, null, null, null, envVariables, null);
 
         Assertions.assertThrowsExactly(ExecutionException.class, () -> ddevTerminalRunner.createProcess(builder.build()));
     }
