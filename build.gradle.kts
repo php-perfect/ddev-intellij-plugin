@@ -62,9 +62,9 @@ dependencies {
          * @link https://plugins.jetbrains.com/plugin/8595-php-docker/versions
          * */
         plugins(
-            "com.jetbrains.php:242.21829.15",
-            "org.jetbrains.plugins.phpstorm-remote-interpreter:242.20224.159",
-            "org.jetbrains.plugins.phpstorm-docker:242.20224.159"
+            "com.jetbrains.php:243.21565.129",
+            "org.jetbrains.plugins.phpstorm-remote-interpreter:243.21565.129",
+            "org.jetbrains.plugins.phpstorm-docker:243.21565.129"
         )
     }
 }
