@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [1.2.5]
+
+### Changed
+- Update build for 2024.3 support by @AkibaAT in https://github.com/php-perfect/ddev-intellij-plugin/pull/385
+- Upgrade for 2024.3 compatibility by @nico-loeber in https://github.com/php-perfect/ddev-intellij-plugin/pull/388
+
+### Fixed
+- Fix COMPOSE_PROJECT_NAME period issue #367 by @edditor in https://github.com/php-perfect/ddev-intellij-plugin/pull/374
+
+### Dependency Updates
+- Bump org.jetbrains.intellij.platform from 2.0.1 to 2.1.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/369
+- Bump junitVersion from 5.11.0 to 5.11.2 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/375
+- Bump org.mockito:mockito-core from 5.12.0 to 5.14.2 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/378
+- Bump org.junit.platform:junit-platform-launcher from 1.11.0 to 1.11.3 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/382
+- Bump io.sentry:sentry from 7.14.0 to 7.18.0 by @dependabot in https://github.com/php-perfect/ddev-intellij-plugin/pull/386
+
+### New Contributors
+- @edditor made their first contribution in https://github.com/php-perfect/ddev-intellij-plugin/pull/374
+
+**Full Changelog**: https://github.com/php-perfect/ddev-intellij-plugin/compare/1.2.4...1.2.5
+
 ## [1.2.4]
 
 ### Changed
