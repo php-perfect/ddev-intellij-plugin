@@ -13,9 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.TestOnly;
 
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 import java.net.URISyntaxException;
 import java.util.AbstractMap;
 import java.util.Map;
@@ -67,42 +65,42 @@ public final class ServiceActionManagerImpl implements ServiceActionManager, Dis
     private Optional<Map.Entry<String, AnAction>> mapToServiceNameWithAction(
             Map.Entry<String, Service> serviceNameToActionEntry) {
         String fullName = serviceNameToActionEntry.getValue().getFullName();
-        URL url;
+        URI uri;
         try {
-            url = extractServiceUrl(serviceNameToActionEntry.getValue());
-        } catch (MalformedURLException | URISyntaxException exception) {
+            uri = extractServiceUri(serviceNameToActionEntry.getValue());
+        } catch (URISyntaxException exception) {
             LOGGER.log(Level.WARNING,
-                    String.format("Skipping open action for service %s because of its invalid URL", fullName), exception);
+                    String.format("Skipping open action for service %s because of its invalid URI", fullName), exception);
             return Optional.empty();
         }
 
-        if (url == null) {
+        if (uri == null || !uri.isAbsolute()) {
             return Optional.empty();
         }
 
         final String actionId = ACTION_PREFIX + fullName;
-        final AnAction action = buildAction(serviceNameToActionEntry.getKey(), url, fullName);
+        final AnAction action = buildAction(serviceNameToActionEntry.getKey(), uri, fullName);
 
         return Optional.of(new AbstractMap.SimpleImmutableEntry<>(actionId, action));
     }
 
-    private @Nullable URL extractServiceUrl(Service service) throws MalformedURLException, URISyntaxException {
+    private @Nullable URI extractServiceUri(Service service) throws URISyntaxException {
         String address = service.getHttpsUrl();
         if (address == null) {
             address = service.getHttpUrl();
         }
 
         if (address != null) {
-            return new URI(address).toURL();
+            return new URI(address).normalize();
         }
 
         return null;
     }
 
-    private @NotNull AnAction buildAction(String key, URL url, String fullName) {
+    private @NotNull AnAction buildAction(String key, URI uri, String fullName) {
         final String text = buildActionText(key, fullName);
         final String descriptionText = DdevIntegrationBundle.message("action.services.open.description", fullName);
-        return new OpenServiceAction(url, text, descriptionText, AllIcons.General.Web);
+        return new OpenServiceAction(uri, text, descriptionText, AllIcons.General.Web);
     }
 
     private @NotNull String buildActionText(String key, String fullName) {

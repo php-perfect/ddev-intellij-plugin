@@ -12,22 +12,22 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.net.URL;
+import java.net.URI;
 import java.util.Objects;
 
 public final class OpenServiceAction extends DdevAwareAction {
 
-    private final @NotNull URL url;
+    private final @NotNull URI uri;
 
-    public OpenServiceAction(@NotNull URL url, @NotNull @NlsActions.ActionText String text,
+    public OpenServiceAction(@NotNull URI uri, @NotNull @NlsActions.ActionText String text,
                              @Nullable @NlsActions.ActionDescription String description, @Nullable Icon icon) {
         super(text, description, icon);
-        this.url = url;
+        this.uri = uri;
     }
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-        BrowserUtil.browse(this.url);
+        BrowserUtil.browse(this.uri);
     }
 
     @Override
@@ -56,12 +56,12 @@ public final class OpenServiceAction extends DdevAwareAction {
             return false;
         }
         final OpenServiceAction that = (OpenServiceAction) o;
-        return Objects.equals(url, that.url);
+        return Objects.equals(uri, that.uri);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(url);
+        return Objects.hash(uri);
     }
 
     @Override

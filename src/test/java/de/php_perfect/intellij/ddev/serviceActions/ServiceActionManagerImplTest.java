@@ -11,8 +11,7 @@ import de.php_perfect.intellij.ddev.cmd.Service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,12 +54,8 @@ final class ServiceActionManagerImplTest {
         ));
     }
 
-    private AnAction anAction(String displayText, String url, String description) {
-        try {
-            return new OpenServiceAction(new URL(url), displayText, description, AllIcons.General.Web);
-        } catch (MalformedURLException urlException) {
-            throw new RuntimeException(urlException);
-        }
+    private AnAction anAction(String displayText, String uri, String description) {
+        return new OpenServiceAction(URI.create(uri), displayText, description, AllIcons.General.Web);
     }
 
     private AnAction aMailhogAction() {
