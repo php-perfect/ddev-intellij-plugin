@@ -24,7 +24,7 @@ public final class ServerConfigManagerImpl implements ServerConfigManager {
 
     public void configure(final @NotNull ServerConfig serverConfig) {
         final int hash = serverConfig.hashCode();
-        final String fqdn = serverConfig.url().getHost();
+        final String fqdn = serverConfig.uri().getHost();
         final ManagedConfigurationIndex managedConfigurationIndex = ManagedConfigurationIndex.getInstance(this.project);
         final IndexEntry indexEntry = managedConfigurationIndex.get(ServerConfig.class);
         final List<PhpServer> servers = PhpServersWorkspaceStateComponent.getInstance(project).getServers();
