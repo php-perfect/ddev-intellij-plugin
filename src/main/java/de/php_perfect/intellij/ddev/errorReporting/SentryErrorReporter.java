@@ -1,7 +1,5 @@
 package de.php_perfect.intellij.ddev.errorReporting;
 
-import com.intellij.diagnostic.AbstractMessage;
-import com.intellij.diagnostic.IdeaReportingEvent;
 import com.intellij.execution.wsl.WSLDistribution;
 import com.intellij.execution.wsl.WslPath;
 import com.intellij.ide.DataManager;
@@ -82,10 +80,6 @@ public class SentryErrorReporter extends ErrorReportSubmitter {
         }
 
         event.setThrowable(ideaLoggingEvent.getThrowable());
-        if (ideaLoggingEvent instanceof IdeaReportingEvent) {
-            event.setThrowable(((AbstractMessage) ideaLoggingEvent.getData()).getThrowable());
-        }
-
         if (ddevVersions != null) {
             event.setTag("ddev_version", ddevVersions.getDdevVersion() != null ? ddevVersions.getDdevVersion() : "");
             event.setTag("docker_version", ddevVersions.getDockerVersion() != null ? ddevVersions.getDockerVersion() : "");
