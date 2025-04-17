@@ -18,7 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Bump io.sentry:sentry from 7.18.0 to 8.8.0 by @AkibaAT in https://github.com/php-perfect/ddev-intellij-plugin/pull/410
 - Bump org.assertj:assertj-core from 3.26.3 to 3.27.3 by @AkibaAT in https://github.com/php-perfect/ddev-intellij-plugin/pull/410
 - Bump org.jetbrains.intellij.platform from 2.1.0 to 2.3.0 by @AkibaAT in https://github.com/php-perfect/ddev-intellij-plugin/pull/410
-- Bump org.mockito:mockito-core from 5.14.2 to 2.13.0 by @AkibaAT in https://github.com/php-perfect/ddev-intellij-plugin/pull/410
+- Bump org.mockito:mockito-core from 5.14.2 to 5.16.0 by @AkibaAT in https://github.com/php-perfect/ddev-intellij-plugin/pull/410
 - Bump org.sonarqube from 5.1.0.4882 to 6.0.1.5171 by @AkibaAT in https://github.com/php-perfect/ddev-intellij-plugin/pull/410
 
 **Full Changelog**: https://github.com/php-perfect/ddev-intellij-plugin/compare/1.2.5...1.2.6
