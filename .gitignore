@@ -1,3 +1,5 @@
 /.idea/
+/.intellijPlatform/
 /.gradle/
+/bin/
 /build/

@@ -8,7 +8,6 @@ import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.JBUI;
-import com.intellij.util.ui.UI;
 import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,8 +24,22 @@ public final class DdevSettingsComponent {
     private final @NotNull TextFieldWithBrowseButton ddevBinary = new TextFieldWithBrowseButton();
 
     public DdevSettingsComponent(Project project) {
-        final JPanel checkForUpdatesPanel = UI.PanelFactory.panel(this.checkForUpdatesCheckbox).withComment(DdevIntegrationBundle.message("settings.checkForUpdates.description")).createPanel();
-        final JPanel watchDdevPanel = UI.PanelFactory.panel(this.watchDdevCheckbox).withComment(DdevIntegrationBundle.message("settings.watchDdev.description")).createPanel();
+        // Create panels with checkboxes and comments manually instead of using deprecated UI.PanelFactory
+        JPanel checkForUpdatesPanel = new JPanel(new BorderLayout());
+        checkForUpdatesPanel.add(this.checkForUpdatesCheckbox, BorderLayout.NORTH);
+        JLabel checkForUpdatesComment = new JLabel(DdevIntegrationBundle.message("settings.checkForUpdates.description"));
+        checkForUpdatesComment.setFont(JBUI.Fonts.smallFont());
+        checkForUpdatesComment.setForeground(UIManager.getColor("Component.infoForeground"));
+        checkForUpdatesComment.setBorder(JBUI.Borders.emptyLeft(24));
+        checkForUpdatesPanel.add(checkForUpdatesComment, BorderLayout.CENTER);
+        
+        JPanel watchDdevPanel = new JPanel(new BorderLayout());
+        watchDdevPanel.add(this.watchDdevCheckbox, BorderLayout.NORTH);
+        JLabel watchDdevComment = new JLabel(DdevIntegrationBundle.message("settings.watchDdev.description"));
+        watchDdevComment.setFont(JBUI.Fonts.smallFont());
+        watchDdevComment.setForeground(UIManager.getColor("Component.infoForeground"));
+        watchDdevComment.setBorder(JBUI.Borders.emptyLeft(24));
+        watchDdevPanel.add(watchDdevComment, BorderLayout.CENTER);
 
         final JPanel panel = new JPanel();
         panel.setBorder(IdeBorderFactory.createTitledBorder(DdevIntegrationBundle.message("settings.automaticConfiguration"), true));

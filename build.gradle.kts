@@ -7,9 +7,9 @@ fun environment(key: String) = providers.environmentVariable(key)
 
 plugins {
     id("org.jetbrains.changelog") version "2.2.1"
-    id("org.jetbrains.intellij.platform") version "2.1.0"
+    id("org.jetbrains.intellij.platform") version "2.3.0"
     id("java")
-    id("org.sonarqube") version "5.1.0.4882"
+    id("org.sonarqube") version "6.0.1.5171"
     id("jacoco")
 }
 
@@ -25,46 +25,36 @@ repositories {
 }
 
 dependencies {
-    implementation("com.google.code.gson:gson:2.11.0")
-    implementation("io.sentry:sentry:7.18.0")
+    implementation("com.google.code.gson:gson:2.13.0")
+    implementation("io.sentry:sentry:8.8.0")
 
-    val junitVersion = "5.11.2"
+    val junitVersion = "5.12.2"
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-params:$junitVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.11.3")
-    testImplementation("org.mockito:mockito-core:5.14.2")
-    testImplementation("org.assertj:assertj-core:3.26.3")
+    testImplementation("org.mockito:mockito-core:5.16.0")
+    testImplementation("org.assertj:assertj-core:3.27.3")
 
     intellijPlatform {
         phpstorm(properties("platformVersion"))
-        pluginVerifier("1.307")
+        pluginVerifier("1.384")
         zipSigner()
-        instrumentationTools()
         testFramework(TestFrameworkType.Platform)
 
         bundledPlugins(
-            "com.intellij.database",
-            "org.jetbrains.plugins.terminal",
-            "com.jetbrains.plugins.webDeployment",
-            "com.jetbrains.plugins.webDeployment",
-            "org.jetbrains.plugins.remote-run",
             "Docker",
             "NodeJS",
-            "org.jetbrains.plugins.node-remote-interpreter"
-        )
-
-        /**
-         * @link https://plugins.jetbrains.com/plugin/6610-php/versions
-         * @link https://plugins.jetbrains.com/plugin/7511-php-remote-interpreter/versions
-         * @link https://plugins.jetbrains.com/plugin/8595-php-docker/versions
-         * */
-        plugins(
-            "com.jetbrains.php:243.21565.129",
-            "org.jetbrains.plugins.phpstorm-remote-interpreter:243.21565.129",
-            "org.jetbrains.plugins.phpstorm-docker:243.21565.129"
+            "com.intellij.database",
+            "com.jetbrains.php",
+            "com.jetbrains.plugins.webDeployment",
+            "org.jetbrains.plugins.node-remote-interpreter",
+            "org.jetbrains.plugins.phpstorm-docker",
+            "org.jetbrains.plugins.phpstorm-remote-interpreter",
+            "org.jetbrains.plugins.remote-run",
+            "org.jetbrains.plugins.terminal"
         )
     }
 }
@@ -101,6 +91,11 @@ intellijPlatform {
 
     pluginVerification {
         ignoredProblemsFile = file("ignoredProblems.txt")
+        // https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-faq.html#mutePluginVerifierProblems
+        freeArgs = listOf(
+            "-mute",
+            "TemplateWordInPluginId,ForbiddenPluginIdPrefix,TemplateWordInPluginName"
+        )
         ides {
             ide(IntelliJPlatformType.PhpStorm, properties("platformVersion").get())
             ide(IntelliJPlatformType.WebStorm, properties("platformVersion").get())
