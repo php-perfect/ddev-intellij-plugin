@@ -24,7 +24,7 @@ public final class GotItTutorialImpl implements GotItTutorial {
                     .withIcon(DdevIntegrationIcons.DdevLogoColor)
                     .withBrowserLink(
                             DdevIntegrationBundle.message("tutorial.status.link"),
-                            URI.create("https://github.com/php-perfect/ddev-intellij-plugin/wiki/Features#quick-access-to-ddev-services").toURL()
+                            URI.create("https://github.com/ddev/ddev-intellij-plugin/wiki/Features#quick-access-to-ddev-services").toURL()
                     )
                     .show(component, GotItTooltip.TOP_MIDDLE);
         } catch (MalformedURLException e) {
@@ -40,7 +40,7 @@ public final class GotItTutorialImpl implements GotItTutorial {
                     .withIcon(DdevIntegrationIcons.DdevLogoColor)
                     .withBrowserLink(
                             DdevIntegrationBundle.message("tutorial.terminal.link"),
-                            URI.create("https://github.com/php-perfect/ddev-intellij-plugin/wiki/Features#integrated-ddev-terminal").toURL()
+                            URI.create("https://github.com/ddev/ddev-intellij-plugin/wiki/Features#integrated-ddev-terminal").toURL()
                     )
                     .show(component, GotItTooltip.BOTTOM_MIDDLE);
         } catch (MalformedURLException e) {

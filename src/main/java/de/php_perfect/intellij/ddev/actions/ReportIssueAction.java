@@ -8,7 +8,7 @@ import de.php_perfect.intellij.ddev.DdevIntegrationBundle;
 import org.jetbrains.annotations.NotNull;
 
 public final class ReportIssueAction extends DumbAwareAction {
-    private static final String NEW_ISSUE_URL = "https://github.com/php-perfect/ddev-intellij-plugin/issues/new?assignees=&labels=bug&template=bug_report.yml";
+    private static final String NEW_ISSUE_URL = "https://github.com/ddev/ddev-intellij-plugin/issues/new?assignees=&labels=bug&template=bug_report.yml";
 
     public ReportIssueAction() {
         super(DdevIntegrationBundle.messagePointer("action.DdevIntegration.ReportIssue.text"), DdevIntegrationBundle.messagePointer("action.DdevIntegration.ReportIssue.description"), AllIcons.Vcs.Vendors.Github);
