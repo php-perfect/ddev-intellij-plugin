@@ -2,7 +2,7 @@
     <img alt="The DDEV Integration Logo" height="128" src="./src/main/resources/META-INF/pluginIcon.svg" title="DDEV Integration Logo" width="128"/>
 </p>
 
-[![Build](https://img.shields.io/github/actions/workflow/status/php-perfect/ddev-intellij-plugin/build.yml?branch=main "Build")](https://github.com/php-perfect/ddev-intellij-plugin/actions/workflows/build.yml)
+[![Build](https://img.shields.io/github/actions/workflow/status/ddev/ddev-intellij-plugin/build.yml?branch=main "Build")](https://github.com/ddev/ddev-intellij-plugin/actions/workflows/build.yml)
 [![Version](https://img.shields.io/jetbrains/plugin/v/18813)](https://plugins.jetbrains.com/plugin/18813-ddev-integration)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/18813)](https://plugins.jetbrains.com/plugin/18813-ddev-integration)
 [![Rating](https://img.shields.io/jetbrains/plugin/r/rating/18813)](https://plugins.jetbrains.com/plugin/18813-ddev-integration/reviews)
@@ -53,3 +53,9 @@ Please refer to the [Contributing Guidelines](./CONTRIBUTING.md).
 [<img alt="DDEV" height="100" src="https://avatars.githubusercontent.com/u/595986?s=100&v=4" title="DDEV" width="100"/>](https://github.com/ddev)
 [<img alt="JetBrains" height="100" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" title="JetBrains" width="100"/>](https://jb.gg/OpenSourceSupport)
 [<img alt="sentry.io" height="100" src="assets/sentry-glyph-dark-100x100.png" title="sentry.io" width="100"/>](https://sentry.io/welcome/)
+
+## Credits
+
+**Contributed by [@nico-loeber](https://github.com/php-perfect)**
+
+**Maintained by the [DDEV team](https://ddev.com/support-ddev/)**
