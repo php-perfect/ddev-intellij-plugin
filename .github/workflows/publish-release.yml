@@ -26,6 +26,17 @@ jobs:
           distribution: zulu
           java-version: 21
 
+      - name: Load secrets from 1Password
+        uses: 1password/load-secrets-action@v2
+        with:
+          export-env: true
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          JETBRAINS_MARKETPLACE_PUBLISHING_TOKEN: op://ddev-intellij-plugin-secrets/JetBrains Marketplace Publishing Token/password
+          JETBRAINS_MARKETPLACE_SIGNING_KEY: op://ddev-intellij-plugin-secrets/JetBrains Marketplace Signing Key/private key
+          JETBRAINS_MARKETPLACE_SIGNING_KEY_CHAIN: op://ddev-intellij-plugin-secrets/JetBrains Marketplace Signing Key/add more/private key chain
+          JETBRAINS_MARKETPLACE_SIGNING_KEY_PASSWORD: op://ddev-intellij-plugin-secrets/JetBrains Marketplace Signing Key/add more/private key password
+
       - name: Extract Channel from Version
         uses: actions-ecosystem/action-regex-match@v2
         id: match-channel
@@ -39,10 +50,6 @@ jobs:
           arguments: publishPlugin
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
         env:
-          CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
-          JETBRAINS_TOKEN: ${{ secrets.JETBRAINS_TOKEN }}
           PUBLISH_CHANNEL: ${{ steps.match-channel.outputs.group1 }}
 
       - name: Update GitHub Release
@@ -61,11 +68,17 @@ jobs:
         uses: olegtarasov/get-tag@v2.1
         id: tagName
 
+      - name: Load secrets from 1Password
+        uses: 1password/load-secrets-action@v2
+        with:
+          export-env: true
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          SENTRY_AUTH_TOKEN: op://ddev-intellij-plugin-secrets/Sentry Token/credential
+          SENTRY_ORG: op://ddev-intellij-plugin-secrets/Sentry Token/organization
+          SENTRY_PROJECT: op://ddev-intellij-plugin-secrets/Sentry Token/project
+
       - name: Create Sentry release
         uses: getsentry/action-release@v3
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
-          version: ${{ steps.tagName.outputs.tag }}
+          release: ${{ steps.tagName.outputs.tag }}
