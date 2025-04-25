@@ -77,16 +77,16 @@ intellijPlatform {
     }
 
     publishing {
-        token.set(environment("JETBRAINS_TOKEN"))
+        token.set(environment("JETBRAINS_MARKETPLACE_PUBLISHING_TOKEN"))
         if (environment("PUBLISH_CHANNEL").orNull != null) {
             channels.set(listOf(environment("PUBLISH_CHANNEL").get()))
         }
     }
 
     signing {
-        certificateChain.set(environment("CERTIFICATE_CHAIN"))
-        privateKey.set(environment("PRIVATE_KEY"))
-        password.set(environment("PRIVATE_KEY_PASSWORD"))
+        certificateChain.set(environment("JETBRAINS_MARKETPLACE_SIGNING_KEY_CHAIN"))
+        privateKey.set(environment("JETBRAINS_MARKETPLACE_SIGNING_KEY"))
+        password.set(environment("JETBRAINS_MARKETPLACE_SIGNING_KEY_PASSWORD"))
     }
 
     pluginVerification {
