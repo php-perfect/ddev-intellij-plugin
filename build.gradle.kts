@@ -9,7 +9,7 @@ plugins {
     id("org.jetbrains.changelog") version "2.2.1"
     id("org.jetbrains.intellij.platform") version "2.3.0"
     id("java")
-    id("org.sonarqube") version "6.1.0.5360"
+    id("org.sonarqube") version "6.2.0.5505"
     id("jacoco")
 }
 
